@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { existsSync } from 'node:fs';
 
 import { componentPlugin } from '@mdit-vue/plugin-component';
 import { sfcPlugin, type MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc';
@@ -67,7 +68,11 @@ export default (options?: MarkdownPluginOptions): Plugin => {
   md.use(componentPlugin);
 
   if (options?.metaRenderer) {
-    const tsconfig = join(root, 'tsconfig.json');
+    let tsconfig = join(root, 'tsconfig.app.json');
+
+    if (!existsSync(tsconfig)) {
+      tsconfig = join(root, 'tsconfig.json');
+    }
 
     md.use(metaPlugin, {
       renderer: options.metaRenderer,
