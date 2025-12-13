@@ -9,11 +9,16 @@
   "scripts": {
     "build": "tsc && copyfiles -f src/html/template.html dist/html"
   },
+  "files": [
+    "bin",
+    "dist",
+    "routes.d.ts"
+  ],
   "bin": {
     "do11y": "./bin/bin.js"
   },
   "exports": {
-    ".": "./src/index.ts",
+    ".": "./dist/index.js",
     "./types": "./routes.d.ts"
   },
   "peerDependencies": {
