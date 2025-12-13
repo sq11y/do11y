@@ -2,15 +2,9 @@
 
 A very bare-bones tool to help document Vue components.
 
-- Write documentation in Markdown files that get treated as Vue components
-- Import markdown files with a `title` and `slug` added through frontmatter as routes
-- Sandbox components - e.g. `Button.sandbox.vue` will be available on the url `/sandbox?id=button`
-
-## Install
-
-```bash
-npm i @do11y/docs
-```
+- Write documentation in Markdown files that get treated as Vue components.
+- Import markdown files as routes.
+- Add sandbox components - e.g. `Button.sandbox.vue` will be available on the url `/sandbox?id=button`.
 
 ## Setup
 
@@ -35,6 +29,18 @@ export default defineConfig({
 });
 ```
 
+### Initiate and scaffold
+
+The scaffold makes the assumption that you have a `src` folder and a `tsconfig.json` file it can extend.
+
+```sh
+// Install
+npm i @do11y/docs
+
+// Scaffold the `docs` folder
+npm do11y-scaffold
+```
+
 ### Add scripts to `package.json`
 
 ```json
@@ -47,24 +53,18 @@ export default defineConfig({
 }
 ```
 
-### Add the `docs` folder
+### Run the dev environment
 
-#### Add `tsconfig.json` file
-
-```json
-{
-  "extends": "../tsconfig.json",
-  "include": ["site/**/*", "../src/**/*"],
-
-  "compilerOptions": {
-    "types": ["@do11y/docs/types"]
-  }
-}
+```sh
+// Install
+npm docs:dev
 ```
 
-#### Add a `site/index.ts` file
+## Files
 
-This file will be used to configure the documentation site. The configuration requires you to pass an import for the main `Site` component.
+### `site/index.ts`
+
+This file will be used to configure the documentation site.
 
 > [!WARNING]
 > Both the documentation site and the sandbox uses the same `setup` function. This means importing styles or components directly in this file will also import them to the sandbox.
@@ -81,7 +81,7 @@ export default {
 } satisfies Site;
 ```
 
-#### Add a `site/plugins.ts` file
+### `site/plugins.ts`
 
 This file will be used to configure the different plugins available.
 
@@ -96,30 +96,4 @@ export default {
     `;
   },
 } satisfies PluginOptions;
-```
-
-#### Add a main `Site` component
-
-Inside the app you can import the available routes from `dolly:routes`.
-
-```vue
-<template>
-  <nav>
-    <ul>
-      <template v-for="route of routes" :key="route.path">
-        <li>
-          <router-link :to="route.path">
-            {{ route.meta.title }}
-          </router-link>
-        </li>
-      </template>
-    </ul>
-  </nav>
-
-  <RouterView />
-</template>
-
-<script lang="ts" setup>
-  import routes from 'do11y:routes';
-</script>
 ```
