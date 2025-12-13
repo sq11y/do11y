@@ -5,9 +5,7 @@ import { componentPlugin } from '@mdit-vue/plugin-component';
 import { sfcPlugin, type MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc';
 import { frontmatterPlugin } from '@mdit-vue/plugin-frontmatter';
 
-import markPlugin from 'markdown-it-mark';
 import attrsPlugin from 'markdown-it-attrs';
-import anchorPlugin from 'markdown-it-anchor';
 import metaPlugin from 'markdown-it-vue-meta';
 import markdown from 'markdown-it';
 
@@ -66,6 +64,7 @@ export default (options?: MarkdownPluginOptions): Plugin => {
   md.use(frontmatterPlugin);
   md.use(sfcPlugin);
   md.use(componentPlugin);
+  md.use(attrsPlugin);
 
   if (options?.metaRenderer) {
     let tsconfig = join(root, 'tsconfig.app.json');
@@ -79,10 +78,6 @@ export default (options?: MarkdownPluginOptions): Plugin => {
       tsconfig,
     });
   }
-
-  md.use(anchorPlugin, { permalink: anchorPlugin.permalink.headerLink() });
-  md.use(markPlugin);
-  md.use(attrsPlugin);
 
   if (options?.setup) {
     md.use(options.setup);

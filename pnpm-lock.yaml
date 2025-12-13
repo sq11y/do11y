@@ -12,12 +12,6 @@ catalogs:
     '@types/node':
       specifier: 24.10.3
       version: 24.10.3
-    '@vitejs/plugin-vue':
-      specifier: ^6.0.2
-      version: 6.0.3
-    '@vue/tsconfig':
-      specifier: 0.8.1
-      version: 0.8.1
     typescript:
       specifier: 5.9.3
       version: 5.9.3
@@ -27,15 +21,6 @@ catalogs:
     vite:
       specifier: ^7.2.7
       version: 7.2.7
-    vue:
-      specifier: 3.5.25
-      version: 3.5.25
-    vue-router:
-      specifier: ^4.6.3
-      version: 4.6.4
-    vue-tsc:
-      specifier: ^3.1.5
-      version: 3.1.8
 
 importers:
 
@@ -141,15 +126,9 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
-      markdown-it-anchor:
-        specifier: ^9.2.0
-        version: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
       markdown-it-attrs:
         specifier: ^4.3.1
         version: 4.3.1(markdown-it@14.1.0)
-      markdown-it-mark:
-        specifier: ^4.0.0
-        version: 4.0.0
       markdown-it-vue-meta:
         specifier: ^0.0.2
         version: 0.0.2(markdown-it@14.1.0)(typescript@5.9.3)
@@ -1158,20 +1137,11 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  markdown-it-anchor@9.2.0:
-    resolution: {integrity: sha512-sa2ErMQ6kKOA4l31gLGYliFQrMKkqSO0ZJgGhDHKijPf0pNFM9vghjAh3gn26pS4JDRs7Iwa9S36gxm3vgZTzg==}
-    peerDependencies:
-      '@types/markdown-it': '*'
-      markdown-it: '*'
-
   markdown-it-attrs@4.3.1:
     resolution: {integrity: sha512-/ko6cba+H6gdZ0DOw7BbNMZtfuJTRp9g/IrGIuz8lYc/EfnmWRpaR3CFPnNbVz0LDvF8Gf1hFGPqrQqq7De0rg==}
     engines: {node: '>=6'}
     peerDependencies:
       markdown-it: '>= 9.0.0'
-
-  markdown-it-mark@4.0.0:
-    resolution: {integrity: sha512-YLhzaOsU9THO/cal0lUjfMjrqSMPjjyjChYM7oyj4DnyaXEzA8gnW6cVJeyCrCVeyesrY2PlEdUYJSPFYL4Nkg==}
 
   markdown-it-vue-meta@0.0.2:
     resolution: {integrity: sha512-sPqmZg/t1xu7Wboi/2vvlEtB3LxZOulKC8563fdu63pcpB84O0iXlOWDZAIjgZHhbEhaBKUEyPWTKLmsi87cPg==}
@@ -2470,16 +2440,9 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  markdown-it-anchor@9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0):
-    dependencies:
-      '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.0
-
   markdown-it-attrs@4.3.1(markdown-it@14.1.0):
     dependencies:
       markdown-it: 14.1.0
-
-  markdown-it-mark@4.0.0: {}
 
   markdown-it-vue-meta@0.0.2(markdown-it@14.1.0)(typescript@5.9.3):
     dependencies:

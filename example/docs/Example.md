@@ -9,7 +9,7 @@ slug: '/example'
   const route = useRoute();
 </script>
 
-# {{ route.meta.title }}
+# {{ route.meta.title }} {#title}
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, harum itaque consequatur vel
 voluptatem vero labore aliquam fuga veritatis, voluptatum architecto. Obcaecati, vitae delectus

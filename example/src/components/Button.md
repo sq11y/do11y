@@ -11,7 +11,7 @@ slug: '/button'
   const route = useRoute();
 </script>
 
-# {{ route.meta.title }}
+# {{ route.meta.title }} {#title}
 
 ## Sandbox
 
