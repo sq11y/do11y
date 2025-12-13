@@ -7,7 +7,8 @@
     "url": "https://github.com/sq11y/do11y"
   },
   "scripts": {
-    "build": "tsc && copyfiles -f src/html/template.html dist/html"
+    "build": "tsc && copyfiles -f src/html/template.html dist/html",
+    "prepublishOnly": "pnpm build"
   },
   "files": [
     "bin",

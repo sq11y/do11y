@@ -9,7 +9,8 @@
   "scripts": {
     "build": "run-p type-check \"build-only {@}\" -- && copyfiles -f src/**.js dist",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+    "prepublishOnly": "pnpm build"
   },
   "files": [
     "dist"
