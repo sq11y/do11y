@@ -1,7 +1,7 @@
 {
   "name": "@do11y/docs",
   "description": "A very bare-bones tool to help document Vue components.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "repository": {
     "type": "git",
