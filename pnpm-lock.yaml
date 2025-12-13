@@ -86,6 +86,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.9.3)
+      vue-router:
+        specifier: 'catalog:'
+        version: 4.6.4(vue@3.5.25(typescript@5.9.3))
     devDependencies:
       '@vue/tsconfig':
         specifier: 'catalog:'
@@ -147,6 +150,9 @@ importers:
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.9.3)
+      vue-router:
+        specifier: 'catalog:'
+        version: 4.6.4(vue@3.5.25(typescript@5.9.3))
     devDependencies:
       '@tsconfig/node24':
         specifier: ^24.0.3
@@ -166,9 +172,6 @@ importers:
       vite:
         specifier: 'catalog:'
         version: 7.2.7(@types/node@24.10.3)
-      vue-router:
-        specifier: 'catalog:'
-        version: 4.6.4(vue@3.5.25(typescript@5.9.3))
 
   packages/ui:
     dependencies:

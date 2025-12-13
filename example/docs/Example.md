@@ -4,12 +4,12 @@ slug: '/example'
 ---
 
 <script setup>
-  import { inject } from 'vue';
+  import { useRoute } from 'vue-router';
 
-  const fm = inject('frontmatter');
+  const route = useRoute();
 </script>
 
-# {{ fm.title }}
+# {{ route.meta.title }}
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, harum itaque consequatur vel
 voluptatem vero labore aliquam fuga veritatis, voluptatum architecto. Obcaecati, vitae delectus

@@ -30,7 +30,7 @@ export default defineConfig({
       treeshake: false,
       preserveEntrySignatures: 'strict',
 
-      external: ['vue', 'do11y:sandbox', 'do11y:site', 'do11y:routes'],
+      external: ['vue', 'vue-router', 'do11y:sandbox', 'do11y:site', 'do11y:routes'],
     },
   },
 });

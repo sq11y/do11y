@@ -7,14 +7,12 @@
     "build": "do11y build",
     "preview": "do11y preview"
   },
-  "peerDependencies": {
-    "vite": "catalog:"
-  },
   "dependencies": {
     "@do11y/docs": "workspace:*",
     "@vitejs/plugin-vue": "catalog:",
     "v-custom-block": "catalog:",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-router": "catalog:"
   },
   "devDependencies": {
     "@vue/tsconfig": "catalog:",

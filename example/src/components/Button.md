@@ -4,14 +4,14 @@ slug: '/button'
 ---
 
 <script setup>
-  import { inject } from 'vue';
+  import { useRoute } from 'vue-router';
 
   import ButtonComponent from './Button.vue';
 
-  const fm = inject('frontmatter');
+  const route = useRoute();
 </script>
 
-# {{ fm.title }}
+# {{ route.meta.title }}
 
 ## Sandbox
 
