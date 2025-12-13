@@ -1,6 +1,5 @@
 {
   "name": "do11y",
-  "description": "A very bare-bones tool to help document Vue components.",
   "private": true,
   "engines": {
     "node": ">=24"
