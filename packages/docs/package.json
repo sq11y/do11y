@@ -1,0 +1,47 @@
+{
+  "name": "@do11y/docs",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sq11y/do11y"
+  },
+  "scripts": {
+    "build": "tsc && copyfiles -f src/html/template.html dist/html"
+  },
+  "bin": {
+    "do11y": "./bin/bin.js"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./routes.d.ts"
+  },
+  "peerDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@mdit-vue/plugin-component": "^3.0.2",
+    "@mdit-vue/plugin-frontmatter": "^3.0.2",
+    "@mdit-vue/plugin-sfc": "^3.0.2",
+    "@do11y/ui": "workspace:*",
+    "change-case": "^5.4.4",
+    "fast-glob": "^3.3.3",
+    "front-matter": "^4.0.2",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-mark": "^4.0.0",
+    "markdown-it-vue-meta": "^0.0.2",
+    "v-custom-block": "catalog:"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.3",
+    "@types/markdown-it": "^14.1.2",
+    "@types/markdown-it-attrs": "^4.1.3",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-router": "catalog:"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@do11y/ui",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sq11y/do11y"
+  },
+  "scripts": {
+    "build": "run-p type-check \"build-only {@}\" -- && copyfiles -f src/**.js dist",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build"
+  },
+  "peerDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

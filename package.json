@@ -1,0 +1,29 @@
+{
+  "name": "do11y",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "pnpm run -r build",
+    "dev": "pnpm run -r dev",
+    "preview": "pnpm run -r preview",
+    "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
+    "lint:eslint": "eslint . --fix",
+    "lint": "run-s lint:*",
+    "format": "prettier --write packages/"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/tsconfig": "catalog:",
+    "copyfiles": "^2.4.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-oxlint": "^1.31.0",
+    "eslint-plugin-vue": "^10.6.2",
+    "npm-run-all2": "^8.0.4",
+    "prettier": "^3.7.4",
+    "typescript": "catalog:",
+    "typescript-eslint": "^8.48.1"
+  }
+}

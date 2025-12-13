@@ -1,0 +1,25 @@
+{
+  "name": "@do11y/example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "do11y",
+    "build": "do11y build",
+    "preview": "do11y preview"
+  },
+  "peerDependencies": {
+    "vite": "catalog:"
+  },
+  "dependencies": {
+    "@do11y/docs": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:",
+    "v-custom-block": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}
