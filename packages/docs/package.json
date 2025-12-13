@@ -1,5 +1,6 @@
 {
   "name": "@do11y/docs",
+  "description": "A very bare-bones tool to help document Vue components.",
   "version": "0.0.2",
   "type": "module",
   "repository": {
