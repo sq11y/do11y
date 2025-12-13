@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "do11y",
     "build": "do11y build",
-    "preview": "do11y preview"
+    "preview": "do11y preview",
+    "scaffold": "do11y-scaffold"
   },
   "dependencies": {
     "@do11y/docs": "workspace:*",

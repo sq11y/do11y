@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node24/tsconfig.json",
   "include": ["packages/**/*.ts", "example/**/*.ts"],
-  "exclude": ["**/src/**/*.ts"],
+  "exclude": ["**/src/**/*.ts", "**/template/**/*.ts"],
 
   "compilerOptions": {
     "module": "ESNext",

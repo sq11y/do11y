@@ -45,7 +45,7 @@
     /**
      * The label for the button.
      */
-    default: any;
+    default: () => void;
   }>();
 </script>
 
