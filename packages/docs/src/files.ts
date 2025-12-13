@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url);
 
 export const ui = join(dirname(require.resolve('@do11y/ui/package.json')));
 
-export const root = join(searchForWorkspaceRoot(process.cwd()), 'example');
+export const root = searchForWorkspaceRoot(process.cwd());
 
 export const docs = join(root, 'docs');
 
