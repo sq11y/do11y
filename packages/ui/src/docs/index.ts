@@ -6,7 +6,7 @@ import site from 'do11y:site';
 import _ from './Docs.vue';
 
 (async () => {
-  const component = (await (site as any).Site()).default;
+  const component = (await site.Site()).default;
 
   const app = createApp(h(_, undefined, () => h(component)));
 

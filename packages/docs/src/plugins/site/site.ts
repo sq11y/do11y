@@ -6,7 +6,7 @@ import type { Router } from 'vue-router';
 
 import { docs } from '../../files.js';
 
-export type Site = {
+export interface Site {
   /**
    * The main component for the site.
    */
@@ -16,7 +16,7 @@ export type Site = {
    * Additional setup for the app.
    */
   setup?(app: App, router: Router): void | Promise<void>;
-};
+}
 
 /**
  * Add ability to access the site options (`docs/site/index.ts`)

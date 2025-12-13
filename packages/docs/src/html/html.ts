@@ -23,9 +23,11 @@ export const html = (folder: string, key: 'index' | 'sandbox'): Omit<Plugin, 'na
     },
 
     configureServer(server) {
+      /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
       server.middlewares.use(async (req, res, next) => {
         if (req.url !== '/' && !req.url?.startsWith('/sandbox')) {
-          return next();
+          next();
+          return;
         }
 
         const currentBundle = req.url === '/' ? bundle : sandboxBundle;

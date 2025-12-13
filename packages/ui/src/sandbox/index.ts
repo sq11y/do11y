@@ -8,7 +8,7 @@ import _ from './Sandbox.vue';
 
 const query = parseQuery(window.location.search);
 
-const { component } = sandbox.find(({ url }: any) => url === query.id) ?? {};
+const { component } = sandbox.find(({ url }) => url === query.id) ?? {};
 
 if (component) {
   (async () => {

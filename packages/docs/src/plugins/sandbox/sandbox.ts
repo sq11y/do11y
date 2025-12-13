@@ -33,7 +33,7 @@ export default (): Plugin => {
       }
     },
 
-    async load(id) {
+    load(id) {
       if (id === resolvedModuleId) {
         const stringifiedStories = sandboxFiles.map((path) => {
           return `{

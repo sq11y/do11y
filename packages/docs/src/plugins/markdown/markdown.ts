@@ -70,7 +70,7 @@ export default (options?: MarkdownPluginOptions): Plugin => {
     const tsconfig = join(root, 'tsconfig.json');
 
     md.use(metaPlugin, {
-      renderer: options?.metaRenderer,
+      renderer: options.metaRenderer,
       tsconfig,
     });
   }
