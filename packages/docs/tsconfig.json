@@ -8,6 +8,7 @@
     "types": ["node"],
 
     "outDir": "dist",
+    "declaration": true,
 
     "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,

@@ -1,7 +1,7 @@
 {
   "name": "@do11y/docs",
   "description": "A very bare-bones tool to help document Vue components.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "repository": {
     "type": "git",
@@ -20,7 +20,10 @@
     "do11y": "./bin/bin.js"
   },
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
     "./types": "./routes.d.ts"
   },
   "peerDependencies": {
