@@ -12,6 +12,12 @@ catalogs:
     '@types/node':
       specifier: 24.10.3
       version: 24.10.3
+    '@vitejs/plugin-vue':
+      specifier: ^6.0.2
+      version: 6.0.3
+    '@vue/tsconfig':
+      specifier: 0.8.1
+      version: 0.8.1
     typescript:
       specifier: 5.9.3
       version: 5.9.3
@@ -21,6 +27,15 @@ catalogs:
     vite:
       specifier: ^7.2.7
       version: 7.2.7
+    vue:
+      specifier: 3.5.25
+      version: 3.5.25
+    vue-router:
+      specifier: ^4.6.3
+      version: 4.6.4
+    vue-tsc:
+      specifier: ^3.1.5
+      version: 3.1.8
 
 importers:
 
@@ -129,15 +144,15 @@ importers:
       markdown-it-attrs:
         specifier: ^4.3.1
         version: 4.3.1(markdown-it@14.1.0)
-      markdown-it-vue-meta:
-        specifier: ^0.0.2
-        version: 0.0.2(markdown-it@14.1.0)(typescript@5.9.3)
       v-custom-block:
         specifier: 'catalog:'
         version: 1.0.67
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@5.9.3)
+      vue-component-meta:
+        specifier: ^3.1.8
+        version: 3.1.8(typescript@5.9.3)
       vue-router:
         specifier: 'catalog:'
         version: 4.6.4(vue@3.5.25(typescript@5.9.3))
@@ -1142,12 +1157,6 @@ packages:
     engines: {node: '>=6'}
     peerDependencies:
       markdown-it: '>= 9.0.0'
-
-  markdown-it-vue-meta@0.0.2:
-    resolution: {integrity: sha512-sPqmZg/t1xu7Wboi/2vvlEtB3LxZOulKC8563fdu63pcpB84O0iXlOWDZAIjgZHhbEhaBKUEyPWTKLmsi87cPg==}
-    peerDependencies:
-      markdown-it: ^14.1.0
-      typescript: ^5.9.3
 
   markdown-it@14.1.0:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
@@ -2443,13 +2452,6 @@ snapshots:
   markdown-it-attrs@4.3.1(markdown-it@14.1.0):
     dependencies:
       markdown-it: 14.1.0
-
-  markdown-it-vue-meta@0.0.2(markdown-it@14.1.0)(typescript@5.9.3):
-    dependencies:
-      '@vue/compiler-sfc': 3.5.25
-      markdown-it: 14.1.0
-      typescript: 5.9.3
-      vue-component-meta: 3.1.8(typescript@5.9.3)
 
   markdown-it@14.1.0:
     dependencies:

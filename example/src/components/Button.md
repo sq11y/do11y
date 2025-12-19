@@ -7,6 +7,7 @@ slug: '/button'
   import { useRoute } from 'vue-router';
 
   import ButtonComponent from './Button.vue';
+  import meta from './Button.vue?meta';
 
   const route = useRoute();
 </script>
@@ -25,4 +26,6 @@ slug: '/button'
 
 ## API
 
-[? Button API]: ./Button.vue
+```
+{{meta}}
+```

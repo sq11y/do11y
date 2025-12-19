@@ -1,22 +1,14 @@
-import { join } from 'node:path';
-import { existsSync } from 'node:fs';
-
 import { componentPlugin } from '@mdit-vue/plugin-component';
 import { sfcPlugin, type MarkdownSfcBlocks } from '@mdit-vue/plugin-sfc';
 import { frontmatterPlugin } from '@mdit-vue/plugin-frontmatter';
 
 import attrsPlugin from 'markdown-it-attrs';
-import metaPlugin from 'markdown-it-vue-meta';
 import markdown from 'markdown-it';
-
-import type { PluginOptions, MarkdownItEnv as Env } from 'markdown-it-vue-meta';
 
 import type { PluginSimple } from 'markdown-it';
 import type { Plugin } from 'vite';
 
 import type MarkdownIt from 'markdown-it';
-
-import { root } from '../../files.js';
 
 export interface MarkdownPluginOptions {
   /**
@@ -28,14 +20,9 @@ export interface MarkdownPluginOptions {
    * The highlight option for `markdown-it`.
    */
   highlight?: (md: MarkdownIt, code: string, lang: string, attrs: string) => string;
-
-  /**
-   * The renderer option for `markdown-it-vue-meta`.
-   */
-  metaRenderer?: PluginOptions['renderer'];
 }
 
-export interface MarkdownItEnv extends Env {
+export interface MarkdownItEnv {
   /**
    * Blocks extracted by `@mdit-vue/plugin-sfc`.
    */
@@ -66,19 +53,6 @@ export default (options?: MarkdownPluginOptions): Plugin => {
   md.use(componentPlugin);
   md.use(attrsPlugin);
 
-  if (options?.metaRenderer) {
-    let tsconfig = join(root, 'tsconfig.app.json');
-
-    if (!existsSync(tsconfig)) {
-      tsconfig = join(root, 'tsconfig.json');
-    }
-
-    md.use(metaPlugin, {
-      renderer: options.metaRenderer,
-      tsconfig,
-    });
-  }
-
   if (options?.setup) {
     md.use(options.setup);
   }
@@ -89,9 +63,7 @@ export default (options?: MarkdownPluginOptions): Plugin => {
 
     transform(code, id) {
       if (id.endsWith('.md')) {
-        const env: MarkdownItEnv = {
-          path: id.replace(/[?#].*$/, ''),
-        };
+        const env: MarkdownItEnv = {};
 
         const html = md.render(code, env);
 

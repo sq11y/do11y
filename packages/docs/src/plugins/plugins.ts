@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite';
 
 import markdownPlugin from './markdown/markdown.js';
+import metaPlugin from './meta/meta.js';
 import customBlockPlugin from 'v-custom-block';
 import sitePlugin from './site/site.js';
 import routesPlugin from './routes/routes.js';
@@ -13,6 +14,7 @@ export const plugins = (): Plugin[] => [
   uiPlugin(),
   sandboxPlugin(),
 
+  metaPlugin(),
   markdownPlugin(pluginOptions),
   customBlockPlugin('docs'),
 
