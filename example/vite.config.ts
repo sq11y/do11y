@@ -3,9 +3,8 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import customBlockPlguin from 'v-custom-block';
 
+import { vueOptions } from '@do11y/docs';
+
 export default defineConfig({
-  plugins: [
-    vue({ include: [/\.vue$/, /\.md$/], exclude: [/\.vue\?meta$/] }),
-    customBlockPlguin('docs'),
-  ],
+  plugins: [vue(vueOptions), customBlockPlguin('docs')],
 });
