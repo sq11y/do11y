@@ -16,7 +16,7 @@ slug: '/button'
 
 ## Sandbox
 
-<SandboxPlayground title="Button" id="button" />
+<SandboxIframe title="Button" id="button" />
 
 ## Usage
 

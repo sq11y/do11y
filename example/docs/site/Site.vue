@@ -9,7 +9,9 @@
     </ul>
   </nav>
 
-  <RouterView />
+  <main>
+    <RouterView />
+  </main>
 </template>
 
 <script lang="ts" setup>

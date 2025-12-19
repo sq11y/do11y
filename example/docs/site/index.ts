@@ -4,8 +4,8 @@ export default {
   Site: () => import('./Site.vue'),
 
   async setup(app) {
-    const SandboxPlaygroundComponent = (await import('./SandboxPlayground.vue')).default;
-    app.component('SandboxPlayground', SandboxPlaygroundComponent);
+    const SandboxIframe = (await import('./SandboxIframe.vue')).default;
+    app.component('SandboxIframe', SandboxIframe);
   },
 
   async setupSandbox(app) {
