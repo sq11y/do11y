@@ -1,13 +1,11 @@
 <template>
   <nav>
     <ul>
-      <template v-for="route of routes" :key="route.path">
-        <li>
-          <router-link :to="route.path">
-            {{ route.meta.title }}
-          </router-link>
-        </li>
-      </template>
+      <li v-for="route of routes" :key="route.path">
+        <router-link :to="route.path">
+          {{ route.meta.title }}
+        </router-link>
+      </li>
     </ul>
   </nav>
 
