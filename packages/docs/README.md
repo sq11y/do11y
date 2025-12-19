@@ -5,6 +5,7 @@ A very bare-bones tool to help document Vue components.
 - Write documentation in Markdown files that get treated as Vue components.
 - Import markdown files as routes.
 - Add sandbox components - e.g. `Button.sandbox.vue` will be available on the url `/sandbox?id=button`.
+- Easily document components with [vue-component-meta](https://www.npmjs.com/package/vue-component-meta) using meta imports - e.g. `Button.vue?meta`.
 
 ## Setup
 
@@ -14,18 +15,12 @@ A very bare-bones tool to help document Vue components.
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
+import { vueOptions } from '@do11y/docs';
 
 import vue from '@vitejs/plugin-vue';
-import vueDevTools from 'vite-plugin-vue-devtools';
 
 export default defineConfig({
-  plugins: [vue({ include: [/\.vue$/, /\.md$/] }), vueDevTools()],
-
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
+  plugins: [vue(vueOptions)],
 });
 ```
 
@@ -64,19 +59,24 @@ npm docs:dev
 
 ### `site/index.ts`
 
-This file will be used to configure the documentation site.
+This file will be used to configure the site.
 
 > [!WARNING]
-> Both the documentation site and the sandbox uses the same `setup` function. This means importing styles or components directly in this file will also import them to the sandbox.
+> Both the documentation site and the sandbox import this file - this is why it is recommended to import necessary files/components _inside_ the functions.
 
 ```ts
 import type { Site } from '@do11y/docs';
 
 export default {
+  // The main component for the site.
   Site: () => import('./Site.vue'),
 
-  setup(app) {
-    // App setup
+  async setup(app, router) {
+    // Additional setup for the app.
+  },
+
+  async setupSandbox(app) {
+    // Additional setup for the sandbox app.
   },
 } satisfies Site;
 ```
@@ -89,11 +89,12 @@ This file will be used to configure the different plugins available.
 import type { PluginOptions } from '@do11y/docs';
 
 export default {
-  metaRenderer(meta, title) {
-    return `
-      <h3>${title}</h3>
-      <pre><code>${JSON.stringify(meta, null, 2)}</code></pre>
-    `;
-  },
+  setup(md) {
+    // Additional markdown-it setup.
+  }
+
+  highlight(md, code, lang, attrs) {
+    // The highlight option for `markdown-it`.
+  }
 } satisfies PluginOptions;
 ```
