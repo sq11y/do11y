@@ -29,22 +29,19 @@ export default (): Plugin => {
   return {
     name: 'do11y:meta',
 
-    resolveId(id) {
-      if (id.endsWith('.vue?meta')) {
-        return {
-          id,
-          external: true,
-        };
-      }
-    },
-
-    load(id) {
+    transform(_, id) {
       if (id.endsWith('.vue?meta')) {
         const file = id.replace('?meta', '');
 
         const meta = checker.getComponentMeta(file);
 
-        return `export default ${JSON.stringify(mapMeta(meta, (content) => md.render(content)))}`;
+        const code = `export default ${JSON.stringify(mapMeta(meta, (content) => md.render(content)))}`;
+
+        return {
+          code,
+          map: { mappings: '' },
+          moduleType: 'js',
+        };
       }
     },
   };
