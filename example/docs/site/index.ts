@@ -7,4 +7,8 @@ export default {
     const SandboxPlaygroundComponent = (await import('./SandboxPlayground.vue')).default;
     app.component('SandboxPlayground', SandboxPlaygroundComponent);
   },
+
+  async setupSandbox(app) {
+    /** Setup sandbox app */
+  },
 } satisfies Site;

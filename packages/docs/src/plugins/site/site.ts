@@ -16,6 +16,11 @@ export interface Site {
    * Additional setup for the app.
    */
   setup?(app: App, router: Router): void | Promise<void>;
+
+  /**
+   * Additional setup for the sandbox app.
+   */
+  setupSandbox?(app: App): void | Promise<void>;
 }
 
 /**

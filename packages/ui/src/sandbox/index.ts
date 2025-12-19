@@ -16,7 +16,7 @@ if (component) {
 
     const app = createApp(h(_, undefined, () => h(resolvedComponent)));
 
-    await site.setup?.(app);
+    await site.setupSandbox?.(app);
 
     app.mount('#app');
   })();
