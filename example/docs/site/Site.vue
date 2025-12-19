@@ -16,9 +16,3 @@
   import routes from 'do11y:routes';
   import './style.css';
 </script>
-
-<style>
-  button {
-    width: max-content;
-  }
-</style>
