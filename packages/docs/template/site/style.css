@@ -30,39 +30,9 @@ button[aria-disabled='true'] {
   cursor: default;
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-  letter-spacing: inherit;
-  word-spacing: inherit;
-}
-
-a {
-  text-underline-position: from-font;
-}
-
 pre {
   white-space: pre-wrap;
-}
-
-code {
-  word-break: break-all;
-}
-
-pre,
-table,
-img,
-svg,
-picture,
-video,
-canvas,
-iframe {
-  max-inline-size: 100%;
-  min-inline-size: 0;
-
-  display: block;
+  inline-size: 100%;
 }
 
 body {
