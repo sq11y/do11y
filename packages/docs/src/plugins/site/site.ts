@@ -8,7 +8,7 @@ import { docs } from '../../files.js';
 
 export interface Site {
   /**
-   * The main component for the site.
+   * The wrapper component for the site.
    */
   Site: () => Promise<Component>;
 
@@ -16,6 +16,11 @@ export interface Site {
    * Additional setup for the app.
    */
   setup?(app: App, router: Router): void | Promise<void>;
+
+  /**
+   * The wrapper component for the sandbox.
+   */
+  Sandbox?: () => Promise<Component>;
 
   /**
    * Additional setup for the sandbox app.

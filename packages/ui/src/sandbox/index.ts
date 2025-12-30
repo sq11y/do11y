@@ -12,9 +12,16 @@ const { component } = sandbox.find(({ url }) => url === query.id) ?? {};
 
 if (component) {
   (async () => {
+    const wrapper = (await site.Sandbox?.())?.default;
+
     const resolvedComponent = await component();
 
-    const app = createApp(h(_, undefined, () => h(resolvedComponent)));
+    /* prettier-ignore */
+    const content = () => wrapper
+      ? h(resolvedComponent)
+      : h(wrapper, undefined, () => h(resolvedComponent));
+
+    const app = createApp(h(_, undefined, content));
 
     await site.setupSandbox?.(app);
 

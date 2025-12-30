@@ -1,5 +1,5 @@
 <template>
-  <ExampleButton>A button with blue text in the sandbox.</ExampleButton>
+  <ExampleButton>A blue button with inside a sandbox.</ExampleButton>
 </template>
 
 <script lang="ts" setup>
@@ -9,6 +9,7 @@
 <style>
   button {
     color: darkblue;
+    border: 1px dashed darkblue;
     background-color: lightblue;
   }
 </style>

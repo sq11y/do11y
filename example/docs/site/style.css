@@ -30,6 +30,11 @@ button[aria-disabled='true'] {
   cursor: default;
 }
 
+button {
+  background-color: transparent;
+  border: 1px solid #1a1a1a;
+}
+
 pre {
   white-space: pre-wrap;
   inline-size: 100%;

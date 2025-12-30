@@ -6,9 +6,9 @@ import site from 'do11y:site';
 import _ from './Docs.vue';
 
 (async () => {
-  const component = (await site.Site()).default;
+  const wrapper = (await site.Site()).default;
 
-  const app = createApp(h(_, undefined, () => h(component)));
+  const app = createApp(h(_, undefined, () => h(wrapper)));
 
   app.use(router);
 

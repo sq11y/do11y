@@ -11,6 +11,7 @@ declare module 'do11y:site' {
 
   const site: {
     Site: () => Promise<Component>;
+    Sandbox?: () => Promise<Component>;
     setup?(app: App, router?: Router): void | Promise<void>;
     setupSandbox?(app: App): void | Promise<void>;
   };

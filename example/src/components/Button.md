@@ -21,7 +21,7 @@ slug: '/button'
 ## Usage
 
 <ButtonComponent>
-  This example button doesn't have blue text since the button above is in a sandbox
+  A transparent button outside the sandbox.
 </ButtonComponent>
 
 ## API

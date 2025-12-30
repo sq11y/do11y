@@ -55,9 +55,7 @@
 
     inline-size: fit-content;
     padding: 0.75em 1.25em;
-
     border-radius: 4px;
-    border: 1px solid transparent;
 
     font-size: 1rem;
   }
