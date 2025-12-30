@@ -18,8 +18,7 @@
     "types.d.ts"
   ],
   "bin": {
-    "do11y": "./bin/cli.js",
-    "do11y-scaffold": "./bin/scaffold.js"
+    "do11y": "./bin/cli.js"
   },
   "exports": {
     ".": {

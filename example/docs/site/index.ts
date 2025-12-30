@@ -3,7 +3,7 @@ import type { Site } from '@do11y/docs';
 export default {
   Site: () => import('./Site.vue'),
 
-  async setup(app) {
+  async setup(app, router) {
     const SandboxIframe = (await import('./SandboxIframe.vue')).default;
     app.component('SandboxIframe', SandboxIframe);
   },

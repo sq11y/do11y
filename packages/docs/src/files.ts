@@ -9,7 +9,7 @@ export const ui = join(dirname(require.resolve('@do11y/ui/package.json')));
 
 export const root = searchForWorkspaceRoot(process.cwd());
 
-// export const root = join(searchForWorkspaceRoot(process.cwd()), 'example');
+// const root = join(searchForWorkspaceRoot(process.cwd()), 'example');
 
 export const docs = join(root, 'docs');
 

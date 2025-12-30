@@ -33,7 +33,7 @@ The scaffold makes the assumption that you have a `src` folder and a `tsconfig.j
 npm i @do11y/docs
 
 // Scaffold the `docs` folder
-npm do11y-scaffold
+npm do11y scaffold
 ```
 
 ### Add scripts to `package.json`

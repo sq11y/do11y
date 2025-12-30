@@ -1,16 +1,24 @@
+import { cp } from 'node:fs/promises';
+import { join } from 'node:path';
+
 import { createServer, build, preview } from 'vite';
 
 import { getViteConfig } from './vite-config.js';
+import { docs } from './files.js';
 
 const [_, __, command = 'dev'] = process.argv;
 
-if (command !== 'dev' && command !== 'build' && command !== 'preview') {
+if (command !== 'scaffold' && command !== 'dev' && command !== 'build' && command !== 'preview') {
   throw new Error();
 }
 
-const viteConfig = await getViteConfig(command);
+if (command === 'scaffold') {
+  const template = join(import.meta.dirname, '../template');
 
-if (command === 'dev') {
+  await cp(template, docs, { recursive: true });
+} else if (command === 'dev') {
+  const viteConfig = await getViteConfig(command);
+
   const server = await createServer(viteConfig);
 
   await server.listen();
@@ -18,6 +26,8 @@ if (command === 'dev') {
   server.printUrls();
   server.bindCLIShortcuts({ print: true });
 } else {
+  const viteConfig = await getViteConfig(command);
+
   await build(viteConfig);
 
   if (command === 'preview') {
