@@ -6,7 +6,9 @@ import type {
   ExposeMeta,
 } from 'vue-component-meta';
 
-export const mapMeta = (meta: ComponentMeta, render: (input: string) => string) => {
+import type { Meta } from './meta-types';
+
+export const mapMeta = (meta: ComponentMeta, render: (input: string) => string): Meta => {
   const nonGlobalProps = meta.props.filter((prop) => !prop.global);
 
   const hasAssociatedEvent = (prop: PropertyMeta) => {
@@ -32,24 +34,24 @@ export const mapMeta = (meta: ComponentMeta, render: (input: string) => string) 
     }));
   };
 
-  const mapPropertyAndEvent = (prop: PropertyMeta | EventMeta) => ({
+  const mapEvent = (prop: PropertyMeta | EventMeta): Meta['events'][number] => ({
     name: prop.name,
     type: prop.type,
 
-    description: render(prop.description),
+    description: prop.description ? render(prop.description) : undefined,
     deprecated: getDeprecated(prop.tags),
     tags: getFilteredTags(prop.tags),
   });
 
-  const mapSlotAndExposed = (m: SlotMeta | ExposeMeta) => ({
-    name: m.name,
-    type: m.type,
+  const mapSlotAndExposed = (se: SlotMeta | ExposeMeta): Meta['slots'][number] => ({
+    name: se.name,
+    type: se.type,
 
-    description: render(m.description),
+    description: se.description ? render(se.description) : undefined,
   });
 
-  const mapProperty = (prop: PropertyMeta) => ({
-    ...mapPropertyAndEvent(prop),
+  const mapProperty = (prop: PropertyMeta): Meta['props'][number] => ({
+    ...mapEvent(prop),
 
     default: prop.default || getTag(prop.tags, 'default')?.text,
     required: prop.required,
@@ -66,7 +68,7 @@ export const mapMeta = (meta: ComponentMeta, render: (input: string) => string) 
 
     events: meta.events
       .filter((event) => !hasAssociatedProp(event))
-      .map((event) => mapPropertyAndEvent(event)),
+      .map((event) => mapEvent(event)),
 
     slots: meta.slots.map((slot) => mapSlotAndExposed(slot)),
   };
