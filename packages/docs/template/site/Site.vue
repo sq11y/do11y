@@ -10,7 +10,9 @@
   </nav>
 
   <main>
-    <RouterView />
+    <article>
+      <RouterView />
+    </article>
   </main>
 </template>
 

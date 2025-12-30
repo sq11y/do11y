@@ -21,7 +21,9 @@ slug: '/button'
 ## Usage
 
 <ButtonComponent>
-  A transparent button outside the sandbox.
+
+A transparent button **NOT** inside a sandbox
+
 </ButtonComponent>
 
 ## API

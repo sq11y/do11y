@@ -24,9 +24,13 @@
   const url = computed(() => `${window.location.origin}/sandbox?id=${props.id}`);
 </script>
 
-<style>
+<style scoped>
   iframe {
     border: none;
     width: 100%;
+  }
+
+  a {
+    float: right;
   }
 </style>
