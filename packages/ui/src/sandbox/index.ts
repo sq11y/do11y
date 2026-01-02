@@ -18,8 +18,8 @@ if (component) {
 
     /* prettier-ignore */
     const content = () => wrapper
-      ? h(resolvedComponent)
-      : h(wrapper, undefined, () => h(resolvedComponent));
+      ? h(wrapper, undefined, () => h(resolvedComponent))
+      : h(resolvedComponent);
 
     const app = createApp(h(_, undefined, content));
 
