@@ -21,8 +21,8 @@ interface Page {
 }
 
 /**
- * Adds the ability to import routes (`*.md` files)
- * through `do11y:routes`.
+ * Adds the ability to import routes (`*.md` files with
+ * a `title` and `slug`) through `do11y:routes`.
  */
 export default (): Plugin => {
   const moduleId = 'do11y:routes';
