@@ -3,7 +3,6 @@
   "include": ["site/**/*", "../src/**/*"],
 
   "compilerOptions": {
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["@do11y/docs/types"]
   }
 }
