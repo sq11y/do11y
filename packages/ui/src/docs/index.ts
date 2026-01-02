@@ -10,9 +10,9 @@ import _ from './Docs.vue';
 
   const app = createApp(h(_, undefined, () => h(wrapper)));
 
-  app.use(router);
-
   await site.setup?.(app, router);
+
+  app.use(router);
 
   app.mount('#app');
 })();
