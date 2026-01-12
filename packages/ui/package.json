@@ -1,7 +1,7 @@
 {
   "name": "@do11y/ui",
   "description": "The UI for @do11y/docs - a very bare-bones tool to help document Vue components.",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "type": "module",
   "module": "./dist/bundled/components.js",
   "repository": {
