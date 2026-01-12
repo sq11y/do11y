@@ -39,7 +39,6 @@ export default (): Plugin => {
 
         return {
           code,
-          map: { mappings: '' },
           moduleType: 'js',
         };
       }

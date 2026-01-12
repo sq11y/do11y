@@ -6,17 +6,10 @@ declare module 'do11y:routes' {
   export default routes;
 }
 
-declare module 'do11y:site' {
-  import type { Router } from 'vue-router';
-
-  const site: {
-    Site: () => Promise<Component>;
-    Sandbox?: () => Promise<Component>;
-    setup?(app: App, router?: Router): void | Promise<void>;
-    setupSandbox?(app: App): void | Promise<void>;
-  };
-
-  export default site;
+declare module 'do11y:options' {
+  import type { Options } from '@do11y/docs';
+  const options: Options;
+  export default options;
 }
 
 declare module 'do11y:sandbox' {

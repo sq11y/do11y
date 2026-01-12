@@ -14,12 +14,12 @@ export interface MarkdownPluginOptions {
   /**
    * Additional markdown-it setup.
    */
-  setup?: PluginSimple;
+  markdownSetup?: PluginSimple;
 
   /**
    * The highlight option for `markdown-it`.
    */
-  highlight?: (md: MarkdownIt, code: string, lang: string, attrs: string) => string;
+  markdownHighlight?: (md: MarkdownIt, code: string, lang: string, attrs: string) => string;
 }
 
 export interface MarkdownItEnv {
@@ -44,7 +44,7 @@ export default (options?: MarkdownPluginOptions): Plugin => {
     html: true,
 
     highlight(code, lang, attrs): string {
-      return options?.highlight?.(md, code, lang, attrs) ?? '';
+      return options?.markdownHighlight?.(md, code, lang, attrs) ?? '';
     },
   });
 
@@ -53,8 +53,8 @@ export default (options?: MarkdownPluginOptions): Plugin => {
   md.use(componentPlugin);
   md.use(attrsPlugin);
 
-  if (options?.setup) {
-    md.use(options.setup);
+  if (options?.markdownSetup) {
+    md.use(options.markdownSetup);
   }
 
   return {

@@ -2,7 +2,7 @@ import { createApp, h } from 'vue';
 import { parseQuery } from 'vue-router';
 
 import sandbox from 'do11y:sandbox';
-import site from 'do11y:site';
+import options from 'do11y:options';
 
 import _ from './Sandbox.vue';
 
@@ -12,7 +12,7 @@ const { component } = sandbox.find(({ url }) => url === query.id) ?? {};
 
 if (component) {
   (async () => {
-    const wrapper = (await site.Sandbox?.())?.default;
+    const wrapper = (await options.Sandbox?.())?.default;
 
     const resolvedComponent = await component();
 
@@ -23,7 +23,7 @@ if (component) {
 
     const app = createApp(h(_, undefined, content));
 
-    await site.setupSandbox?.(app);
+    await options.setupSandbox?.(app);
 
     app.mount('#app');
   })();

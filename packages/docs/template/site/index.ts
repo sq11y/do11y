@@ -1,15 +1,14 @@
-import type { Site } from '@do11y/docs';
+import type { Options } from '@do11y/docs';
 
 export default {
   Site: () => import('./Site.vue'),
+
   Sandbox: () => import('./Sandbox.vue'),
+
+  SandboxIframe: () => import('./SandboxIframe.vue'),
 
   async setup(app, router) {
     const SandboxIframe = (await import('./SandboxIframe.vue')).default;
     app.component('SandboxIframe', SandboxIframe);
   },
-
-  async setupSandbox(app) {
-    /** Setup sandbox app */
-  },
-} satisfies Site;
+} satisfies Options;

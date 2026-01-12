@@ -10,6 +10,7 @@ export default defineConfig({
 
     rollupOptions: {
       input: {
+        components: './src/components/index.ts',
         docs: './src/docs/index.ts',
         sandbox: './src/sandbox/index.ts',
       },
@@ -23,7 +24,7 @@ export default defineConfig({
       treeshake: false,
       preserveEntrySignatures: 'strict',
 
-      external: ['vue', 'vue-router', 'do11y:sandbox', 'do11y:site', 'do11y:routes'],
+      external: ['vue', 'vue-router', 'do11y:sandbox', 'do11y:options', 'do11y:routes'],
     },
   },
 });

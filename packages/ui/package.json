@@ -3,6 +3,7 @@
   "description": "The UI for @do11y/docs - a very bare-bones tool to help document Vue components.",
   "version": "0.0.9",
   "type": "module",
+  "module": "./dist/bundled/components.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/sq11y/do11y"

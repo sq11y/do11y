@@ -1,27 +1,44 @@
 <template>
-  <iframe ref="iframe" :title="`Sandbox for ${title}`" :src="url" />
+  <iframe ref="iframe" :title="`Sandbox for ${title || id}`" :src="url" />
+
   <a :href="url" target="_blank" rel="noopener noreferrer">Open in a new tab</a>
+
+  <pre><code>{{ source }}</code></pre>
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref } from 'vue';
+  import { ref } from 'vue';
 
-  const props = defineProps<{
+  defineProps<{
     /**
-     * The iframe title.
+     * The title of the iframe.
      */
-    title: string;
+    title?: string;
 
     /**
      * The `id` of the sandbox - which is the filename
      * without the extension `.sandbox.vue`.
+     *
+     * @do11y Automatically passed.
      */
     id: string;
+
+    /**
+     * The sandbox url.
+     *
+     *  @do11y Automatically passed.
+     */
+    url: string;
+
+    /**
+     * The source code.
+     *
+     *  @do11y Automatically passed.
+     */
+    source?: string;
   }>();
 
   const iframe = ref<HTMLIFrameElement>();
-
-  const url = computed(() => `${window.location.origin}/sandbox?id=${props.id}`);
 </script>
 
 <style scoped>
@@ -32,5 +49,6 @@
 
   a {
     float: right;
+    clear: both;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <ExampleButton>A blue button with inside a sandbox</ExampleButton>
+  <ExampleButton>A blue button inside a sandbox</ExampleButton>
 </template>
 
 <script lang="ts" setup>

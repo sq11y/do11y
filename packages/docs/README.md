@@ -4,7 +4,8 @@ A very bare-bones tool to help document Vue components.
 
 - Write documentation in Markdown files that get treated as Vue components.
 - Import markdown files as routes.
-- Add sandbox components - e.g. `Button.sandbox.vue` will be available on the url `/sandbox?id=button`.
+- Sandbox components - e.g. `Button.sandbox.vue` will be available on the url `/sandbox?id=button`.
+- Import components isolated inside an iframe - e.g. `import 'Button.sandbox.vue?iframe'` or `import 'Button.vue?iframe'`.
 - Easily document components with [vue-component-meta](https://www.npmjs.com/package/vue-component-meta) using meta imports - e.g. `Button.vue?meta`.
 
 ## Setup
@@ -59,42 +60,35 @@ npm docs:dev
 
 ### `site/index.ts`
 
-This file will be used to configure the site.
+This file is used for configuration.
 
 > [!WARNING]
 > Both the documentation site and the sandbox import this file - this is why it is recommended to import necessary files/components _inside_ the functions.
 
 ```ts
-import type { Site } from '@do11y/docs';
+import type { Options } from '@do11y/docs';
 
 export default {
-  // The main component for the site.
   Site: () => import('./Site.vue'),
 
+  Sandbox: () => import('./Sandbox.vue'),
+
+  SandboxIframe: () => import('./SandboxIframe.vue'),
+
   async setup(app, router) {
-    // Additional setup for the app.
+    /** Setup app */
   },
 
   async setupSandbox(app) {
-    // Additional setup for the sandbox app.
+    /** Setup sandbox app */
   },
-} satisfies Site;
-```
 
-### `site/plugins.ts`
-
-This file will be used to configure the different plugins available.
-
-```ts
-import type { PluginOptions } from '@do11y/docs';
-
-export default {
-  setup(md) {
+  markdownSetup(md) {
     // Additional markdown-it setup.
   }
 
-  highlight(md, code, lang, attrs) {
+  markdownHighlight(md, code, lang, attrs) {
     // The highlight option for `markdown-it`.
   }
-} satisfies PluginOptions;
+} satisfies Options;
 ```
