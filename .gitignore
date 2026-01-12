@@ -3,3 +3,4 @@
 
 *.tsbuildinfo
 *.todo
+**/.DS_Store/
