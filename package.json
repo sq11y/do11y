@@ -1,6 +1,6 @@
 {
   "name": "do11y",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A bare-bones tool to document Vue components.",
   "license": "MIT",
   "repository": "github:sq11y/do11y",
@@ -22,7 +22,7 @@
     "preview": "pnpm run -r preview",
     "build:node": "tsc --p tsconfig.node.json && copyfiles -f src/docs/html/index.html dist/docs/html",
     "build:client": "vue-tsc --build && vite build",
-    "build:example": "pnpm run -r build",
+    "build:example": "pnpm run -r --filter do11y-example build",
     "build": "pnpm '/^build:.*/'",
     "lint": "oxlint . --fix",
     "fmt": "oxfmt .",
