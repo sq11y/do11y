@@ -6,7 +6,7 @@ slug: "/button"
 <script setup>
   import { useRoute } from 'vue-router';
 
-  import ButtonComponent from './Button.vue';
+  import ButtonComponent from '@/components/Button.vue';
   import ButtonSandbox from './Button.sandbox.vue';
 
   import meta from './Button.vue?meta';

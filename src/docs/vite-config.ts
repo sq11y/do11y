@@ -13,7 +13,12 @@ export const getUserViteConfig = async (command: "dev" | "build" | "preview") =>
     mode: command === "dev" ? "dev" : "build",
   });
 
-  return userConfigFile?.config ?? {};
+  const config = userConfigFile?.config ?? {};
+
+  return {
+    plugins: await getUserPlugins(config),
+    resolve: config.resolve,
+  };
 };
 
 const getPlugin = async (plugin: PluginOption): Promise<Plugin[]> => {
@@ -32,19 +37,23 @@ const getPlugin = async (plugin: PluginOption): Promise<Plugin[]> => {
   }
 };
 
-export const getUserVuePlugin = async (userViteConfig: UserConfig) => {
+const getUserPlugins = async (userViteConfig: UserConfig) => {
   const userPlugins = userViteConfig.plugins?.map(async (p) => await getPlugin(p)) ?? [];
   const resolvedUserPlugins = (await Promise.all(userPlugins)).flat();
   const vuePluginApi = resolvedUserPlugins.find((p) => p.name === "vite:vue")!.api as Api;
 
   const VuePlugin = (await import("@vitejs/plugin-vue")).default;
 
-  return VuePlugin({
-    ...vuePluginApi.options,
+  return [
+    VuePlugin({
+      ...vuePluginApi.options,
 
-    include: [/\.vue$/, /\.md$/],
-    exclude: [/\.vue\?meta$/],
-  });
+      include: [/\.vue$/, /\.md$/],
+      exclude: [/\.vue\?meta$/],
+    }),
+
+    ...resolvedUserPlugins.filter((i) => i.name !== "vite:vue"),
+  ];
 };
 
 export const viteConfig = {

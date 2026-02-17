@@ -1,5 +1,5 @@
 import { createServer, build, preview, mergeConfig } from "vite";
-import { getUserViteConfig, getUserVuePlugin, viteConfig } from "./vite-config.js";
+import { getUserViteConfig, viteConfig } from "./vite-config.js";
 
 const [_, __, command = "dev"] = process.argv;
 
@@ -9,9 +9,7 @@ if (command !== "dev" && command !== "build" && command !== "preview") {
 
 const userViteConfig = await getUserViteConfig(command);
 
-const vuePlugin = await getUserVuePlugin(userViteConfig);
-
-const mergedViteConfig = mergeConfig({ plugins: [vuePlugin] }, viteConfig);
+const mergedViteConfig = mergeConfig(userViteConfig, viteConfig);
 
 if (command === "dev") {
   const server = await createServer(mergedViteConfig);

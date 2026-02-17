@@ -1,6 +1,6 @@
 {
   "name": "do11y",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A bare-bones tool to document Vue components.",
   "license": "MIT",
   "repository": "github:sq11y/do11y",

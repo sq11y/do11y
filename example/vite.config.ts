@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 
@@ -7,6 +8,12 @@ import block from "v-custom-block";
 
 export default defineConfig({
   plugins: [vue(), block("docs")],
+
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
 
   build: {
     lib: {
