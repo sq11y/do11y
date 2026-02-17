@@ -1,0 +1,79 @@
+declare module "do11y:routes" {
+  import type { RouteRecordRaw as VueRouteRecordRaw } from "vue-router";
+
+  type RouteRecordRaw = VueRouteRecordRaw & {
+    meta: {
+      title: string;
+      slug: string;
+    };
+  };
+
+  const routes: RouteRecordRaw[];
+
+  export default routes;
+}
+
+declare module "do11y:options" {
+  import type { Options } from "do11y";
+
+  const options:
+    | (Omit<Options, "Layout" | "Sandbox" | "SandboxIframe"> & {
+        Layout: () => Promise<{ default: Component }>;
+        Sandbox?: () => Promise<{ default: Component }>;
+        SandboxIframe?: () => Promise<{ default: Component }>;
+      })
+    | undefined;
+
+  export default options;
+}
+
+declare module "do11y:home" {
+  import type { Component } from "vue";
+  const home: Component | undefined;
+  export default home;
+}
+
+declare module "do11y:page-layout" {
+  import type { Component } from "vue";
+  const layout: Component | undefined;
+  export default layout;
+}
+
+declare module "do11y:sandbox" {
+  import type { Component } from "vue";
+  const sandbox: Component | undefined;
+  export default sandbox;
+}
+
+declare module "do11y:sandbox-iframe" {
+  import type { Component } from "vue";
+  const iframe: Component | undefined;
+  export default iframe;
+}
+
+declare module "do11y:css" {
+  const css: string;
+  export default css;
+}
+
+declare module "do11y:sandboxes" {
+  import type { Component } from "vue";
+
+  const sandboxes: {
+    url: string;
+    component: () => Promise<Component>;
+  }[];
+
+  export default sandboxes;
+}
+
+declare module "*.vue?meta" {
+  import type { Meta } from "do11y";
+  const meta: Meta;
+  export default meta;
+}
+
+declare module "*.vue?highlight" {
+  const html: string;
+  export default html;
+}

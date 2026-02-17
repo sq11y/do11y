@@ -1,0 +1,46 @@
+name: "Release NPM package"
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  version-bumps:
+    name: "Look for a version bump"
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.version.outputs.changed == 'true' }}
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v6
+      - name: "Look for a version bump"
+        id: version
+        uses: EndBug/version-check@v3
+
+  release:
+    environment: npm
+    name: "Release do11y"
+    runs-on: ubuntu-latest
+    needs: [version-bumps]
+    if: needs.version-bumps.outputs.changed == 'true'
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v6
+      - name: "Setup pnpm"
+        uses: pnpm/action-setup@v4
+      - name: "Setup Node"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: "Install dependencies"
+        shell: bash
+        run: pnpm install --frozen-lockfile
+      - name: "Publish to NPM"
+        run: pnpm publish --access public

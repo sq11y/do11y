@@ -1,0 +1,22 @@
+packages:
+  - example
+
+allowBuilds:
+  "@parcel/watcher": true
+
+catalog:
+  "@tsconfig/node24": ^24.0.4
+  "@types/node": 26.1.2
+  "@vitejs/plugin-vue": ^6.0.8
+  "@vue/tsconfig": ^0.9.1
+  typescript: ~6.0.3
+  v-custom-block: ^1.0.67
+  vite: 8.1.5
+  vue: ^3.5.40
+  vue-router: ^5.2.0
+  vue-tsc: ^3.3.8
+
+overrides:
+  vue: ^3.5.40
+
+minimumReleaseAge: 0

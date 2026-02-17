@@ -1,0 +1,18 @@
+<template>
+  <Layout v-if="Layout" />
+  <RouterView v-else />
+</template>
+
+<script lang="ts" setup>
+import { onBeforeMount } from "vue";
+
+import Layout from "do11y:page-layout";
+import css from "do11y:css";
+
+onBeforeMount(() => {
+  const stylesheet = document.createElement("style");
+  stylesheet.innerHTML = css;
+
+  document.head.appendChild(stylesheet);
+});
+</script>
