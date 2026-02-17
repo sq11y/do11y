@@ -1,0 +1,25 @@
+{
+  "name": "do11y-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "do11y",
+    "build": "do11y build",
+    "build:components": "vite build",
+    "preview": "do11y preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "do11y": "workspace:*",
+    "sass": "catalog:",
+    "v-custom-block": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

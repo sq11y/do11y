@@ -1,0 +1,68 @@
+{
+  "name": "do11y",
+  "version": "0.0.0",
+  "description": "A bare-bones tool to document Vue components.",
+  "license": "MIT",
+  "repository": "github:sq11y/do11y",
+  "bin": "./dist/docs/cli.js",
+  "files": [
+    "dist",
+    "src/types.d.ts"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/docs/index.d.ts",
+      "import": "./dist/docs/index.js"
+    },
+    "./types": "./src/types.d.ts"
+  },
+  "scripts": {
+    "dev": "pnpm run -r dev",
+    "preview": "pnpm run -r preview",
+    "build:node": "tsc --p tsconfig.node.json && copyfiles -f src/docs/html/index.html dist/docs/html",
+    "build:client": "vue-tsc --build && vite build",
+    "build:example": "pnpm run -r build",
+    "build": "pnpm '/^build:.*/'",
+    "lint": "oxlint . --fix",
+    "fmt": "oxfmt .",
+    "prepublishOnly": "pnpm build:node && pnpm build:client"
+  },
+  "dependencies": {
+    "@mdit-vue/plugin-component": "^3.0.2",
+    "@mdit-vue/plugin-frontmatter": "^3.0.2",
+    "@mdit-vue/plugin-sfc": "^3.0.2",
+    "front-matter": "^4.0.2",
+    "jsdom": "^28.1.0",
+    "markdown-it": "^14.1.1",
+    "markdown-it-attrs": "^4.3.1",
+    "sass": "catalog:",
+    "tinyglobby": "^0.2.15",
+    "v-custom-block": "catalog:",
+    "vue-component-meta": "^3.2.4"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "catalog:",
+    "@types/jsdom": "^27.0.0",
+    "@types/markdown-it": "^14.1.2",
+    "@types/markdown-it-attrs": "^4.1.3",
+    "@types/node": "catalog:",
+    "@vue/tsconfig": "catalog:",
+    "copyfiles": "^2.4.1",
+    "jiti": "^2.6.1",
+    "npm-run-all2": "^8.0.4",
+    "oxfmt": "^0.32.0",
+    "oxlint": "^1.47.0",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "vite": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
