@@ -1,6 +1,5 @@
 **/node_modules/
 **/dist/
 
-*.tsbuildinfo
 *.todo
 **/.DS_Store/
