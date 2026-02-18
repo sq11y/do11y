@@ -1,8 +1,6 @@
 import { join, parse } from "node:path";
 import { readFileSync } from "node:fs";
-import { pathToFileURL } from "node:url";
 
-import { compileString } from "sass";
 import { globSync } from "tinyglobby";
 import { parse as parseVue } from "vue/compiler-sfc";
 
@@ -53,50 +51,45 @@ export default (): Plugin => {
       }
     },
 
-    transform(_, id) {
+    async transform(_, id) {
       if (id.endsWith(".sandbox.vue")) {
-        let source = readFileSync(id, "utf-8");
+        const source = readFileSync(id, "utf-8");
+
+        const sourceWithoutStyles = source.replace(/\n<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
 
         const { descriptor } = parseVue(source, {
           filename: id,
           ignoreEmpty: true,
         });
 
-        const usesSass = descriptor.styles.some((s) => ["sass", "scss"].includes(s.lang as string));
+        const usesSass = descriptor.styles.some((s) => s.lang && ["sass", "scss"].includes(s.lang));
 
-        let sourceWithCompiledCss = source.replace(/\n<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
+        const imports = descriptor.styles
+          .map((_, i) => `import Css${i} from "${id}?vue&type=style&index=${i}&lang.scss?inline";`)
+          .join("");
 
-        if (usesSass) {
-          for (const style of descriptor.styles) {
-            const compiledStyle = compileString(style.content, {
-              url: pathToFileURL(id),
-            });
-
-            const attributes = Object.entries(style.attrs)
-              .filter(([key]) => key !== "lang")
-              .map(([key, value]) => `${key}="${value}"`);
-
-            const stringifiedAttributes = attributes.length ? ` ${attributes.join(" ")}` : "";
-
-            sourceWithCompiledCss += `<style${stringifiedAttributes}>\n${compiledStyle.css}\n</style>`;
-          }
-
-          /* Fix lack of new lines between style tags */
-          sourceWithCompiledCss = sourceWithCompiledCss
-            .replace(/\n\n\n<style/gi, "\n\n<style")
-            .replace("</style><style", "</style>\n\n<style");
-        }
+        const stylesheets = descriptor.styles.map((_, i) => `Css${i}`).join(", ");
 
         const code = `
           import { defineComponent, h } from "vue";
 
           import SandboxIframe from "${join(ui, "sandbox-iframe.js")}";
+
+          ${imports}
+
+          const sourceWithoutStyleTags = ${JSON.stringify(sourceWithoutStyles)};
+
+          const cssStylesheet = [${stylesheets}].join("");
+
+          const sourceWithStylesheet = !!cssStylesheet
+            ? sourceWithoutStyleTags + '<style>' + cssStylesheet + '</style>'
+            : sourceWithoutStyleTags;
           
           export default defineComponent((props) => {
             return () => h(SandboxIframe, {
               id: "${toParamId(id)}",
               source: ${JSON.stringify(source)},
-              sourceWithCompiledCss: ${usesSass ? JSON.stringify(sourceWithCompiledCss) : "undefined"},
+              sourceWithCompiledCss: ${usesSass ? "sourceWithStylesheet" : "undefined"},
               passedProps: props,
             });
           });
