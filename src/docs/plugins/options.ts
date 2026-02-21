@@ -50,7 +50,7 @@ export interface Options extends MarkdownPluginOptions {
     themes: (ThemeInput | StringLiteralUnion<BundledTheme, string>)[];
     defaultTheme?: string | StringLiteralUnion<BundledTheme, string>;
     transformers?: ShikiTransformer[];
-    postprocess?: (pre: HTMLPreElement) => {};
+    postprocess?: (pre: HTMLPreElement) => void;
   };
 }
 
@@ -60,7 +60,7 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
     themesInput: Record<string, string>;
     defaultTheme: string;
     transformers: ShikiTransformer[];
-    postprocess?: (pre: HTMLPreElement) => {};
+    postprocess?: (pre: HTMLPreElement) => void;
   };
 }
 
