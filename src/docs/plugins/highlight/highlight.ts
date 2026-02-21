@@ -82,7 +82,7 @@ export default (): Plugin => {
          * to compile the style tags to CSS.
          */
         if (viteDevServer?.config.command === "serve" || !id.endsWith("lang=css")) {
-          return `export default ${JSON.stringify(await highlightAndFormatCode(path, source))};`;
+          return `export default \`${await highlightAndFormatCode(path, source)}\`;`;
         }
 
         const loadCss = async (index: number, lang: string) => {
@@ -107,7 +107,7 @@ export default (): Plugin => {
           .map((stylesheet) => `<style>${stylesheet}</style>`)
           .join("\n");
 
-        return `export default ${JSON.stringify(await highlightAndFormatCode(path, sourceWithoutStyles + css))};`;
+        return `export default \`${await highlightAndFormatCode(path, sourceWithoutStyles + css)}\`;`;
       }
     },
   };
