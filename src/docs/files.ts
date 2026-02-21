@@ -2,11 +2,13 @@ import { join } from "node:path";
 
 import { searchForWorkspaceRoot } from "vite";
 
+const [_, __, ___, relativePath] = process.argv;
+
 export const ui = join(import.meta.dirname, "../ui");
 
-export const root = searchForWorkspaceRoot(process.cwd());
-
-// export const root = join(searchForWorkspaceRoot(process.cwd()), "example");
+export const root = relativePath
+  ? join(searchForWorkspaceRoot(process.cwd()), relativePath)
+  : searchForWorkspaceRoot(process.cwd());
 
 export const docs = join(root, "docs");
 

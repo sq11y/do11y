@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "do11y",
-    "build": "do11y build",
+    "dev": "do11y example",
+    "build": "do11y build example",
     "build:components": "vite build",
-    "preview": "do11y preview"
+    "preview": "do11y preview example"
   },
   "dependencies": {
     "@vitejs/plugin-vue": "catalog:",
