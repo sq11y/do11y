@@ -80,15 +80,6 @@ button[aria-disabled="true"] {
   cursor: default;
 }
 
-pre {
-  white-space: pre-wrap;
-
-  padding: 1.5rem;
-
-  border-radius: 0.5rem;
-  border: 1px solid #eee;
-}
-
 body {
   margin: 2rem auto;
   inline-size: min(90dvw, 40rem);
@@ -138,5 +129,38 @@ nav ul {
 button {
   background-color: transparent;
   border: 1px solid #1a1a1a;
+}
+
+.shiki {
+  white-space: pre-wrap;
+
+  padding: 1.25rem;
+
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
+}
+
+.shiki code {
+  display: block;
+}
+
+.shiki .highlighted,
+.shiki .diff {
+  display: inline-block;
+  inline-size: calc(100% + (2 * 1.25rem));
+  margin-inline-start: -1.25rem;
+  padding-inline: 1.25rem;
+}
+
+.shiki .highlighted.warning {
+  background-color: #ffedd9;
+}
+
+[data-theme="vitesse-dark"] .shiki .highlighted.warning {
+  background-color: #462c0f;
+}
+
+[data-theme="vitesse-black"] .shiki .highlighted.warning {
+  background-color: #3a2003;
 }
 </style>

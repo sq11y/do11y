@@ -4,6 +4,8 @@ import { parse as parseVue } from "vue/compiler-sfc";
 import { format } from "oxfmt";
 import { createHighlighter, bundledLanguages, bundledThemes } from "shiki";
 
+import { JSDOM } from "jsdom";
+
 import type { Plugin, ViteDevServer } from "vite";
 
 import { do11yOptions } from "../options.js";
@@ -29,6 +31,21 @@ export const highlightCode = (code: string, lang: string) => {
       transformerNotationHighlight(),
       transformerNotationDiff(),
       transformerNotationErrorLevel(),
+
+      ...do11yOptions.highlighter.transformers,
+
+      {
+        name: "do11y",
+        postprocess(html) {
+          const jsdom = new JSDOM(html);
+
+          const preTag = jsdom.window.document.querySelector("pre")!;
+
+          do11yOptions.highlighter.postprocess?.(preTag);
+
+          return preTag.parentElement!.innerHTML;
+        },
+      },
     ],
   });
 };
@@ -60,9 +77,11 @@ export default (): Plugin => {
     async load(id) {
       if (id === "\0dolly:css.css") {
         const generateThemeCss = (theme: string) => `
-          [data-theme="${theme}"] .shiki,
-          [data-theme="${theme}"] .shiki span {
+          [data-theme="${theme}"] .shiki {
             background-color: var(--shiki-${theme}-bg) !important;
+          }
+
+          [data-theme="${theme}"] .shiki span {
             color: var(--shiki-${theme}) !important;
           }
         `;

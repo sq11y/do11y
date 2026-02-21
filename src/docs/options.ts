@@ -28,10 +28,11 @@ const resolveOptions = async (): Promise<ResolvedOptions> => {
     ...options,
 
     highlighter: {
+      defaultTheme: options.highlighter?.defaultTheme || resolvedThemes[0],
       themes: options.highlighter?.themes ?? [],
       themesInput,
 
-      defaultTheme: options.highlighter?.defaultTheme || resolvedThemes[0],
+      transformers: options.highlighter?.transformers || [],
     },
   };
 };

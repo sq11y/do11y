@@ -1,7 +1,7 @@
 import type { Plugin } from "vite";
 import type { App, Component } from "vue";
 import type { Router } from "vue-router";
-import type { BundledTheme, StringLiteralUnion, ThemeInput } from "shiki";
+import type { BundledTheme, ShikiTransformer, StringLiteralUnion, ThemeInput } from "shiki";
 import type { MarkdownPluginOptions } from "./markdown.js";
 
 import { do11y } from "../files.js";
@@ -49,6 +49,8 @@ export interface Options extends MarkdownPluginOptions {
   highlighter?: {
     themes: (ThemeInput | StringLiteralUnion<BundledTheme, string>)[];
     defaultTheme?: string | StringLiteralUnion<BundledTheme, string>;
+    transformers?: ShikiTransformer[];
+    postprocess?: (pre: HTMLPreElement) => {};
   };
 }
 
@@ -57,6 +59,8 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
     themes: (ThemeInput | StringLiteralUnion<BundledTheme, string>)[];
     themesInput: Record<string, string>;
     defaultTheme: string;
+    transformers: ShikiTransformer[];
+    postprocess?: (pre: HTMLPreElement) => {};
   };
 }
 
