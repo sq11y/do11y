@@ -83,7 +83,7 @@ export default (): Plugin => {
          */
         if (viteDevServer?.config.command === "serve" || !id.endsWith("lang=css")) {
           return {
-            code: `export default \`${await highlightAndFormatCode(path, source)}\`;`,
+            code: `export default ${JSON.stringify(await highlightAndFormatCode(path, source))};`,
             moduleType: "js",
           };
         }
@@ -111,7 +111,7 @@ export default (): Plugin => {
           .join("\n");
 
         return {
-          code: `export default \`${await highlightAndFormatCode(path, sourceWithoutStyles + css)}\`;`,
+          code: `export default ${JSON.stringify(await highlightAndFormatCode(path, sourceWithoutStyles + css))};`,
           moduleType: "js",
         };
       }
