@@ -8,12 +8,12 @@ import { do11y } from "../files.js";
 
 export interface Options extends MarkdownPluginOptions {
   /**
-   * The home page component.
+   * The home page.
    */
   Home: () => Promise<Component>;
 
   /**
-   * The layout component for the documents.
+   * The layout for each route.
    */
   Layout?: () => Promise<Component>;
 
@@ -23,7 +23,7 @@ export interface Options extends MarkdownPluginOptions {
   setup?(app: App, router: Router): void | Promise<void>;
 
   /**
-   * The wrapper component for the sandbox.
+   * The wrapper component for sandboxes.
    */
   Sandbox?: () => Promise<Component>;
 
@@ -33,7 +33,7 @@ export interface Options extends MarkdownPluginOptions {
   setupSandbox?(app: App): void | Promise<void>;
 
   /**
-   * Custom wrapper component for `?iframe` imports.
+   * Custom wrapper component for `.vue.sandbox` imports.
    */
   SandboxIframe?: () => Promise<Component>;
 
