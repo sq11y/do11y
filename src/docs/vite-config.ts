@@ -4,7 +4,7 @@ import { loadConfigFromFile, type PluginOption, type Plugin, type UserConfig } f
 
 import type { Api } from "@vitejs/plugin-vue";
 
-import { docs, ui, output } from "./files.js";
+import { docs, ui, output, root } from "./files.js";
 import { plugins } from "./plugins/plugins.js";
 
 export const getUserViteConfig = async (command: "dev" | "build" | "preview") => {
@@ -62,6 +62,10 @@ export const viteConfig = {
 
   server: {
     port: 1998,
+
+    fs: {
+      allow: [ui, root],
+    },
   },
 
   preview: {
