@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "do11y example",
+    "dev": "do11y dev example",
     "build": "do11y build example",
     "build:components": "vite build",
     "preview": "do11y preview example"
