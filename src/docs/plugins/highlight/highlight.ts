@@ -68,7 +68,7 @@ export default (): Plugin => {
       viteDevServer = server;
     },
 
-    async load(id) {
+    async transform(id) {
       if (id.endsWith(".vue?highlight") || id.endsWith(".vue?highlight&lang=css")) {
         const path = id.replace("?highlight", "").replace("&lang=css", "");
 
@@ -82,7 +82,10 @@ export default (): Plugin => {
          * to compile the style tags to CSS.
          */
         if (viteDevServer?.config.command === "serve" || !id.endsWith("lang=css")) {
-          return `export default \`${await highlightAndFormatCode(path, source)}\`;`;
+          return {
+            code: `export default \`${await highlightAndFormatCode(path, source)}\`;`,
+            moduleType: "js",
+          };
         }
 
         const loadCss = async (index: number, lang: string) => {
@@ -107,7 +110,10 @@ export default (): Plugin => {
           .map((stylesheet) => `<style>${stylesheet}</style>`)
           .join("\n");
 
-        return `export default \`${await highlightAndFormatCode(path, sourceWithoutStyles + css)}\`;`;
+        return {
+          code: `export default \`${await highlightAndFormatCode(path, sourceWithoutStyles + css)}\`;`,
+          moduleType: "js",
+        };
       }
     },
   };
