@@ -1,6 +1,6 @@
 {
   "name": "do11y",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A bare-bones tool to document Vue components.",
   "keywords": [
     "docs-generator",
