@@ -48,3 +48,11 @@ declare module "*.vue?meta" {
 
   export default meta;
 }
+
+declare module "*.vue?highlight" {
+  import type { Meta } from "do11y";
+
+  const html: string;
+
+  export default html;
+}
