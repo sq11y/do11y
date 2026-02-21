@@ -18,9 +18,6 @@ catalogs:
     '@vue/tsconfig':
       specifier: ^0.8.1
       version: 0.8.1
-    sass:
-      specifier: ^1.97.3
-      version: 1.97.3
     typescript:
       specifier: ~5.9.3
       version: 5.9.3
@@ -53,15 +50,6 @@ importers:
       '@mdit-vue/plugin-sfc':
         specifier: ^3.0.2
         version: 3.0.2
-      '@shikijs/engine-oniguruma':
-        specifier: ^3.22.0
-        version: 3.22.0
-      '@shikijs/langs':
-        specifier: ^3.22.0
-        version: 3.22.0
-      '@shikijs/themes':
-        specifier: ^3.22.0
-        version: 3.22.0
       '@shikijs/transformers':
         specifier: ^3.22.0
         version: 3.22.0
@@ -83,9 +71,6 @@ importers:
       markdown-it-attrs:
         specifier: ^4.3.1
         version: 4.3.1(markdown-it@14.1.1)
-      sass:
-        specifier: 'catalog:'
-        version: 1.97.3
       shiki:
         specifier: ^3.22.0
         version: 3.22.0
@@ -151,7 +136,7 @@ importers:
         specifier: workspace:*
         version: link:..
       sass:
-        specifier: 'catalog:'
+        specifier: ^1.97.3
         version: 1.97.3
       v-custom-block:
         specifier: 'catalog:'
