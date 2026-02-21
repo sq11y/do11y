@@ -2,6 +2,9 @@
 
 A bare-bones tool to document Vue components.
 
+> [!WARNING]
+> This is a small personal project! I make a lot of component libraries for personal projects and I absolutely love, love, love writing documentation for components, and I intend for this to be a mix of some of the features I love from [VitePress](https://vitepress.dev) and [Histoire](https://histoire.dev). Issues and thoughts and contributions are very welcome! But it is, again, a _personal_ project 😊
+
 ## Features
 
 ### Markdown components with [@mdit-vue](https://github.com/mdit-vue/mdit-vue).
@@ -44,10 +47,10 @@ Document components through meta imports (`Button.vue?meta`) which give a simpli
 
 ## Options
 
-Expected to be in file `docs/do11y/do11y.ts`.
+Expected as the default export in `docs/do11y/do11y.ts`.
 
 ```ts
-export interface Options {
+interface Options {
   /**
    * The home page.
    */
