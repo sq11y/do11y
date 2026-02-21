@@ -2,6 +2,14 @@
   "name": "do11y",
   "version": "0.2.2",
   "description": "A bare-bones tool to document Vue components.",
+  "keywords": [
+    "docs-generator",
+    "markdown",
+    "shiki",
+    "story",
+    "vite",
+    "vue"
+  ],
   "license": "MIT",
   "repository": "github:sq11y/do11y",
   "bin": "./dist/docs/cli.js",
