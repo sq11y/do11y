@@ -26,9 +26,8 @@ declare module "do11y:options" {
 }
 
 declare module "do11y:css" {
-  /**
-   * The CSS required for dual themes.
-   */
+  const css: string;
+  export default string;
 }
 
 declare module "do11y:sandbox" {

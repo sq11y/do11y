@@ -10,11 +10,16 @@
 import { onBeforeMount, shallowRef, type Component } from "vue";
 
 import options from "do11y:options";
-import "do11y:css";
+import css from "do11y:css";
 
 const Layout = shallowRef<Component>();
 
 onBeforeMount(async () => {
   Layout.value = (await options.Layout?.())?.default;
+
+  const stylesheet = document.createElement("style");
+  stylesheet.innerHTML = css;
+
+  document.head.appendChild(stylesheet);
 });
 </script>
