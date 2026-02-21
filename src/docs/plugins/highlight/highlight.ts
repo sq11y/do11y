@@ -68,7 +68,7 @@ export default (): Plugin => {
       viteDevServer = server;
     },
 
-    async transform(id) {
+    async transform(_, id) {
       if (id.endsWith(".vue?highlight") || id.endsWith(".vue?highlight&lang=css")) {
         const path = id.replace("?highlight", "").replace("&lang=css", "");
 
