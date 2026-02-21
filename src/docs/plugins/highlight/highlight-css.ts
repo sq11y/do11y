@@ -9,18 +9,15 @@ import { do11yOptions } from "../../options.js";
 export default (): Plugin => ({
   name: "do11y:highlight-css",
 
-  async resolveId(id) {
+  resolveId(id) {
     if (id === "do11y:css") {
-      return "\0dolly:css.css";
+      return "\0dolly:css";
     }
   },
 
-  load: {
-    order: "post",
-
-    handler(id) {
-      if (id === "\0dolly:css.css") {
-        const generateThemeCss = (theme: string) => `
+  load(id) {
+    if (id === "\0dolly:css") {
+      const generateThemeCss = (theme: string) => `
         [data-theme="${theme}"] .shiki {
           background-color: var(--shiki-${theme}-bg) !important;
         }
@@ -30,11 +27,12 @@ export default (): Plugin => ({
         }
       `;
 
-        return Object.keys(do11yOptions.highlighter.themesInput)
-          .filter((theme) => do11yOptions.highlighter.defaultTheme !== theme)
-          .map((theme) => generateThemeCss(theme))
-          .join("\n");
-      }
-    },
+      const css = Object.keys(do11yOptions.highlighter.themesInput)
+        .filter((theme) => do11yOptions.highlighter.defaultTheme !== theme)
+        .map((theme) => generateThemeCss(theme))
+        .join("\n");
+
+      return `export default \`${css}\``;
+    }
   },
 });
