@@ -8,7 +8,7 @@ import markdown from "markdown-it";
 import type { PluginSimple } from "markdown-it";
 import type { Plugin } from "vite";
 
-import { highlightCode } from "./highlight.js";
+import { highlightCode } from "./highlight/highlight.js";
 
 export interface MarkdownPluginOptions {
   /**

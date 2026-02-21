@@ -8,7 +8,7 @@ import { JSDOM } from "jsdom";
 
 import type { Plugin, ViteDevServer } from "vite";
 
-import { do11yOptions } from "../options.js";
+import { do11yOptions } from "../../options.js";
 
 import {
   transformerNotationDiff,
@@ -62,35 +62,14 @@ export default (): Plugin => {
   let viteDevServer: ViteDevServer;
 
   return {
-    name: "do11y:shiki",
+    name: "do11y:highlight",
 
     configureServer(server) {
       viteDevServer = server;
     },
 
-    async resolveId(id) {
-      if (id === "do11y:css") {
-        return "\0dolly:css.css";
-      }
-    },
-
     async load(id) {
-      if (id === "\0dolly:css.css") {
-        const generateThemeCss = (theme: string) => `
-          [data-theme="${theme}"] .shiki {
-            background-color: var(--shiki-${theme}-bg) !important;
-          }
-
-          [data-theme="${theme}"] .shiki span {
-            color: var(--shiki-${theme}) !important;
-          }
-        `;
-
-        return Object.keys(do11yOptions.highlighter.themesInput)
-          .filter((theme) => do11yOptions.highlighter.defaultTheme !== theme)
-          .map((theme) => generateThemeCss(theme))
-          .join("\n");
-      } else if (id.endsWith(".vue?highlight") || id.endsWith(".vue?highlight&lang=css")) {
+      if (id.endsWith(".vue?highlight") || id.endsWith(".vue?highlight&lang=css")) {
         const path = id.replace("?highlight", "").replace("&lang=css", "");
 
         const source = readFileSync(path, "utf-8");

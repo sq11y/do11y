@@ -2,7 +2,8 @@ import type { Plugin } from "vite";
 
 import ui from "./ui.js";
 import sandbox from "./sandbox.js";
-import highlight from "./highlight.js";
+import highlightCss from "./highlight/highlight-css.js";
+import highlight from "./highlight/highlight.js";
 import meta from "./meta/meta.js";
 import markdown from "./markdown.js";
 import block from "v-custom-block";
@@ -14,6 +15,7 @@ import { do11yOptions } from "../options.js";
 export const plugins = (): Plugin[] => [
   ui(),
   sandbox(),
+  highlightCss(),
   highlight(),
   meta(),
 
