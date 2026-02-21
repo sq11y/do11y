@@ -49,7 +49,7 @@ const getUserPlugins = async (userViteConfig: UserConfig) => {
       ...vuePluginApi.options,
 
       include: [/\.vue$/, /\.md$/],
-      exclude: [/\.vue\?meta$/],
+      exclude: [/\.vue\?meta$/, /\.vue\?highlight$/, /\.vue\?highlight&lang=css$/],
     }),
 
     ...resolvedUserPlugins.filter((i) => i.name !== "vite:vue"),

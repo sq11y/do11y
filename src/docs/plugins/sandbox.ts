@@ -1,8 +1,6 @@
 import { join, parse } from "node:path";
-import { readFileSync } from "node:fs";
 
 import { globSync } from "tinyglobby";
-import { parse as parseVue } from "vue/compiler-sfc";
 
 import type { Plugin } from "vite";
 
@@ -51,46 +49,21 @@ export default (): Plugin => {
       }
     },
 
-    async transform(_, id) {
+    transform(_, id) {
       if (id.endsWith(".sandbox.vue")) {
-        const source = readFileSync(id, "utf-8");
-
-        const sourceWithoutStyles = source.replace(/\n<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
-
-        const { descriptor } = parseVue(source, {
-          filename: id,
-          ignoreEmpty: true,
-        });
-
-        const usesSass = descriptor.styles.some((s) => s.lang && ["sass", "scss"].includes(s.lang));
-
-        const imports = descriptor.styles
-          .map((_, i) => `import Css${i} from "${id}?vue&type=style&index=${i}&lang.scss?inline";`)
-          .join("");
-
-        const stylesheets = descriptor.styles.map((_, i) => `Css${i}`).join(", ");
-
         const code = `
           import { defineComponent, h } from "vue";
 
           import SandboxIframe from "${join(ui, "sandbox-iframe.js")}";
 
-          ${imports}
-
-          const sourceWithoutStyleTags = ${JSON.stringify(sourceWithoutStyles)};
-
-          const cssStylesheet = [${stylesheets}].join("");
-
-          const sourceWithStylesheet = !!cssStylesheet
-            ? sourceWithoutStyleTags + '<style>' + cssStylesheet + '</style>'
-            : sourceWithoutStyleTags;
+          import highlightedSource from "${id}?highlight";
+          import highlightedCssSource from "${id}?highlight&lang=css";
           
           export default defineComponent((props) => {
             return () => h(SandboxIframe, {
               id: "${toParamId(id)}",
-              source: ${JSON.stringify(source)},
-              sourceWithCompiledCss: ${usesSass ? "sourceWithStylesheet" : "undefined"},
-              passedProps: props,
+              highlightedSource,
+              highlightedCssSource,
             });
           });
         `.trim();

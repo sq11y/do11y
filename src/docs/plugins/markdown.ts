@@ -8,18 +8,13 @@ import markdown from "markdown-it";
 import type { PluginSimple } from "markdown-it";
 import type { Plugin } from "vite";
 
-import type MarkdownIt from "markdown-it";
+import { highlightCode } from "./highlight.js";
 
 export interface MarkdownPluginOptions {
   /**
    * Additional markdown-it setup.
    */
   markdownSetup?: PluginSimple;
-
-  /**
-   * The highlight option for `markdown-it`.
-   */
-  markdownHighlight?: (md: MarkdownIt, code: string, lang: string, attrs: string) => string;
 }
 
 export interface MarkdownItEnv {
@@ -43,8 +38,8 @@ export default (options?: MarkdownPluginOptions): Plugin => {
   const md = markdown({
     html: true,
 
-    highlight(code, lang, attrs): string {
-      return options?.markdownHighlight?.(md, code, lang, attrs) ?? "";
+    highlight(code, lang): string {
+      return highlightCode(code, lang);
     },
   });
 

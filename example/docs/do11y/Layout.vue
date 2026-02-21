@@ -13,15 +13,36 @@
     </ul>
   </nav>
 
+  <fieldset>
+    <legend>Code theme</legend>
+
+    <label>
+      <input v-model="theme" type="radio" value="vitesse-light" name="theme" />
+      Light
+    </label>
+    <label>
+      <input v-model="theme" type="radio" value="vitesse-dark" name="theme" />
+      Dark
+    </label>
+    <label>
+      <input v-model="theme" type="radio" value="vitesse-black" name="theme" />
+      Black
+    </label>
+  </fieldset>
+
   <main>
-    <article>
+    <article :data-theme="theme">
       <RouterView />
     </article>
   </main>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
+
 import routes from "do11y:routes";
+
+const theme = ref("vitesse-light");
 </script>
 
 <style>
@@ -30,6 +51,7 @@ html {
   scrollbar-width: thin;
 
   font-family: sans-serif;
+  accent-color: #4d9375;
 }
 
 *,
@@ -44,13 +66,13 @@ html {
   margin: 0;
 }
 
-:target {
-  scroll-margin-block: 2em;
-}
-
 a,
 button {
   cursor: pointer;
+}
+
+a {
+  color: #3d7f62;
 }
 
 button:disabled,
@@ -60,12 +82,27 @@ button[aria-disabled="true"] {
 
 pre {
   white-space: pre-wrap;
-  inline-size: 100%;
+
+  padding: 1.5rem;
+
+  border-radius: 0.5rem;
+  border: 1px solid #eee;
 }
 
 body {
   margin: 2rem auto;
   inline-size: min(90dvw, 40rem);
+
+  font-size: 1rem;
+}
+
+fieldset {
+  margin-block: 2rem;
+
+  display: flex;
+  gap: 1rem;
+
+  padding: 0.5rem 1rem;
 }
 
 nav ul {
@@ -75,14 +112,6 @@ nav ul {
 
   margin-block-end: 2rem;
   margin-inline-start: 1rem;
-}
-
-pre {
-  border-radius: 4px;
-  padding: 1rem;
-
-  background-color: #1a1a1a;
-  color: #fff;
 }
 
 /* Heading directly after another heading */

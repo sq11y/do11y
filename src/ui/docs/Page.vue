@@ -10,6 +10,7 @@
 import { onBeforeMount, shallowRef, type Component } from "vue";
 
 import options from "do11y:options";
+import "do11y:css";
 
 const Layout = shallowRef<Component>();
 

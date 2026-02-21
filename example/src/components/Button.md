@@ -29,7 +29,7 @@ slug: "/button"
 ## API
 
 ```
-{{meta}}
+{{ meta }}
 ```
 
 <style lang="scss">

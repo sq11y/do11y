@@ -3,43 +3,37 @@
 
   <label style="display: block; padding-block: 1rem">
     <input type="checkbox" v-model="showCSS" />
-    Show CSS when possible
+    Show CSS (does not work in development mode)
   </label>
 
-  <div>
-    <a :href="url" target="_blank" rel="noopener noreferrer">Open in a new tab</a>
+  <a :href="url" target="_blank" rel="noopener noreferrer">Open in a new tab</a>
 
-    <pre><code>{{ displayedSource }}</code></pre>
-  </div>
+  <div v-html="showCSS ? highlightedCssSource : highlightedSource" />
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
+
 import type { SandboxIframeProps } from "do11y";
 
-const props = defineProps<SandboxIframeProps & { title?: string }>();
+defineProps<SandboxIframeProps & { title?: string }>();
 
 const iframe = ref<HTMLIFrameElement>();
 
 const showCSS = ref(false);
-
-const displayedSource = computed(() => {
-  const source = showCSS.value ? props.sourceWithCompiledCss || props.source : props.source;
-  return source?.replace(/^(<!-- prettier-ignore -->)/, "").trim();
-});
 </script>
 
 <style scoped>
 iframe {
   border: none;
   width: 100%;
+
+  border-radius: 0.5rem;
 }
 
 a {
   float: right;
   clear: both;
-  margin: 0.75rem 1rem;
-
-  color: lightblue;
+  margin: 1rem;
 }
 </style>

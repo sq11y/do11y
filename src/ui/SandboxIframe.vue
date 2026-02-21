@@ -3,8 +3,8 @@
     v-if="IFrame"
     :id="id"
     :url="url"
-    :source="source"
-    :source-with-compiled-css="sourceWithCompiledCss"
+    :highlighted-source="highlightedSource"
+    :highlighted-css-source="highlightedCssSource"
     v-bind="passedProps"
   />
 
@@ -13,7 +13,6 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeMount, shallowRef, type Component } from "vue";
-
 import options from "do11y:options";
 
 import type { SandboxIframeProps } from "do11y";

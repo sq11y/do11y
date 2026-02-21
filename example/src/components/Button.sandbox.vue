@@ -2,7 +2,7 @@
 
 <template>
   <ExampleButton>
-    A blue button inside a sandbox
+    A green button inside a sandbox
   </ExampleButton>
 </template>
 
@@ -14,9 +14,9 @@ import ExampleButton from "./Button.vue";
 @use "../utils.scss";
 
 button {
-  color: darkblue;
-  border: 1px dashed darkblue;
-  background-color: lightblue;
+  color: #173f2e;
+  border: 1px dashed #173f2e;
+  background-color: #9ad3ba;
 
   @include utils.button;
 }

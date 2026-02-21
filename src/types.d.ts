@@ -25,6 +25,12 @@ declare module "do11y:options" {
   export default options;
 }
 
+declare module "do11y:css" {
+  /**
+   * The CSS required for dual themes.
+   */
+}
+
 declare module "do11y:sandbox" {
   import type { Component } from "vue";
 

@@ -25,7 +25,14 @@ export default defineConfig({
       treeshake: false,
       preserveEntrySignatures: "strict",
 
-      external: ["vue", "vue-router", "do11y:options", "do11y:routes", "do11y:sandbox"],
+      external: [
+        "vue",
+        "vue-router",
+        "do11y:options",
+        "do11y:css",
+        "do11y:routes",
+        "do11y:sandbox",
+      ],
     },
   },
 });

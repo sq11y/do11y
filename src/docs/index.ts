@@ -22,17 +22,18 @@ export interface SandboxIframeProps {
   url: string;
 
   /**
-   * The source code.
+   * HTML string containing the highlighted source code.
    *
    * @do11y Automatically passed.
    */
-  source?: string;
+  highlightedSource: string;
 
   /**
-   * The source code with compiled CSS.
-   * Only included if the style tag has lang `scss` or `sass`.
+   * HTML string containing the highlighted source code,
+   * with all the style tags compiled to CSS.
    *
    * @do11y Automatically passed.
+   * @caveat Only works in a built solution - during development this returns the same as `highlightedSource`.
    */
-  sourceWithCompiledCss?: string;
+  highlightedCssSource: string;
 }
