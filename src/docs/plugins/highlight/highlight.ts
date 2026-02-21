@@ -37,13 +37,15 @@ export const highlightCode = (code: string, lang: string) => {
       {
         name: "do11y",
         postprocess(html) {
-          const jsdom = new JSDOM(html);
+          if (do11yOptions.highlighter.postprocess) {
+            const jsdom = new JSDOM(html);
 
-          const preTag = jsdom.window.document.querySelector("pre")!;
+            const preTag = jsdom.window.document.querySelector("pre")!;
 
-          do11yOptions.highlighter.postprocess?.(preTag);
+            do11yOptions.highlighter.postprocess(preTag);
 
-          return preTag.parentElement!.innerHTML;
+            return preTag.parentElement!.innerHTML;
+          }
         },
       },
     ],
