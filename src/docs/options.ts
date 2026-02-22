@@ -33,6 +33,7 @@ const resolveOptions = async (): Promise<ResolvedOptions> => {
       themesInput,
 
       transformers: options.highlighter?.transformers || [],
+      postprocess: options.highlighter?.postprocess,
     },
   };
 };
