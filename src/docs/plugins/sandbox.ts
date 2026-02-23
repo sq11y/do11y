@@ -58,12 +58,14 @@ export default (): Plugin => {
 
           import highlightedSource from "${id}?highlight";
           import highlightedCssSource from "${id}?highlight&lang=css";
+          import highlightedStylelessSource from "${id}?highlight&styleless";
           
           export default defineComponent((props) => {
             return () => h(SandboxIframe, {
               id: "${toParamId(id)}",
               highlightedSource,
               highlightedCssSource,
+              highlightedStylelessSource,
             });
           });
         `.trim();

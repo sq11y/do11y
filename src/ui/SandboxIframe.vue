@@ -5,6 +5,7 @@
     :url="url"
     :highlighted-source="highlightedSource"
     :highlighted-css-source="highlightedCssSource"
+    :highlighted-styleless-source="highlightedStylelessSource"
     v-bind="passedProps"
   />
 

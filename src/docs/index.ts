@@ -30,6 +30,14 @@ export interface SandboxIframeProps {
 
   /**
    * HTML string containing the highlighted source code,
+   * without any of the style tags.
+   *
+   * @do11y Automatically passed.
+   */
+  highlightedStylelessSource: string;
+
+  /**
+   * HTML string containing the highlighted source code,
    * with all the style tags compiled to CSS.
    *
    * @do11y Automatically passed.

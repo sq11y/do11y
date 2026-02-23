@@ -71,10 +71,26 @@ export default (): Plugin => {
     },
 
     async transform(_, id) {
-      if (id.endsWith(".vue?highlight") || id.endsWith(".vue?highlight&lang=css")) {
-        const path = id.replace("?highlight", "").replace("&lang=css", "");
+      if (
+        id.endsWith(".vue?highlight") ||
+        id.endsWith(".vue?highlight&lang=css") ||
+        id.endsWith(".vue?highlight&styleless")
+      ) {
+        const path = id
+          .replace("?highlight", "")
+          .replace("&lang=css", "")
+          .replace("&styleless", "");
 
         const source = readFileSync(path, "utf-8");
+
+        const sourceWithoutStyles = source.replace(/\n<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
+
+        if (id.endsWith("styleless")) {
+          return {
+            code: `export default ${JSON.stringify(await highlightAndFormatCode(path, sourceWithoutStyles))};`,
+            moduleType: "js",
+          };
+        }
 
         /**
          * Getting the code from `load` does not work during development,
@@ -97,8 +113,6 @@ export default (): Plugin => {
 
           return code?.replace(/^(export default ")/, "").replace(/"$/, "");
         };
-
-        const sourceWithoutStyles = source.replace(/\n<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
 
         const stylesheets = parseVue(source).descriptor.styles.map((style, i) => {
           /* prettier-ignore */

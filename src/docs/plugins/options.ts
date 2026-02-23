@@ -40,7 +40,7 @@ export interface Options extends MarkdownPluginOptions {
   /**
    * The code highlighter.
    *   - Markdown code blocks
-   *   - `.vue?highlight` & `.vue?highlight&lang=css` imports
+   *   - `.vue?highlight`, `.vue?highlight&lang=css` & `.vue?highlight&styleless` imports
    *   - `highlightedSource` and `highlightedCssSource` props in SandboxIframe
    *
    * If using multiple themes - you can set the `data-theme` attribute
