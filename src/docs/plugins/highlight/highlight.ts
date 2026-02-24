@@ -26,6 +26,7 @@ export const highlightCode = (code: string, lang: string) => {
     lang,
     themes: do11yOptions.highlighter.themesInput,
     defaultColor: do11yOptions.highlighter.defaultTheme,
+    includeExplanation: true,
 
     transformers: [
       transformerNotationHighlight(),
