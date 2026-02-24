@@ -48,6 +48,66 @@ export const highlightCode = (code: string, lang: string) => {
           }
         },
       },
+
+      {
+        name: "remove-unwanted-comments",
+        tokens(tokens) {
+          const filter = do11yOptions.highlighter.removeComments;
+
+          if (filter === false) {
+            return tokens;
+          }
+
+          const result = [];
+
+          let previousLineWasRemoved = false;
+
+          for (const line of tokens) {
+            previousLineWasRemoved = false;
+
+            const filteredLine = [];
+
+            let hasComment = false;
+
+            for (const token of line) {
+              const isUnwantedComment = token.explanation?.some((exp) => {
+                const isComment = exp.scopes.some((s) => s.scopeName.startsWith("comment"));
+
+                if (!isComment) {
+                  return false;
+                }
+
+                return typeof filter === "boolean"
+                  ? true
+                  : filter.some((query) => exp.content.includes(query));
+              });
+
+              if (isUnwantedComment) {
+                hasComment = true;
+              } else {
+                filteredLine.push(token);
+              }
+            }
+
+            /**
+             * Remove lines that become empty after removing comments.
+             * Additionally, if the next line after a removed comment line is empty too - remove it.
+             */
+            if (hasComment || previousLineWasRemoved) {
+              const isAllWhitespace = filteredLine.every((token) => !token.content.trim());
+              previousLineWasRemoved = isAllWhitespace;
+
+              if (isAllWhitespace) {
+                continue;
+              }
+            }
+
+            result.push(filteredLine);
+          }
+
+          return result;
+        },
+      },
     ],
   });
 };

@@ -34,6 +34,7 @@ const resolveOptions = async (): Promise<ResolvedOptions> => {
 
       transformers: options.highlighter?.transformers || [],
       postprocess: options.highlighter?.postprocess,
+      removeComments: options.highlighter?.removeComments ?? ["prettier-ignore"],
     },
   };
 };

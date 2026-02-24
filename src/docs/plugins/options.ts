@@ -47,9 +47,42 @@ export interface Options extends MarkdownPluginOptions {
    * to switch between them, e.g. `data-theme="vitesse-light"`.
    */
   highlighter?: {
+    /**
+     * The available themes.
+     * The default shiki themes are always included.
+     */
     themes: (ThemeInput | StringLiteralUnion<BundledTheme, string>)[];
+
+    /**
+     * What the default theme should be.
+     * @default "The first theme in the array"
+     */
     defaultTheme?: string | StringLiteralUnion<BundledTheme, string>;
+
+    /**
+     * Custom transformers.
+     *
+     * These Shiki's default transformers are always included:
+     *   - transformerNotationHighlight
+     *   - transformerNotationDiff
+     *   - transformerNotationErrorLevel
+     */
     transformers?: ShikiTransformer[];
+
+    /**
+     * If comments should be filtered.
+     *   - Passing `true` removes all comments
+     *   - While `string[]` acts as a filter - removing comments that `include` any of these strings in them
+     *   - `false` keeps all comments
+     *
+     * @default ["prettier-ignore"]
+     */
+    removeComments?: boolean | string[];
+
+    /**
+     * If any postprocessing should be done.
+     * The element is a JSDOM HTMLPreElement.
+     */
     postprocess?: (pre: HTMLPreElement) => void;
   };
 }
@@ -60,6 +93,7 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
     themesInput: Record<string, string>;
     defaultTheme: string;
     transformers: ShikiTransformer[];
+    removeComments: boolean | string[];
     postprocess?: (pre: HTMLPreElement) => void;
   };
 }
