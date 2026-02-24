@@ -64,8 +64,6 @@ export const highlightCode = (code: string, lang: string) => {
           let previousLineWasRemoved = false;
 
           for (const line of tokens) {
-            previousLineWasRemoved = false;
-
             const filteredLine = [];
 
             let hasComment = false;
@@ -101,6 +99,8 @@ export const highlightCode = (code: string, lang: string) => {
               if (isAllWhitespace) {
                 continue;
               }
+            } else {
+              previousLineWasRemoved = false;
             }
 
             result.push(filteredLine);
