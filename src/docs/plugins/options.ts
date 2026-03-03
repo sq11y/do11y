@@ -38,10 +38,13 @@ export interface Options extends MarkdownPluginOptions {
   SandboxIframe?: () => Promise<Component>;
 
   /**
-   * Additional pages.
-   * Will be added as chilren to the `"/p"` route ("p" for page).
+   * Custom additional routes.
    */
-  pages?: RouteRecordRaw[];
+  routes?: (RouteRecordRaw & {
+    meta: {
+      title: string;
+    };
+  })[];
 
   /**
    * The code highlighter.

@@ -52,11 +52,6 @@ export default (): Plugin => {
           slug: "/",
         };
 
-        const pageMeta = {
-          title: "Pages",
-          slug: "/p",
-        };
-
         return `
           import options from 'do11y:options';
 
@@ -68,14 +63,17 @@ export default (): Plugin => {
             component: options.Home
           };
 
-          const pages = {
-            path: "/p",
-            meta: ${JSON.stringify(pageMeta)},
-            component: RouterView,
-            children: options.pages ?? []
-          };
+          const customRoutes = (options.routes ?? []).map(page => ({
+            ...page,
+
+            meta: {
+              slug: page.path,
+
+              ...page.meta,
+            }
+          }))
  
-          export default [home, pages, ${stringifiedRoutes.join(",\n")}];
+          export default [home, ...customRoutes, ${stringifiedRoutes.join(",\n")}];
         `;
       }
     },
