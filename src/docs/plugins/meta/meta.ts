@@ -39,7 +39,9 @@ export default (): Plugin => {
     noDeclarations: true,
   });
 
-  const md = markdown();
+  const md = markdown({
+    html: true,
+  });
 
   return {
     name: "do11y:meta",
