@@ -1,6 +1,6 @@
 import type { Plugin } from "vite";
 import type { App, Component } from "vue";
-import type { Router } from "vue-router";
+import type { Router, RouteRecordRaw } from "vue-router";
 import type { BundledTheme, ShikiTransformer, StringLiteralUnion, ThemeInput } from "shiki";
 import type { MarkdownPluginOptions } from "./markdown.js";
 
@@ -36,6 +36,12 @@ export interface Options extends MarkdownPluginOptions {
    * Custom wrapper component for `.vue.sandbox` imports.
    */
   SandboxIframe?: () => Promise<Component>;
+
+  /**
+   * Additional pages.
+   * Will be added as chilren to the `"/p"` route ("p" for page).
+   */
+  pages?: RouteRecordRaw[];
 
   /**
    * The code highlighter.

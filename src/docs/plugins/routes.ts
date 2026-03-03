@@ -52,8 +52,15 @@ export default (): Plugin => {
           slug: "/",
         };
 
+        const pageMeta = {
+          title: "Pages",
+          slug: "/p",
+        };
+
         return `
           import options from 'do11y:options';
+
+          import { RouterView } from 'vue-router';
 
           const home = {
             path: "/",
@@ -61,7 +68,14 @@ export default (): Plugin => {
             component: options.Home
           };
 
-          export default [home, ${stringifiedRoutes.join(",\n")}];
+          const pages = {
+            path: "/p",
+            meta: ${JSON.stringify(pageMeta)},
+            component: RouterView,
+            children: options.pages ?? []
+          };
+ 
+          export default [home, pages, ${stringifiedRoutes.join(",\n")}];
         `;
       }
     },

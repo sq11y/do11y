@@ -5,10 +5,19 @@
         <router-link to="/">Do11y</router-link>
       </li>
 
-      <li v-for="route of routes.filter((route) => route.meta.slug !== '/')" :key="route.path">
+      <li
+        v-for="route of routes.filter(
+          (route) => route.meta.slug !== '/' && route.meta.slug !== '/p',
+        )"
+        :key="route.path"
+      >
         <router-link :to="route.path">
           {{ route.meta.title }}
         </router-link>
+      </li>
+
+      <li>
+        <router-link to="/p/overview"> Overview </router-link>
       </li>
     </ul>
   </nav>

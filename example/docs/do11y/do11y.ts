@@ -5,4 +5,11 @@ export default {
   Layout: () => import("./Layout.vue"),
   Sandbox: () => import("./Sandbox.vue"),
   SandboxIframe: () => import("./SandboxIframe.vue"),
+
+  pages: [
+    {
+      path: "overview",
+      component: () => import("./pages/Overview.vue"),
+    },
+  ],
 } satisfies Options;
