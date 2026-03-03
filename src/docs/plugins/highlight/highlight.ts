@@ -36,7 +36,7 @@ export const highlightCode = (code: string, lang: string) => {
       ...do11yOptions.highlighter.transformers,
 
       {
-        name: "do11y",
+        name: "do11y:postprocess",
         postprocess(html) {
           if (do11yOptions.highlighter.postprocess) {
             const jsdom = new JSDOM(html);
@@ -51,7 +51,7 @@ export const highlightCode = (code: string, lang: string) => {
       },
 
       {
-        name: "remove-unwanted-comments",
+        name: "do11y:remove-unwanted-comments",
         tokens(tokens) {
           const filter = do11yOptions.highlighter.removeComments;
 
