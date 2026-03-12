@@ -13,9 +13,9 @@ Markdown files are treated as single file Vue components with the help of [@mdit
 
 You can customize the markdown-it instance through the `markdownSetup` option.
 
-### Import markdown route files as routes through `do11y:routes`
+### Import markdown route files and pages as routes through `do11y:routes`
 
-To include a markdown file as a route it needs to have a `title` and a `slug` (e.g. `/button`) in it's frontmatter.
+To include a markdown file as a route it needs to have a `title` and a `slug` (e.g. `/button`) in it's frontmatter. Or add it inside the `docs/do11y/pages` folder.
 
 ### [Shiki](https://shiki.style) code highlighting
 

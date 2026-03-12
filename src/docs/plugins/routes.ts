@@ -1,15 +1,19 @@
-import { readFileSync } from "node:fs";
+import { basename, join, parse } from "node:path";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { globSync } from "tinyglobby";
 
 import type { Plugin } from "vite";
 
-import { root } from "../files.js";
+import { root, do11y } from "../files.js";
 
 import fm from "front-matter";
+import { toParamId } from "./sandbox.js";
 
 /**
- * Adds the ability to import routes (`*.md` files with
- * a `title` and `slug`) through `do11y:routes`.
+ * Adds the ability to import routes through `do11y:routes`.
+ *
+ * Routes refer to `*.md` files with a`title` and `slug`
+ * or components inside `docs/do11y/pages`.
  */
 export default (): Plugin => {
   const moduleId = "do11y:routes";
@@ -24,9 +28,14 @@ export default (): Plugin => {
   });
 
   /* prettier-ignore */
-  const pages = markdownFiles
+  const routes = markdownFiles
     .map((path) => ({ path, frontmatter: fm(readFileSync(path, "utf-8")).attributes as Record<string, unknown> }))
     .filter((file) => typeof file.frontmatter.title === "string" && typeof file.frontmatter.slug === "string");
+
+  /* prettier-ignore */
+  const pages = existsSync(join(do11y, "pages"))
+    ? readdirSync(join(do11y, "pages")).filter((page) => page !== "Home.vue" && (page.endsWith(".md") || page.endsWith(".vue")))
+    : [];
 
   return {
     name: "do11y:routes",
@@ -39,7 +48,7 @@ export default (): Plugin => {
 
     load(id) {
       if (id === resolvedModuleId) {
-        const stringifiedRoutes = pages.map((route) => {
+        const stringifiedRoutes = routes.map((route) => {
           return `{
             path: "${route.frontmatter.slug}",
             meta: ${JSON.stringify(route.frontmatter)},
@@ -47,10 +56,20 @@ export default (): Plugin => {
           }`.trim();
         });
 
-        const homeMeta = {
-          title: "Home",
-          slug: "/",
-        };
+        const stringifiedPages = pages.map((page) => {
+          const title = parse(page).name;
+          const slug = `/p/${toParamId(title)}`;
+
+          return `{
+            path: "${slug}",
+            component: async () => (await import("${join(do11y, "pages", page)}")).default,
+
+            meta: {
+              slug: "${slug}",
+              title: "${title}",
+            },
+          }`.trim();
+        });
 
         return `
           import Home from 'do11y:home';
@@ -60,8 +79,12 @@ export default (): Plugin => {
 
           const homeRoute = {
             path: "/",
-            meta: ${JSON.stringify(homeMeta)},
-            component: Home
+            component: Home,
+
+            meta:  {
+              title: "Home",
+              slug: "/",
+            }
           };
 
           const customRoutes = (options.routes ?? []).map(page => ({
@@ -69,12 +92,11 @@ export default (): Plugin => {
 
             meta: {
               slug: page.path,
-
               ...page.meta,
             }
           }))
  
-          export default [homeRoute, ...customRoutes, ${stringifiedRoutes.join(",\n")}];
+          export default [homeRoute, ${stringifiedPages.join(",\n")}, ${stringifiedRoutes.join(",\n")}];
         `;
       }
     },

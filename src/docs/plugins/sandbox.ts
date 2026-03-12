@@ -7,7 +7,8 @@ import type { Plugin } from "vite";
 import { root, ui } from "../files.js";
 import { indexHtml } from "../html/plugin.js";
 
-const toParamId = (path: string) => parse(path).name.toLowerCase().replace(".sandbox", "");
+export const toParamId = (path: string) =>
+  parse(path).name.toLowerCase().replace(".sandbox", "").replace(".vue", "");
 
 /**
  * Creates a seprate sandbox app, and

@@ -31,15 +31,6 @@ export interface Options extends MarkdownPluginOptions {
   SandboxIframe?: () => Promise<Component>;
 
   /**
-   * Custom additional routes.
-   */
-  routes?: (RouteRecordRaw & {
-    meta: {
-      title: string;
-    };
-  })[];
-
-  /**
    * The code highlighter.
    *   - Markdown code blocks
    *   - `.vue?highlight`, `.vue?highlight&lang=css` & `.vue?highlight&styleless` imports
