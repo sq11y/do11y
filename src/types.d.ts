@@ -25,9 +25,15 @@ declare module "do11y:options" {
   export default options;
 }
 
+declare module "do11y:home" {
+  import type { Component } from "vue";
+  const home: Component | undefined;
+  export default home;
+}
+
 declare module "do11y:layout" {
   import type { Component } from "vue";
-  const layout: Component;
+  const layout: Component | undefined;
   export default layout;
 }
 

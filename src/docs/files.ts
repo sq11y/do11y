@@ -14,4 +14,4 @@ export const docs = join(root, "docs");
 
 export const output = join(docs, "dist");
 
-export const do11y = join(docs, "do11y", "do11y.ts");
+export const do11y = join(docs, "do11y");

@@ -1,4 +1,5 @@
-import { existsSync } from "fs";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 import type { Plugin } from "vite";
 import type { App, Component } from "vue";
@@ -9,11 +10,6 @@ import type { MarkdownPluginOptions } from "./markdown.js";
 import { do11y } from "../files.js";
 
 export interface Options extends MarkdownPluginOptions {
-  /**
-   * The home page.
-   */
-  Home: () => Promise<Component>;
-
   /**
    * Additional setup for the app.
    */
@@ -106,18 +102,28 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
 
 /**
  * Add ability to access options (`docs/do11y/do11y.ts`)
- * through `do11y:options`, and the layout component through `do11y:layout`.
+ * through `do11y:options`, the home component through `do11y:home`,
+ * and the layout component through `do11y:layout`.
  */
 export default (): Plugin => ({
   name: "do11y:options",
 
   async resolveId(id, importer) {
     if (id === "do11y:options") {
-      return this.resolve(do11y.replace(".ts", ".js"), importer);
+      return this.resolve(join(do11y, "do11y.js"), importer);
+    }
+
+    if (id === "do11y:home") {
+      const homeFile = join(do11y, "pages", "Home.vue");
+
+      /* prettier-ignore */
+      return existsSync(homeFile) 
+        ? this.resolve(homeFile, importer)
+        : `\0do11y:home`;
     }
 
     if (id === "do11y:layout") {
-      const layoutFile = do11y.replace("do11y.ts", "Layout.vue");
+      const layoutFile = join(do11y, "Layout.vue");
 
       /* prettier-ignore */
       return existsSync(layoutFile) 
@@ -127,7 +133,7 @@ export default (): Plugin => ({
   },
 
   async load(id) {
-    if (id === `\0do11y:layout`) {
+    if (id === `\0do11y:home` || id === `\0do11y:layout`) {
       return {
         code: "export default undefined",
         moduleType: "js",

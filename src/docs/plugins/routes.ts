@@ -53,14 +53,15 @@ export default (): Plugin => {
         };
 
         return `
+          import Home from 'do11y:home';
           import options from 'do11y:options';
 
           import { RouterView } from 'vue-router';
 
-          const home = {
+          const homeRoute = {
             path: "/",
             meta: ${JSON.stringify(homeMeta)},
-            component: options.Home
+            component: Home
           };
 
           const customRoutes = (options.routes ?? []).map(page => ({
@@ -73,7 +74,7 @@ export default (): Plugin => {
             }
           }))
  
-          export default [home, ...customRoutes, ${stringifiedRoutes.join(",\n")}];
+          export default [homeRoute, ...customRoutes, ${stringifiedRoutes.join(",\n")}];
         `;
       }
     },
