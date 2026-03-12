@@ -11,6 +11,8 @@ import options from "./options.js";
 import routes from "./routes.js";
 
 import { do11yOptions } from "../options.js";
+import { do11y } from "../files.js";
+import { existsSync } from "fs";
 
 export const plugins = (): Plugin[] => [
   ui(),

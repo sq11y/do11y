@@ -1,3 +1,5 @@
+import { existsSync } from "fs";
+
 import type { Plugin } from "vite";
 import type { App, Component } from "vue";
 import type { Router, RouteRecordRaw } from "vue-router";
@@ -11,11 +13,6 @@ export interface Options extends MarkdownPluginOptions {
    * The home page.
    */
   Home: () => Promise<Component>;
-
-  /**
-   * The layout for each route.
-   */
-  Layout?: () => Promise<Component>;
 
   /**
    * Additional setup for the app.
@@ -109,7 +106,7 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
 
 /**
  * Add ability to access options (`docs/do11y/do11y.ts`)
- * through `do11y:options`.
+ * through `do11y:options`, and the layout component through `do11y:layout`.
  */
 export default (): Plugin => ({
   name: "do11y:options",
@@ -117,6 +114,24 @@ export default (): Plugin => ({
   async resolveId(id, importer) {
     if (id === "do11y:options") {
       return this.resolve(do11y.replace(".ts", ".js"), importer);
+    }
+
+    if (id === "do11y:layout") {
+      const layoutFile = do11y.replace("do11y.ts", "Layout.vue");
+
+      /* prettier-ignore */
+      return existsSync(layoutFile) 
+        ? this.resolve(layoutFile, importer)
+        : `\0do11y:layout`;
+    }
+  },
+
+  async load(id) {
+    if (id === `\0do11y:layout`) {
+      return {
+        code: "export default undefined",
+        moduleType: "js",
+      };
     }
   },
 });

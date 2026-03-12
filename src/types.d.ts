@@ -25,6 +25,12 @@ declare module "do11y:options" {
   export default options;
 }
 
+declare module "do11y:layout" {
+  import type { Component } from "vue";
+  const layout: Component;
+  export default layout;
+}
+
 declare module "do11y:css" {
   const css: string;
   export default string;

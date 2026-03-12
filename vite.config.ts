@@ -30,6 +30,7 @@ export default defineConfig({
         "vue-router",
         "do11y:options",
         "do11y:css",
+        "do11y:layout",
         "do11y:routes",
         "do11y:sandbox",
       ],
