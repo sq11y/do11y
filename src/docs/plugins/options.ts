@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 import type { Plugin } from "vite";
 import type { App, Component } from "vue";
-import type { Router, RouteRecordRaw } from "vue-router";
+import type { Router } from "vue-router";
 import type { BundledTheme, ShikiTransformer, StringLiteralUnion, ThemeInput } from "shiki";
 import type { MarkdownPluginOptions } from "./markdown.js";
 
