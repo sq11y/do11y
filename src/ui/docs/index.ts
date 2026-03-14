@@ -10,6 +10,25 @@ import _ from "./Page.vue";
   const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes,
+
+    scrollBehavior(to, from, savedPosition) {
+      if (!to.hash) {
+        return;
+      }
+
+      const anchor = document.querySelector(to.hash);
+
+      if (!anchor) {
+        return;
+      }
+
+      const marginTop = parseFloat(getComputedStyle(anchor).scrollMarginTop);
+
+      return {
+        el: to.hash,
+        top: isNaN(marginTop) ? (savedPosition?.top ?? 0) : marginTop,
+      };
+    },
   });
 
   const app = createApp(_);
