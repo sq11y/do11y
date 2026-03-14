@@ -31,7 +31,7 @@ declare module "do11y:home" {
   export default home;
 }
 
-declare module "do11y:layout" {
+declare module "do11y:page-layout" {
   import type { Component } from "vue";
   const layout: Component | undefined;
   export default layout;

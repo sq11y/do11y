@@ -94,7 +94,7 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
 /**
  * Add ability to access options (`docs/do11y/do11y.ts`)
  * through `do11y:options`, the home component through `do11y:home`,
- * and the layout component through `do11y:layout`.
+ * and the layout component through `do11y:page-layout`.
  */
 export default (): Plugin => ({
   name: "do11y:options",
@@ -113,18 +113,18 @@ export default (): Plugin => ({
         : `\0do11y:home`;
     }
 
-    if (id === "do11y:layout") {
-      const layoutFile = join(do11y, "Layout.vue");
+    if (id === "do11y:page-layout") {
+      const pageLayoutFile = join(do11y, "layout", "Page.vue");
 
       /* prettier-ignore */
-      return existsSync(layoutFile) 
-        ? this.resolve(layoutFile, importer)
-        : `\0do11y:layout`;
+      return existsSync(pageLayoutFile) 
+        ? this.resolve(pageLayoutFile, importer)
+        : `\0do11y:page-layout`;
     }
   },
 
   async load(id) {
-    if (id === `\0do11y:home` || id === `\0do11y:layout`) {
+    if (id === `\0do11y:home` || id === `\0do11y:page-layout`) {
       return {
         code: "export default undefined",
         moduleType: "js",

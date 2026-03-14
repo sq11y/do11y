@@ -6,7 +6,7 @@
 <script lang="ts" setup>
 import { onBeforeMount } from "vue";
 
-import Layout from "do11y:layout";
+import Layout from "do11y:page-layout";
 import css from "do11y:css";
 
 onBeforeMount(async () => {

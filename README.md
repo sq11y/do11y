@@ -49,9 +49,9 @@ Document components through meta imports (`Button.vue?meta`) which give a simpli
 
 Expected as the default export in `docs/do11y/do11y.ts`.
 
-You can specify a layout for each page by adding a `docs/do11y/Layout.vue` file with a `<RouterView />` in it.
+You can specify a layout for each page by adding a `docs/do11y/layout/Page.vue` file with a `<RouterView />` in it.
 
-And you can set the home page by adding `docs/do11y/Home.vue`.
+And you can set the home page by adding `docs/do11y/pages/Home.vue`.
 
 ```ts
 interface Options {
