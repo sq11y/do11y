@@ -11,7 +11,7 @@
   "dependencies": {
     "@vitejs/plugin-vue": "catalog:",
     "do11y": "workspace:*",
-    "sass": "^1.97.3",
+    "sass": "^1.98.0",
     "v-custom-block": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
