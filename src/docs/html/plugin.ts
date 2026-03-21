@@ -10,9 +10,11 @@ export const indexHtml = (folder: string, key: "index" | "sandbox"): Omit<Plugin
   writeBundle() {
     const html = render(`/assets/${key}.js`, `/assets/${key}.css`);
 
-    const indexHtmlFile = join(output, `${key}.html`);
+    writeFileSync(join(output, `${key}.html`), html);
 
-    writeFileSync(indexHtmlFile, html);
+    if (key === "index") {
+      writeFileSync(join(output, "404.html"), html);
+    }
   },
 
   configureServer(server) {
