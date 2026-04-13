@@ -9,19 +9,19 @@ A bare-bones tool to document Vue components.
 
 ### Markdown components with [@mdit-vue](https://github.com/mdit-vue/mdit-vue).
 
+> Customizable through the options `markdownSetup` and `markdownCodeBlock`.
+
 Markdown files are treated as single file Vue components with the help of [@mdit-vue](https://github.com/mdit-vue/mdit-vue).
 
-You can customize the markdown-it instance through the `markdownSetup` option.
+### Markdown routes available through `do11y:routes`
 
-### Import markdown route files and pages as routes through `do11y:routes`
-
-To include a markdown file as a route it needs to have a `title` and a `slug` (e.g. `/button`) in it's frontmatter. Or add it inside the `docs/do11y/pages` folder.
+To include a markdown file as a route it needs to have a `title` and a `slug` (e.g. `/button`) in it's frontmatter, or it needs to be placed inside `docs/do11y/pages`.
 
 ### [Shiki](https://shiki.style) code highlighting
 
-Code blocks are automatically highlighted with [Shiki](https://shiki.style).
+> Customizable through the `highlighter` option.
 
-You can customize the Shiki instance through the `highlighter` options.
+Code blocks are automatically highlighted with [Shiki](https://shiki.style).
 
 ### Highlight imports
 
@@ -30,28 +30,50 @@ You can import Vue files as highlighted code blocks through `.vue?highlight`, or
 These imports return HTML strings meaning you have to render the code block using `v-html`.
 
 > [!WARNING]
-> Imports of type `.vue?highlight&lang=css` only work on built sites. During development it will return the same result as `.vue?highlight`.
+> Imports of type `.vue?highlight&lang=css` only work on _built_ sites. During development it will return the same result as `.vue?highlight`.
 
 ### Sandboxes
 
-Create sandbox components - e.g. `Button.sandbox.vue` will be available under the url `/sandbox?id=button`, and if importing the component it will be wrapped inside an iframe component that has access to the components `?highlight` imports.
+> To customize the Sandbox app add a custom `docs/do11y/pages/Sandbox.vue` wrapper component and/or use the `setupSandbox` option.
 
-To customize the sandbox app, use the `Sandbox` option - and to cutomize the iframe component used for import, use the `SandboxIframe` option.
+Turn a component into a sandbox by adding a `.sandbox` prefix to the component name, e.g. `Button.sandbox.vue` will be available under the url `/sandbox?id=button`, and when importing the component it will be wrapped inside an iframe.
 
 > [!NOTE]
-> The id is based on the filename - not the path to the file - this means if you have two sandbox files of the same name in different locations - they won't both work.
+> The id of a sandbox component is based on the filename - not the path - this means every sandbox component must have a unique name.
+
+#### Sandbox Iframe
+
+> To customize the Sandbox app add a custom `docs/do11y/layout/SandboxIframe.vue` wrapper component.
+
+The sandbox iframe component has some props automatically passed to it - you can use the `SandboxIframeProps` type to declare these.
+
+```vue
+<template>
+  <iframe ref="iframe" :title="`Sandbox for ${title || id}`" :src="url" />
+</template>
+
+<script lang="ts" setup>
+import type { SandboxIframeProps } from "do11y";
+
+defineProps<SandboxIframeProps & { title?: string }>();
+</script>
+```
 
 ### Document components with [vue-component-meta](https://www.npmjs.com/package/vue-component-meta)
 
-Document components through meta imports (`Button.vue?meta`) which give a simplified version of a result from [vue-component-meta](https://www.npmjs.com/package/vue-component-meta).
+Document components through meta imports (`Button.vue?meta`) which give a simplified version of the result from [vue-component-meta](https://www.npmjs.com/package/vue-component-meta).
 
 ## Options
 
-Expected as the default export in `docs/do11y/do11y.ts`.
+> Options should be the default export of `docs/do11y/do11y.ts`.
 
-You can specify a layout for each page by adding a `docs/do11y/layout/Page.vue` file with a `<RouterView />` in it.
+You can set the home page by adding a `docs/do11y/pages/Home.vue` file, and you can add a layout for each page in `docs/do11y/layout/Page.vue` using `<RouterView />`.
 
-And you can set the home page by adding `docs/do11y/pages/Home.vue`.
+```ts
+import type { Options } from "do11y";
+
+export default {} satisfies Options;
+```
 
 ```ts
 interface Options {
@@ -61,19 +83,9 @@ interface Options {
   setup?(app: App, router: Router): void | Promise<void>;
 
   /**
-   * The wrapper component for sandboxes.
-   */
-  Sandbox?: () => Promise<Component>;
-
-  /**
    * Additional setup for the sandbox app.
    */
   setupSandbox?(app: App): void | Promise<void>;
-
-  /**
-   * Custom wrapper component for `.vue.sandbox` imports.
-   */
-  SandboxIframe?: () => Promise<Component>;
 
   /**
    * The code highlighter.
