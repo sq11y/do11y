@@ -1,13 +1,13 @@
-import { basename, join, parse } from "node:path";
+import { join, parse } from "node:path";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { globSync } from "tinyglobby";
 
 import type { Plugin } from "vite";
 
 import { root, do11y } from "../files.js";
+import { toParamId } from "./sandbox.js";
 
 import fm from "front-matter";
-import { toParamId } from "./sandbox.js";
 
 /**
  * Adds the ability to import routes through `do11y:routes`.
@@ -74,8 +74,6 @@ export default (): Plugin => {
         return `
           import Home from 'do11y:home';
           import options from 'do11y:options';
-
-          import { RouterView } from 'vue-router';
 
           const homeRoute = {
             path: "/",
