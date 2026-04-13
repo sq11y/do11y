@@ -8,19 +8,16 @@
 import { onBeforeMount, shallowRef, type Component } from "vue";
 import { parseQuery } from "vue-router";
 
-import sandbox from "do11y:sandbox";
-import options from "do11y:options";
+import sandboxes from "do11y:sandboxes";
+import Layout from "do11y:sandbox";
 
 const query = parseQuery(window.location.search);
-
-const Layout = shallowRef<Component>();
 
 const DynamicComponent = shallowRef<Component>();
 
 onBeforeMount(async () => {
-  const { component } = sandbox.find(({ url }) => url === query.id) ?? {};
+  const { component } = sandboxes.find(({ url }) => url === query.id) ?? {};
 
-  Layout.value = (await options.Sandbox?.())?.default;
   DynamicComponent.value = await component?.();
 });
 </script>

@@ -33,9 +33,11 @@ export default (): Plugin => {
     .filter((file) => typeof file.frontmatter.title === "string" && typeof file.frontmatter.slug === "string");
 
   /* prettier-ignore */
-  const pages = existsSync(join(do11y, "pages"))
+  let pages = existsSync(join(do11y, "pages"))
     ? readdirSync(join(do11y, "pages")).filter((page) => page !== "Home.vue" && (page.endsWith(".md") || page.endsWith(".vue")))
     : [];
+
+  pages = pages.filter((page) => page !== "Sandbox.vue");
 
   return {
     name: "do11y:routes",
@@ -85,7 +87,7 @@ export default (): Plugin => {
             }
           };
 
-          const customRoutes = (options.routes ?? []).map(page => ({
+          const customRoutes = (options?.routes ?? []).map(page => ({
             ...page,
 
             meta: {

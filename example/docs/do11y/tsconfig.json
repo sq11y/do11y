@@ -3,6 +3,6 @@
   "include": ["**/*", "../../src/**/*"],
 
   "compilerOptions": {
-    "types": ["do11y/types"]
-  }
+    "types": ["do11y/types"],
+  },
 }

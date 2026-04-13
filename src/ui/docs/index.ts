@@ -33,7 +33,7 @@ import _ from "./Page.vue";
 
   const app = createApp(_);
 
-  await options.setup?.(app, router);
+  await options?.setup?.(app, router);
 
   app.use(router);
 

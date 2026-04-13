@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 
 import type { Plugin } from "vite";
-import type { App, Component } from "vue";
+import type { App } from "vue";
 import type { Router } from "vue-router";
 import type { BundledTheme, ShikiTransformer, StringLiteralUnion, ThemeInput } from "shiki";
 import type { MarkdownPluginOptions } from "./markdown.js";
@@ -16,19 +16,9 @@ export interface Options extends MarkdownPluginOptions {
   setup?(app: App, router: Router): void | Promise<void>;
 
   /**
-   * The wrapper component for sandboxes.
-   */
-  Sandbox?: () => Promise<Component>;
-
-  /**
    * Additional setup for the sandbox app.
    */
   setupSandbox?(app: App): void | Promise<void>;
-
-  /**
-   * Custom wrapper component for `.vue.sandbox` imports.
-   */
-  SandboxIframe?: () => Promise<Component>;
 
   /**
    * The code highlighter.
@@ -92,43 +82,46 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
 }
 
 /**
- * Add ability to access options (`docs/do11y/do11y.ts`)
- * through `do11y:options`, the home component through `do11y:home`,
- * and the layout component through `do11y:page-layout`.
+ * Adds the ability to import options and setup files.
+ *
+ * `do11y:options` → `docs/do11y/do11y.ts`
+ *
+ * `do11y:home` → `docs/do11y/pages/Home.vue`
+ * `do11y:page-layout` → `docs/do11y/layout/Page.vue`
+ *
+ * `do11y:sandbox` → `docs/do11y/pages/Sandbox.vue`
+ * `do11y:sandbox-iframe` → `docs/do11y/layout/SandboxIframe.vue`
  */
-export default (): Plugin => ({
-  name: "do11y:options",
+export default (): Plugin => {
+  const setupFiles: Record<string, string> = {
+    "do11y:options": join(do11y, "do11y.js"),
 
-  async resolveId(id, importer) {
-    if (id === "do11y:options") {
-      return this.resolve(join(do11y, "do11y.js"), importer);
-    }
+    "do11y:home": join(do11y, "pages", "Home.vue"),
+    "do11y:page-layout": join(do11y, "layout", "Page.vue"),
 
-    if (id === "do11y:home") {
-      const homeFile = join(do11y, "pages", "Home.vue");
+    "do11y:sandbox": join(do11y, "pages", "Sandbox.vue"),
+    "do11y:sandbox-iframe": join(do11y, "layout", "SandboxIframe.vue"),
+  };
 
-      /* prettier-ignore */
-      return existsSync(homeFile) 
-        ? this.resolve(homeFile, importer)
-        : `\0do11y:home`;
-    }
+  return {
+    name: "do11y:options",
 
-    if (id === "do11y:page-layout") {
-      const pageLayoutFile = join(do11y, "layout", "Page.vue");
+    async resolveId(id, importer) {
+      if (Object.keys(setupFiles).includes(id)) {
+        /* prettier-ignore */
+        return existsSync(setupFiles[id])
+          ? this.resolve(setupFiles[id], importer)
+          : `\0${id}`;
+      }
+    },
 
-      /* prettier-ignore */
-      return existsSync(pageLayoutFile) 
-        ? this.resolve(pageLayoutFile, importer)
-        : `\0do11y:page-layout`;
-    }
-  },
-
-  async load(id) {
-    if (id === `\0do11y:home` || id === `\0do11y:page-layout`) {
-      return {
-        code: "export default undefined",
-        moduleType: "js",
-      };
-    }
-  },
-});
+    async load(id) {
+      if (id.startsWith("\0") && Object.keys(setupFiles).includes(id.replace("\0", ""))) {
+        return {
+          code: "export default undefined",
+          moduleType: "js",
+        };
+      }
+    },
+  };
+};

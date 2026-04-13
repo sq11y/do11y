@@ -1,6 +1,6 @@
 <template>
-  <IFrame
-    v-if="IFrame"
+  <SanxboxIframe
+    v-if="SanxboxIframe"
     :title="title"
     :id="id"
     :url="url"
@@ -14,18 +14,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, shallowRef, type Component } from "vue";
-import options from "do11y:options";
+import { computed } from "vue";
+
+import SanxboxIframe from "do11y:sandbox-iframe";
 
 import type { SandboxIframeProps } from "do11y";
 
 const props = defineProps<SandboxIframeProps & { passedProps?: Record<string, unknown> }>();
 
 const url = computed(() => `/sandbox?id=${props.id}`);
-
-const IFrame = shallowRef<Component>();
-
-onBeforeMount(async () => {
-  IFrame.value = (await options.SandboxIframe?.())?.default;
-});
 </script>
