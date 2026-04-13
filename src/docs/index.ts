@@ -7,6 +7,11 @@ export type { Options, Meta };
 
 export interface SandboxIframeProps {
   /**
+   * The accessible title for the Iframe.
+   */
+  title: string;
+
+  /**
    * The `id` of the sandbox - which is the filename
    * in lower-case without the extension.
    *

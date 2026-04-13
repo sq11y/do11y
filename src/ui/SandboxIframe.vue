@@ -1,6 +1,7 @@
 <template>
   <IFrame
     v-if="IFrame"
+    :title="title"
     :id="id"
     :url="url"
     :highlighted-source="highlightedSource"
@@ -9,7 +10,7 @@
     v-bind="passedProps"
   />
 
-  <iframe v-else :src="url" />
+  <iframe v-else :title="title" :src="url" />
 </template>
 
 <script lang="ts" setup>
