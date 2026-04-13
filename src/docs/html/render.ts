@@ -5,7 +5,7 @@ import { JSDOM } from "jsdom";
 
 const template = readFileSync(join(import.meta.dirname, "index.html"), "utf-8");
 
-export const render = (script: string, stylesheet?: string) => {
+export const render = (script: string, stylesheets: string[] = []) => {
   const jsdom = new JSDOM(template);
 
   const scriptElement = jsdom.window.document.createElement("script");
@@ -15,7 +15,7 @@ export const render = (script: string, stylesheet?: string) => {
 
   jsdom.window.document.documentElement.appendChild(scriptElement);
 
-  if (stylesheet) {
+  for (const stylesheet of stylesheets) {
     const linkElement = jsdom.window.document.createElement("link");
 
     linkElement.setAttribute("as", "style");

@@ -7,8 +7,18 @@ import { output } from "../files.js";
 import { render } from "./render.js";
 
 export const indexHtml = (folder: string, key: "index" | "sandbox"): Omit<Plugin, "name"> => ({
-  writeBundle() {
-    const html = render(`/assets/${key}.js`, `/assets/${key}.css`);
+  writeBundle(_, bundle) {
+    const chunk = Object.values(bundle).find((chunk) => {
+      return chunk.type === "chunk" && chunk.isEntry && chunk.facadeModuleId?.endsWith(`${key}.js`);
+    });
+
+    if (!chunk) {
+      throw new Error(`Failed to create HTML file for ${key}.`);
+    }
+
+    const stylesheets = Array.from(chunk.viteMetadata?.importedCss || []);
+
+    const html = render(chunk.fileName, stylesheets);
 
     writeFileSync(join(output, `${key}.html`), html);
 
