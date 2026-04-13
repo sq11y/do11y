@@ -107,6 +107,10 @@ export default (): Plugin => {
     name: "do11y:options",
 
     async resolveId(id, importer) {
+      if (id === "do11y:options") {
+        return this.resolve(setupFiles[id], importer);
+      }
+
       if (Object.keys(setupFiles).includes(id)) {
         /* prettier-ignore */
         return existsSync(setupFiles[id])
