@@ -45,7 +45,7 @@ defineSlots<{
   /**
    * The label for the button.
    */
-  default: () => void;
+  default: (data: void) => void;
 }>();
 
 const element = useTemplateRef("element");
