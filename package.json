@@ -48,7 +48,8 @@
     "shiki": "^4.0.2",
     "tinyglobby": "^0.2.16",
     "v-custom-block": "catalog:",
-    "vue-component-meta": "^3.2.8"
+    "vue-component-meta": "^3.2.8",
+    "vue-docgen-api": "^4.79.2"
   },
   "devDependencies": {
     "@tsconfig/node24": "catalog:",

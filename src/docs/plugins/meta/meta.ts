@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import { createChecker } from "vue-component-meta";
 import { parse as parseVue } from "vue/compiler-sfc";
+import { parse as parseDocs } from "vue-docgen-api";
 
 import type { Plugin } from "vite";
 
@@ -46,7 +47,7 @@ export default (): Plugin => {
   return {
     name: "do11y:meta",
 
-    transform(_, id) {
+    async transform(_, id) {
       if (id.endsWith(".vue?meta")) {
         const file = id.replace("?meta", "");
 
@@ -60,8 +61,10 @@ export default (): Plugin => {
 
         const meta = checker.getComponentMeta(file);
 
+        const docs = await parseDocs(file);
+
         const mappedMeta = {
-          ...mapMeta(meta, (content) => md.render(content)),
+          ...mapMeta(docs, meta, (content) => md.render(content)),
           description: description || meta.description,
         };
 

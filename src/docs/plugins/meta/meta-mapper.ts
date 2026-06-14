@@ -6,9 +6,14 @@ import type {
   ExposeMeta,
 } from "vue-component-meta";
 
+import type { ComponentDoc } from "vue-docgen-api";
 import type { Meta } from "./meta-types";
 
-export const mapMeta = (meta: ComponentMeta, render: (input: string) => string): Meta => {
+export const mapMeta = (
+  docs: ComponentDoc,
+  meta: ComponentMeta,
+  render: (input: string) => string,
+): Meta => {
   const nonGlobalProps = meta.props.filter((prop) => !prop.global);
 
   const getDeprecated = (tags: PropertyMeta["tags"]) => {
@@ -25,14 +30,20 @@ export const mapMeta = (meta: ComponentMeta, render: (input: string) => string):
     }));
   };
 
-  const mapEvent = (prop: PropertyMeta | EventMeta): Meta["events"][number] => ({
-    name: prop.name,
-    type: prop.type,
+  const mapEvent = (prop: PropertyMeta | EventMeta): Meta["events"][number] => {
+    if (!prop.description) {
+      prop.description = docs.events?.find((event) => event.name === prop.name)?.description || "";
+    }
 
-    description: prop.description ? render(prop.description) : undefined,
-    deprecated: getDeprecated(prop.tags),
-    tags: getFilteredTags(prop.tags),
-  });
+    return {
+      name: prop.name,
+      type: prop.type,
+
+      description: prop.description ? render(prop.description) : undefined,
+      deprecated: getDeprecated(prop.tags),
+      tags: getFilteredTags(prop.tags),
+    };
+  };
 
   const mapSlotAndExposed = (se: SlotMeta | ExposeMeta): Meta["slots"][number] => ({
     name: se.name,
