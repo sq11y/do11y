@@ -40,13 +40,13 @@ const getPlugin = async (plugin: PluginOption): Promise<Plugin[]> => {
 const getUserPlugins = async (userViteConfig: UserConfig) => {
   const userPlugins = userViteConfig.plugins?.map(async (p) => await getPlugin(p)) ?? [];
   const resolvedUserPlugins = (await Promise.all(userPlugins)).flat();
-  const vuePluginApi = resolvedUserPlugins.find((p) => p.name === "vite:vue")!.api as Api;
+  const vuePluginApi = resolvedUserPlugins.find((p) => p.name === "vite:vue")?.api as Api;
 
   const VuePlugin = (await import("@vitejs/plugin-vue")).default;
 
   return [
     VuePlugin({
-      ...vuePluginApi.options,
+      ...vuePluginApi?.options,
 
       include: [/\.vue$/, /\.md$/],
 
