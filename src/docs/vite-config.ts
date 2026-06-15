@@ -16,6 +16,7 @@ export const getUserViteConfig = async (command: "dev" | "build" | "preview") =>
   const config = userConfigFile?.config ?? {};
 
   return {
+    base: config.base,
     plugins: await getUserPlugins(config),
     resolve: config.resolve,
   };
