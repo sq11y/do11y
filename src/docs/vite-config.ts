@@ -10,7 +10,7 @@ import { plugins } from "./plugins/plugins.js";
 export const getUserViteConfig = async (command: "dev" | "build" | "preview") => {
   const userConfigFile = await loadConfigFromFile({
     command: command === "dev" ? "serve" : "build",
-    mode: command === "dev" ? "dev" : "build",
+    mode: command === "dev" ? "dev" : "production",
   });
 
   const config = userConfigFile?.config ?? {};
