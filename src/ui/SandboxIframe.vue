@@ -22,5 +22,5 @@ import type { SandboxIframeProps } from "do11y";
 
 const props = defineProps<SandboxIframeProps & { passedProps?: Record<string, unknown> }>();
 
-const url = computed(() => `/sandbox?id=${props.id}`);
+const url = computed(() => `${import.meta.env.BASE_URL}sandbox?id=${props.id}`);
 </script>
