@@ -37,5 +37,7 @@ import _ from "./Page.vue";
 
   app.use(router);
 
+  await router.isReady();
+
   app.mount("#app");
 })();
