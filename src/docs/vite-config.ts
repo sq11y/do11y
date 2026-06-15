@@ -41,22 +41,33 @@ const getPlugin = async (plugin: PluginOption): Promise<Plugin[]> => {
 const getUserPlugins = async (userViteConfig: UserConfig) => {
   const userPlugins = userViteConfig.plugins?.map(async (p) => await getPlugin(p)) ?? [];
   const resolvedUserPlugins = (await Promise.all(userPlugins)).flat();
-  const vuePluginApi = resolvedUserPlugins.find((p) => p.name === "vite:vue")?.api as Api;
+  const vuePluginApi = (resolvedUserPlugins.find((p) => p.name === "vite:vue")?.api as Api) ?? {};
 
   const VuePlugin = (await import("@vitejs/plugin-vue")).default;
+
+  const { include, exclude } = vuePluginApi;
+
+  const mergeInclusion = (rawValues: Api["include"], do11yValues: RegExp[]) => {
+    const values = Array.isArray(rawValues) ? rawValues : rawValues ? [rawValues] : [];
+    return [...new Set([...values, ...do11yValues])];
+  };
 
   return [
     VuePlugin({
       ...vuePluginApi?.options,
 
-      include: [/\.vue$/, /\.md$/],
+      /* prettier-ignore */
+      include: mergeInclusion(include, [
+        /\.vue$/,
+        /\.md$/
+      ]),
 
-      exclude: [
+      exclude: mergeInclusion(exclude, [
         /\.vue\?meta$/,
         /\.vue\?highlight$/,
         /\.vue\?highlight&lang=css$/,
         /\.vue\?highlight&styleless$/,
-      ],
+      ]),
     }),
 
     ...resolvedUserPlugins.filter((i) => i.name !== "vite:vue"),
