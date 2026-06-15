@@ -5,6 +5,10 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
 
+  define: {
+    "import.meta.env.BASE_URL": "import.meta.env.BASE_URL",
+  },
+
   build: {
     emptyOutDir: true,
     outDir: "dist/ui",
