@@ -12,6 +12,13 @@ export const render = (
 ) => {
   const jsdom = new JSDOM(template);
 
+  const faviconElement = jsdom.window.document.createElement("link");
+
+  faviconElement.setAttribute("rel", "icon");
+  faviconElement.setAttribute("href", `${base}favicon.ico`);
+
+  jsdom.window.document.documentElement.appendChild(faviconElement);
+
   const scriptElement = jsdom.window.document.createElement("script");
 
   scriptElement.setAttribute("type", "module");
