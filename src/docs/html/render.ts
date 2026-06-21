@@ -17,7 +17,7 @@ export const render = (
   faviconElement.setAttribute("rel", "icon");
   faviconElement.setAttribute("href", `${base}favicon.ico`);
 
-  jsdom.window.document.documentElement.appendChild(faviconElement);
+  jsdom.window.document.head.appendChild(faviconElement);
 
   const scriptElement = jsdom.window.document.createElement("script");
 
