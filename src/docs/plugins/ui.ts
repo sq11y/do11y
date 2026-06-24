@@ -6,4 +6,4 @@ import { indexHtml } from "../html/plugin.js";
 /**
  * The main documentation app.
  */
-export default (): Plugin => ({ name: "do11y:ui", ...indexHtml(ui, "index") });
+export default (base?: string): Plugin => ({ name: "do11y:ui", ...indexHtml(ui, "index", base) });

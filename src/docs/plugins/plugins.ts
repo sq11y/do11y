@@ -13,8 +13,8 @@ import routes from "./routes.js";
 import { do11yOptions } from "../options.js";
 
 export const plugins = (base?: string): Plugin[] => [
-  ui(),
-  sandbox(),
+  ui(base),
+  sandbox(base),
   highlightCss(),
   highlight(),
   meta(base),

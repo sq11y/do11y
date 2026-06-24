@@ -6,9 +6,11 @@ import type { Plugin } from "vite";
 import { output } from "../files.js";
 import { render } from "./render.js";
 
-import { getUserViteConfig } from "../vite-config.js";
-
-export const indexHtml = (folder: string, key: "index" | "sandbox"): Omit<Plugin, "name"> => ({
+export const indexHtml = (
+  folder: string,
+  key: "index" | "sandbox",
+  base?: string,
+): Omit<Plugin, "name"> => ({
   async writeBundle(_, bundle) {
     const chunk = Object.values(bundle).find((chunk) => {
       return chunk.type === "chunk" && chunk.isEntry && chunk.facadeModuleId?.endsWith(`${key}.js`);
@@ -19,8 +21,6 @@ export const indexHtml = (folder: string, key: "index" | "sandbox"): Omit<Plugin
     }
 
     const stylesheets = Array.from(chunk.viteMetadata?.importedCss || []);
-
-    const { base } = await getUserViteConfig("build");
 
     const html = render(base, chunk.fileName, stylesheets);
 
@@ -40,8 +40,6 @@ export const indexHtml = (folder: string, key: "index" | "sandbox"): Omit<Plugin
       if (!req.url || req.method !== "GET" || !req.headers.accept?.includes("text/html")) {
         return next();
       }
-
-      const { base } = await getUserViteConfig("build");
 
       const html = render(base, `/@fs/${req.url?.startsWith("/sandbox") ? sandboxBundle : bundle}`);
 

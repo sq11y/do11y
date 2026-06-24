@@ -14,7 +14,7 @@ export const toParamId = (path: string) =>
  * Creates a seprate sandbox app, and
  * adds access to sandbox components through `do11y:sandboxes`.
  */
-export default (): Plugin => {
+export default (base?: string): Plugin => {
   const moduleId = "do11y:sandboxes";
 
   const resolvedModuleId = "\0" + moduleId;
@@ -29,7 +29,7 @@ export default (): Plugin => {
   return {
     name: "do11y:sandboxes",
 
-    ...indexHtml(ui, "sandbox"),
+    ...indexHtml(ui, "sandbox", base),
 
     resolveId(id) {
       if (id === moduleId) {
