@@ -74,35 +74,36 @@ const getUserPlugins = async (userViteConfig: UserConfig) => {
   ];
 };
 
-export const viteConfig = (base?: string) => ({
-  root: docs,
-  plugins: plugins(base),
+export const viteConfig = (base?: string) =>
+  ({
+    root: docs,
+    plugins: plugins(base),
 
-  server: {
-    port: 1998,
+    server: {
+      port: 1998,
 
-    fs: {
-      allow: [ui, root],
-    },
-  },
-
-  preview: {
-    port: 1996,
-  },
-
-  build: {
-    manifest: true,
-    outDir: output,
-
-    rollupOptions: {
-      input: {
-        index: join(ui, "index.js"),
-        sandbox: join(ui, "sandbox.js"),
-      },
-
-      output: {
-        entryFileNames: "assets/[name].js",
+      fs: {
+        allow: [ui, root],
       },
     },
-  },
-} satisfies UserConfig)
+
+    preview: {
+      port: 1996,
+    },
+
+    build: {
+      manifest: true,
+      outDir: output,
+
+      rollupOptions: {
+        input: {
+          index: join(ui, "index.js"),
+          sandbox: join(ui, "sandbox.js"),
+        },
+
+        output: {
+          entryFileNames: "assets/[name].js",
+        },
+      },
+    },
+  }) satisfies UserConfig;

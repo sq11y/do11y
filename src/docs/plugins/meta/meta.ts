@@ -8,10 +8,26 @@ import { parse as parseDocs } from "vue-docgen-api";
 import type { Plugin } from "vite";
 
 import markdown from "markdown-it";
-import replaceLinkPlugin from 'markdown-it-replace-link';
+import replaceLinkPlugin from "markdown-it-replace-link";
 
 import { root } from "../../files.js";
 import { mapMeta } from "./meta-mapper.js";
+
+const getLinkType = (url: string) => {
+  if (url.startsWith("#")) {
+    return "anchor";
+  }
+
+  if (URL.canParse(url)) {
+    return "absolute";
+  }
+
+  if (URL.canParse(url, "https://github.com/sq11y/do11y")) {
+    return "relative";
+  }
+
+  return "invalid";
+};
 
 const getFirstExistingFile = (...paths: string[]) => {
   for (const path of paths) {
@@ -25,7 +41,7 @@ const getFirstExistingFile = (...paths: string[]) => {
  * Adds `.vue?meta` imports which returns a simplified result
  * of running the component through `vue-component-meta`.
  */
-export default (base: string = ''): Plugin => {
+export default (base?: string): Plugin => {
   const tsconfig = getFirstExistingFile(
     join(root, "tsconfig.app.json"),
     join(root, "tsconfig.json"),
@@ -45,10 +61,16 @@ export default (base: string = ''): Plugin => {
     html: true,
   });
 
-  md.use(replaceLinkPlugin, {
-    processHTML: true,
-    replaceLink: (link) => `${base}${link}`
-  })
+  if (base) {
+    md.use(replaceLinkPlugin, {
+      processHTML: true,
+      replaceLink: (link) => {
+        const url = base.startsWith("/") ? link.replace(/^\//, "") : link;
+
+        return ["anchor", "relative"].includes(getLinkType(link)) ? `${base}${url}` : link;
+      },
+    });
+  }
 
   return {
     name: "do11y:meta",
