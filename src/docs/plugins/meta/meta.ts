@@ -8,6 +8,7 @@ import { parse as parseDocs } from "vue-docgen-api";
 import type { Plugin } from "vite";
 
 import markdown from "markdown-it";
+import replaceLinkPlugin from 'markdown-it-replace-link';
 
 import { root } from "../../files.js";
 import { mapMeta } from "./meta-mapper.js";
@@ -24,7 +25,7 @@ const getFirstExistingFile = (...paths: string[]) => {
  * Adds `.vue?meta` imports which returns a simplified result
  * of running the component through `vue-component-meta`.
  */
-export default (): Plugin => {
+export default (base: string = ''): Plugin => {
   const tsconfig = getFirstExistingFile(
     join(root, "tsconfig.app.json"),
     join(root, "tsconfig.json"),
@@ -43,6 +44,11 @@ export default (): Plugin => {
   const md = markdown({
     html: true,
   });
+
+  md.use(replaceLinkPlugin, {
+    processHTML: true,
+    replaceLink: (link) => `${base}${link}`
+  })
 
   return {
     name: "do11y:meta",

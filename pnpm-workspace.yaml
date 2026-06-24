@@ -1,6 +1,9 @@
 packages:
   - example
 
+allowBuilds:
+  '@parcel/watcher': true
+
 catalog:
   "@tsconfig/node24": ^24.0.4
   "@types/node": 25.7.0

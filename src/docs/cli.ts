@@ -9,7 +9,7 @@ if (command !== "dev" && command !== "build" && command !== "preview") {
 
 const userViteConfig = await getUserViteConfig(command);
 
-const mergedViteConfig = mergeConfig(userViteConfig, viteConfig);
+const mergedViteConfig = mergeConfig(userViteConfig, viteConfig(userViteConfig.base));
 
 if (command === "dev") {
   const server = await createServer(mergedViteConfig);

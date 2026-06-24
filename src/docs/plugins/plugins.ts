@@ -12,12 +12,12 @@ import routes from "./routes.js";
 
 import { do11yOptions } from "../options.js";
 
-export const plugins = (): Plugin[] => [
+export const plugins = (base?: string): Plugin[] => [
   ui(),
   sandbox(),
   highlightCss(),
   highlight(),
-  meta(),
+  meta(base),
 
   markdown(do11yOptions),
   block("docs"),
