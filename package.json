@@ -1,6 +1,6 @@
 {
   "name": "do11y",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A bare-bones tool to document Vue components.",
   "keywords": [
     "docs-generator",
@@ -78,5 +78,6 @@
   },
   "engines": {
     "node": ">=24.18.0"
-  }
+  },
+  "packageManager": "pnpm@11.6.0"
 }
