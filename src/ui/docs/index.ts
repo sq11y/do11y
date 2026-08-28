@@ -12,6 +12,10 @@ import _ from "./Page.vue";
     routes,
 
     scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      }
+
       if (!to.hash) {
         return;
       }
@@ -26,7 +30,7 @@ import _ from "./Page.vue";
 
       return {
         el: to.hash,
-        top: isNaN(marginTop) ? (savedPosition?.top ?? 0) : marginTop,
+        top: isNaN(marginTop) ? 0 : marginTop,
       };
     },
   });
