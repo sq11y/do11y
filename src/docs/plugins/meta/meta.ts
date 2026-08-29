@@ -57,6 +57,10 @@ export default (base?: string): Plugin => {
     html: true,
   });
 
+  const checker = createChecker(tsconfig, {
+    noDeclarations: true,
+  });
+
   if (base) {
     md.use(replaceLinkPlugin, {
       processHTML: true,
@@ -73,10 +77,6 @@ export default (base?: string): Plugin => {
 
     async transform(_, id) {
       if (id.endsWith(".vue?meta")) {
-        const checker = createChecker(tsconfig, {
-          noDeclarations: true,
-        });
-
         const file = id.replace("?meta", "");
 
         const content = readFileSync(file, "utf-8");
@@ -110,6 +110,7 @@ export default (base?: string): Plugin => {
         const module = this.environment.moduleGraph.getModuleById(`${file}?meta`);
 
         if (module) {
+          checker.updateFile(file, readFileSync(file, "utf-8"));
           return [module];
         }
       }
