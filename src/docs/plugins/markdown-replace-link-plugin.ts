@@ -21,8 +21,6 @@ const getLinkType = (url: string) => {
 export const markdownReplaceLinkPlugin = (base = "") => {
   return (md: MarkdownIt) => {
     md.use(replaceLinkPlugin, {
-      processHTML: true,
-
       replaceLink: (link) => {
         const url = base.startsWith("/") ? link.replace(/^\//, "") : link;
         return getLinkType(link) === "relative" ? `${base}${url}` : link;
