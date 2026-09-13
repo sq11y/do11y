@@ -8,26 +8,11 @@ import { parse as parseDocs } from "vue-docgen-api";
 import type { Plugin } from "vite";
 
 import markdown from "markdown-it";
-import replaceLinkPlugin from "markdown-it-replace-link";
 
 import { root } from "../../files.js";
 import { mapMeta } from "./meta-mapper.js";
 
-const getLinkType = (url: string) => {
-  if (url.startsWith("#")) {
-    return "anchor";
-  }
-
-  if (URL.canParse(url)) {
-    return "absolute";
-  }
-
-  if (URL.canParse(url, "https://github.com/sq11y/do11y")) {
-    return "relative";
-  }
-
-  return "invalid";
-};
+import { markdownReplaceLinkPlugin } from "../markdown-replace-link-plugin.js";
 
 const getFirstExistingFile = (...paths: string[]) => {
   for (const path of paths) {
@@ -61,16 +46,7 @@ export default (base?: string): Plugin => {
     noDeclarations: true,
   });
 
-  if (base) {
-    md.use(replaceLinkPlugin, {
-      processHTML: true,
-      replaceLink: (link) => {
-        const url = base.startsWith("/") ? link.replace(/^\//, "") : link;
-
-        return ["anchor", "relative"].includes(getLinkType(link)) ? `${base}${url}` : link;
-      },
-    });
-  }
+  md.use(markdownReplaceLinkPlugin(base));
 
   return {
     name: "do11y:meta",

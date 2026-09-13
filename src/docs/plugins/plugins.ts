@@ -19,7 +19,7 @@ export const plugins = (base?: string): Plugin[] => [
   highlight(),
   meta(base),
 
-  markdown(do11yOptions),
+  markdown(do11yOptions, base),
   block("docs"),
 
   options(),

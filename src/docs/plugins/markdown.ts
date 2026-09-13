@@ -11,6 +11,7 @@ import type { PluginSimple } from "markdown-it";
 import type { Plugin } from "vite";
 
 import { highlightCode } from "./highlight/highlight.js";
+import { markdownReplaceLinkPlugin } from "./markdown-replace-link-plugin.js";
 
 export interface MarkdownPluginOptions {
   /**
@@ -42,7 +43,7 @@ export interface MarkdownItEnv {
  * and turns `.md` files into single file vue components
  * using `markdown-it` and `@mdit-vue`.
  */
-export default (options?: MarkdownPluginOptions): Plugin => {
+export default (options?: MarkdownPluginOptions, base?: string): Plugin => {
   const md = markdown({
     html: true,
 
@@ -59,6 +60,7 @@ export default (options?: MarkdownPluginOptions): Plugin => {
   md.use(sfcPlugin);
   md.use(componentPlugin);
   md.use(attrsPlugin);
+  md.use(markdownReplaceLinkPlugin(base));
 
   if (options?.markdownSetup) {
     md.use(options.markdownSetup);
