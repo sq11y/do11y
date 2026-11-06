@@ -87,15 +87,6 @@ export default (): Plugin => {
             }
           };
 
-          const customRoutes = (options?.routes ?? []).map(page => ({
-            ...page,
-
-            meta: {
-              slug: page.path,
-              ...page.meta,
-            }
-          }))
- 
           export default [homeRoute, ${stringifiedPages.join(",\n")}, ${stringifiedRoutes.join(",\n")}];
         `;
       }
