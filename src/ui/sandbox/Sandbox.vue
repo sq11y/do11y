@@ -2,6 +2,8 @@
   <Layout v-if="Layout">
     <DynamicComponent v-if="DynamicComponent" />
   </Layout>
+
+  <DynamicComponent v-else-if="DynamicComponent" />
 </template>
 
 <script lang="ts" setup>
@@ -18,6 +20,10 @@ const DynamicComponent = shallowRef<Component>();
 onBeforeMount(async () => {
   const { component } = sandboxes.find(({ url }) => url === query.id) ?? {};
 
-  DynamicComponent.value = await component?.();
+  if (!component) {
+    throw new Error(`No component with id ${query.id}`);
+  }
+
+  DynamicComponent.value = await component();
 });
 </script>
