@@ -87,7 +87,7 @@ export default (): Plugin => {
             }
           };
 
-          export default [homeRoute, ${stringifiedPages.join(",\n")}, ${stringifiedRoutes.join(",\n")}];
+          export default [${["homeRoute", ...stringifiedPages, ...stringifiedRoutes].join(",\n")}];
         `;
       }
     },
