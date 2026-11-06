@@ -86,11 +86,11 @@ export default (options?: MarkdownPluginOptions, base?: string): Plugin => {
         } else {
           const template = env.sfcBlocks?.template?.content ?? "";
 
-          const script = env.sfcBlocks?.scriptSetup?.contentStripped ?? "";
+          const script = env.sfcBlocks?.scriptSetup?.content ?? "";
 
           const styles = env.sfcBlocks?.styles.map((s) => s.content).join("\n\n") ?? "";
 
-          return `${template}\n\n<script setup>${script}</script>\n\n${styles}`;
+          return `${template}\n\n${script}\n\n${styles}`;
         }
       }
     },

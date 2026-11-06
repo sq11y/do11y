@@ -3,7 +3,7 @@ title: "Button"
 slug: "/button"
 ---
 
-<script setup>
+<script lang="ts" setup>
   import { useRoute } from 'vue-router';
 
   import ButtonComponent from '@/components/Button.vue';
