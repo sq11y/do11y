@@ -1,11 +1,12 @@
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 import { do11y } from "./files.js";
 
 import type { Options, ResolvedOptions } from "./plugins/options.js";
 
 const resolveOptions = async (): Promise<ResolvedOptions> => {
-  const options: Options = (await import(join(do11y, "do11y.ts"))).default;
+  const options: Options = (await import(pathToFileURL(join(do11y, "do11y.ts")).href)).default;
 
   const themes = options.highlighter?.themes.map(async (theme) => {
     if (typeof theme === "string") {

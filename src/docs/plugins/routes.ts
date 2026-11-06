@@ -4,7 +4,7 @@ import { globSync } from "tinyglobby";
 
 import type { Plugin } from "vite";
 
-import { root, do11y } from "../files.js";
+import { root, do11y, toImportPath } from "../files.js";
 import { toParamId } from "./sandbox.js";
 
 import fm from "front-matter";
@@ -52,7 +52,7 @@ export default (): Plugin => {
       if (id === resolvedModuleId) {
         const stringifiedRoutes = routes.map((route) => {
           return `{
-            path: "${route.frontmatter.slug}",
+            path: ${JSON.stringify(route.frontmatter.slug)},
             meta: ${JSON.stringify(route.frontmatter)},
             component: async () => (await import("${route.path}")).default
           }`.trim();
@@ -63,12 +63,12 @@ export default (): Plugin => {
           const slug = `/p/${toParamId(title)}`;
 
           return `{
-            path: "${slug}",
-            component: async () => (await import("${join(do11y, "pages", page)}")).default,
+            path: ${JSON.stringify(slug)},
+            component: async () => (await import(${toImportPath(join(do11y, "pages", page))})).default,
 
             meta: {
-              slug: "${slug}",
-              title: "${title}",
+              slug: ${JSON.stringify(slug)},
+              title: ${JSON.stringify(title)},
             },
           }`.trim();
         });

@@ -5,7 +5,7 @@ import { kebabCase } from "change-case";
 
 import type { Plugin } from "vite";
 
-import { root, ui } from "../files.js";
+import { root, toImportPath, ui } from "../files.js";
 import { indexHtml } from "../html/plugin.js";
 
 export const toParamId = (path: string) =>
@@ -43,7 +43,7 @@ export default (base?: string): Plugin => {
         const stringifiedSandboxes = sandboxFiles.map((path) => {
           return `{
             url: "${toParamId(path)}",
-            component: async () => (await import("${path}?default")).default
+            component: async () => (await import(${toImportPath(`${path}?default`)})).default
           }`.trim();
         });
 
@@ -56,7 +56,7 @@ export default (base?: string): Plugin => {
         const code = `
           import { defineComponent, h } from "vue";
 
-          import SandboxIframe from "${join(ui, "sandbox-iframe.js")}";
+          import SandboxIframe from ${toImportPath(join(ui, "sandbox-iframe.js"))};
 
           import highlightedSource from "${id}?highlight";
           import highlightedCssSource from "${id}?highlight&lang=css";

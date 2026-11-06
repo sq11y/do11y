@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import { writeFileSync } from "node:fs";
 
-import type { Plugin } from "vite";
+import { normalizePath, type Plugin } from "vite";
 
 import { output } from "../files.js";
 import { render } from "./render.js";
@@ -32,9 +32,9 @@ export const indexHtml = (
   },
 
   configureServer(server) {
-    const bundle = join(folder, `${key}.js`);
+    const bundle = normalizePath(join(folder, `${key}.js`));
 
-    const sandboxBundle = join(folder, "sandbox.js");
+    const sandboxBundle = normalizePath(join(folder, "sandbox.js"));
 
     /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
     server.middlewares.use(async (req, res, next) => {
