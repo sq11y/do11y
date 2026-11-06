@@ -8,10 +8,11 @@ import { docs, ui, output, root } from "./files.js";
 import { plugins } from "./plugins/plugins.js";
 
 export const getUserViteConfig = async (command: "dev" | "build" | "preview") => {
+  /* prettier-ignore */
   const userConfigFile = await loadConfigFromFile({
     command: command === "dev" ? "serve" : "build",
-    mode: command === "dev" ? "dev" : "production",
-  });
+    mode: command === "dev" ? "development" : "production",
+  }, undefined, root);
 
   const config = userConfigFile?.config ?? {};
 
