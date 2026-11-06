@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { createServer, build, preview, mergeConfig } from "vite";
 import { getUserViteConfig, viteConfig } from "./vite-config.js";
 
