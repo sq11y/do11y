@@ -67,14 +67,14 @@
     "jiti": "^2.7.0",
     "oxlint": "^1.76.0",
     "typescript": "catalog:",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
   },
   "peerDependencies": {
     "@vitejs/plugin-vue": "catalog:",
     "vite": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-router": "catalog:"
   },
   "engines": {
     "node": ">=24.18.0"
