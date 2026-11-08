@@ -6,7 +6,7 @@ import { getUserViteConfig, viteConfig } from "./vite-config.js";
 const [_, __, command = "dev"] = process.argv;
 
 if (command !== "dev" && command !== "build" && command !== "preview") {
-  throw new Error();
+  throw new Error(`Unknown command: ${command}`);
 }
 
 const userViteConfig = await getUserViteConfig(command);

@@ -27,13 +27,9 @@ export default (base?: string): Plugin => {
     cwd: root,
   });
 
-  const duplicateSandboxes = [...Map.groupBy(sandboxFiles, toParamId)].filter(
-    ([_, paths]) => paths.length > 1,
-  );
-
-  if (duplicateSandboxes.length) {
-    throw new Error(`Duplicate sandbox ids: ${duplicateSandboxes.map(([id]) => id).join(", ")}`);
-  }
+  const duplicateSandboxes = [...Map.groupBy(sandboxFiles, toParamId)]
+    .filter(([_, paths]) => paths.length > 1)
+    .map(([id]) => id);
 
   return {
     name: "do11y:sandboxes",
@@ -48,6 +44,10 @@ export default (base?: string): Plugin => {
 
     load(id) {
       if (id === resolvedModuleId) {
+        if (duplicateSandboxes.length) {
+          return this.error(`Duplicate sandboxes: ${duplicateSandboxes.join(", ")}`);
+        }
+
         const stringifiedSandboxes = sandboxFiles.map((path) => {
           return `{
             url: "${toParamId(path)}",
@@ -61,6 +61,10 @@ export default (base?: string): Plugin => {
 
     transform(_, id) {
       if (id.endsWith(".sandbox.vue")) {
+        if (duplicateSandboxes.length) {
+          return this.error(`Duplicate sandboxes: ${duplicateSandboxes.join(", ")}`);
+        }
+
         const code = `
           import { defineComponent, h } from "vue";
 

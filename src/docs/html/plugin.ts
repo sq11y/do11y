@@ -17,7 +17,7 @@ export const indexHtml = (
     });
 
     if (!chunk) {
-      throw new Error(`Failed to create HTML file for ${key}.`);
+      return this.error(`Failed to create HTML file for ${key}.`);
     }
 
     const stylesheets = Array.from(chunk.viteMetadata?.importedCss || []);

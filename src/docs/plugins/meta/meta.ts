@@ -53,6 +53,10 @@ export default (base?: string): Plugin => {
 
     async transform(_, id) {
       if (id.endsWith(".vue?meta")) {
+        if (!tsconfig) {
+          return this.error("?meta imports require a `tsconfig.app.json` or `tsconfig.json` file.");
+        }
+
         const file = id.replace("?meta", "");
 
         const content = readFileSync(file, "utf-8");
