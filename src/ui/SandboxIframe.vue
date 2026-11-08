@@ -1,8 +1,8 @@
 <template>
-  <SanxboxIframe
-    v-if="SanxboxIframe"
+  <SandboxIframe
+    v-if="SandboxIframe"
     :id="id"
-    :title="title"
+    :title="title || `Sandbox for ${id}`"
     :url="url"
     :highlighted-source="highlightedSource"
     :highlighted-css-source="highlightedCssSource"
@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 
-import SanxboxIframe from "do11y:sandbox-iframe";
+import SandboxIframe from "do11y:sandbox-iframe";
 
 import type { SandboxIframeProps } from "do11y";
 
