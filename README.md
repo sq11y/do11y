@@ -43,7 +43,7 @@ Turn a component into a sandbox by adding a `.sandbox` prefix to the component n
 
 #### Sandbox Iframe
 
-> To customize the Sandbox app add a custom `docs/do11y/layout/SandboxIframe.vue` wrapper component.
+> To customize how sandboxes are shown, the iframe and anything around it - add a custom `docs/do11y/layout/SandboxIframe.vue` component.
 
 The sandbox iframe component has some props automatically passed to it - you can use the `SandboxIframeProps` type to declare these.
 
