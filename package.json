@@ -33,7 +33,6 @@
     "build": "pnpm build:lib && pnpm build:example",
     "lint": "oxlint . --fix && eslint",
     "fmt": "oxfmt .",
-    "typecheck": "",
     "prepublishOnly": "pnpm build:lib"
   },
   "dependencies": {

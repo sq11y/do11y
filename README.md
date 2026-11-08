@@ -19,6 +19,8 @@ slug: "/button"
 ---
 
 <script lang="ts" setup>
+  import { useRoute } from "vue-router";
+
   const route = useRoute();
 </script>
 
@@ -127,8 +129,6 @@ defineProps<SandboxIframeProps>();
 ## Options
 
 > Options are optional, if used, they should be the default export of `docs/do11y/do11y.ts`.
-
-You can set the home page by adding a `docs/do11y/pages/Home.vue` file, and you can add a layout for each page in `docs/do11y/layout/Page.vue` using `<RouterView />`.
 
 ```ts
 import type { Options } from "do11y";
