@@ -11,12 +11,12 @@ export default (): Plugin => ({
 
   resolveId(id) {
     if (id === "do11y:css") {
-      return "\0dolly:css";
+      return "\0do11y:css";
     }
   },
 
   load(id) {
-    if (id === "\0dolly:css") {
+    if (id === "\0do11y:css") {
       const generateThemeCss = (theme: string) => `
         [data-theme="${theme}"] .shiki {
           background-color: var(--shiki-${theme}-bg) !important;
