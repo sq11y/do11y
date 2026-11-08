@@ -15,15 +15,7 @@ declare module "do11y:routes" {
 
 declare module "do11y:options" {
   import type { Options } from "do11y";
-
-  const options:
-    | (Omit<Options, "Layout" | "Sandbox" | "SandboxIframe"> & {
-        Layout: () => Promise<{ default: Component }>;
-        Sandbox?: () => Promise<{ default: Component }>;
-        SandboxIframe?: () => Promise<{ default: Component }>;
-      })
-    | undefined;
-
+  const options: Options | undefined;
   export default options;
 }
 
@@ -74,6 +66,16 @@ declare module "*.vue?meta" {
 }
 
 declare module "*.vue?highlight" {
+  const html: string;
+  export default html;
+}
+
+declare module "*.vue?highlight&lang=css" {
+  const html: string;
+  export default html;
+}
+
+declare module "*.vue?highlight&styleless" {
   const html: string;
   export default html;
 }

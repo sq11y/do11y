@@ -9,7 +9,7 @@ export interface SandboxIframeProps {
   /**
    * The accessible title for the Iframe.
    */
-  title: string;
+  title?: string;
 
   /**
    * The `id` of the sandbox - which is the filename
