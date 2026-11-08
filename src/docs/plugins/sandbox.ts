@@ -27,6 +27,14 @@ export default (base?: string): Plugin => {
     cwd: root,
   });
 
+  const duplicateSandboxes = [...Map.groupBy(sandboxFiles, toParamId)].filter(
+    ([_, paths]) => paths.length > 1,
+  );
+
+  if (duplicateSandboxes.length) {
+    throw new Error(`Duplicate sandbox ids: ${duplicateSandboxes.map(([id]) => id).join(", ")}`);
+  }
+
   return {
     name: "do11y:sandboxes",
 
