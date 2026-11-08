@@ -75,7 +75,6 @@ export default (): Plugin => {
 
         return `
           import Home from 'do11y:home';
-          import options from 'do11y:options';
 
           const homeRoute = {
             path: "/",
