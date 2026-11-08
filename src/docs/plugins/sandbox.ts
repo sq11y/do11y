@@ -6,6 +6,7 @@ import { kebabCase } from "change-case";
 import type { Plugin } from "vite";
 
 import { root, toImportPath, ui } from "../files.js";
+import { queries } from "./queries.js";
 import { indexHtml } from "../html/plugin.js";
 
 export const toParamId = (path: string) =>
@@ -70,9 +71,9 @@ export default (base?: string): Plugin => {
 
           import SandboxIframe from ${toImportPath(join(ui, "sandbox-iframe.js"))};
 
-          import highlightedSource from "${id}?highlight";
-          import highlightedCssSource from "${id}?highlight&lang=css";
-          import highlightedStylelessSource from "${id}?highlight&styleless";
+          import highlightedSource from "${id}${queries.highlight}";
+          import highlightedCssSource from "${id}${queries.highlightCSS}";
+          import highlightedStylelessSource from "${id}${queries.highlightStyleless}";
           
           export default defineComponent((props) => {
             return () => h(SandboxIframe, {

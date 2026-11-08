@@ -65,12 +65,7 @@ const getUserPlugins = async (userViteConfig: UserConfig) => {
         /\.md$/
       ]),
 
-      exclude: mergeInclusion(exclude, [
-        /\.vue\?meta$/,
-        /\.vue\?highlight$/,
-        /\.vue\?highlight&lang=css$/,
-        /\.vue\?highlight&styleless$/,
-      ]),
+      exclude,
     }),
 
     ...resolvedUserPlugins.filter((i) => i.name !== "vite:vue"),

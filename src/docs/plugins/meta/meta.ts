@@ -11,6 +11,7 @@ import markdown from "markdown-it";
 
 import { root } from "../../files.js";
 import { mapMeta } from "./meta-mapper.js";
+import { parseRequest, queries } from "../queries.js";
 
 import { markdownReplaceLinkPlugin } from "../markdown-replace-link-plugin.js";
 
@@ -35,6 +36,16 @@ export default (base?: string): Plugin => {
   if (!tsconfig) {
     return {
       name: "do11y:meta",
+
+      transform(_, id) {
+        const request = parseRequest(id);
+
+        if (request?.query !== queries.meta) {
+          return;
+        }
+
+        return this.error(`${queries.meta} imports require a tsconfig file.`);
+      },
     };
   }
 
@@ -52,42 +63,40 @@ export default (base?: string): Plugin => {
     name: "do11y:meta",
 
     async transform(_, id) {
-      if (id.endsWith(".vue?meta")) {
-        if (!tsconfig) {
-          return this.error("?meta imports require a `tsconfig.app.json` or `tsconfig.json` file.");
-        }
+      const request = parseRequest(id);
 
-        const file = id.replace("?meta", "");
-
-        const content = readFileSync(file, "utf-8");
-
-        const { descriptor } = parseVue(content, { ignoreEmpty: true });
-
-        const block = descriptor.customBlocks.find((b) => b.type === "docs" && b.lang === "md");
-
-        const description = block ? md.render(block.content) || undefined : undefined;
-
-        const meta = checker.getComponentMeta(file);
-
-        const docs = await parseDocs(file);
-
-        const mappedMeta = {
-          ...mapMeta(docs, meta, (content) => md.render(content)),
-          description: description || meta.description,
-        };
-
-        const code = `export default ${JSON.stringify(mappedMeta)}`;
-
-        return {
-          code,
-          moduleType: "js",
-        };
+      if (request?.query !== queries.meta) {
+        return;
       }
+
+      const content = readFileSync(request.path, "utf-8");
+
+      const { descriptor } = parseVue(content, { ignoreEmpty: true });
+
+      const block = descriptor.customBlocks.find((b) => b.type === "docs" && b.lang === "md");
+
+      const description = block ? md.render(block.content) || undefined : undefined;
+
+      const meta = checker.getComponentMeta(request.path);
+
+      const docs = await parseDocs(request.path);
+
+      const mappedMeta = {
+        ...mapMeta(docs, meta, (content) => md.render(content)),
+        description: description || meta.description,
+      };
+
+      const code = `export default ${JSON.stringify(mappedMeta)}`;
+
+      return {
+        code,
+        moduleType: "js",
+      };
     },
 
     hotUpdate({ file }) {
       if (file.endsWith(".vue")) {
-        const module = this.environment.moduleGraph.getModuleById(`${file}?meta`);
+        const module = this.environment.moduleGraph.getModuleById(`${file}${queries.meta}`);
 
         if (module) {
           checker.updateFile(file, readFileSync(file, "utf-8"));

@@ -7,6 +7,7 @@ import { createHighlighter, type ThemedToken } from "shiki";
 import type { Plugin, ViteDevServer } from "vite";
 
 import { do11yOptions } from "../../options.js";
+import { highlightQueries, isHighlightQuery, parseRequest, queries } from "../queries.js";
 
 import {
   transformerNotationDiff,
@@ -154,82 +155,77 @@ export default (): Plugin => {
     },
 
     async transform(_, id) {
-      if (
-        id.endsWith(".vue?highlight") ||
-        id.endsWith(".vue?highlight&lang=css") ||
-        id.endsWith(".vue?highlight&styleless")
-      ) {
-        const path = id
-          .replace("?highlight", "")
-          .replace("&lang=css", "")
-          .replace("&styleless", "");
+      const request = parseRequest(id);
 
-        const source = readFileSync(path, "utf-8");
+      if (!request || !isHighlightQuery(request.query)) {
+        return;
+      }
 
-        const sourceWithoutStyles = removeStyles(source);
+      const source = readFileSync(request.path, "utf-8");
 
-        if (id.endsWith("styleless")) {
-          return {
-            code: `export default ${JSON.stringify(await highlightAndFormatCode(path, removeStyles(source)))};`,
-            moduleType: "js",
-          };
-        }
+      const sourceWithoutStyles = removeStyles(source);
 
-        /**
-         * Getting the code from `load` does not work during development,
-         * so we return the original code during development.
-         *
-         * We also return the original code if the import does not specifically ask
-         * to compile the style tags to CSS.
-         */
-        if (viteDevServer?.config.command === "serve" || !id.endsWith("lang=css")) {
-          return {
-            code: `export default ${JSON.stringify(await highlightAndFormatCode(path, source))};`,
-            moduleType: "js",
-          };
-        }
-
-        const loadCss = async (index: number, lang: string) => {
-          const { code } = await this.load({
-            id: path + `?vue&type=style&index=${index}&lang.${lang}?inline`,
-          });
-
-          if (code) {
-            /**
-             * Inline css files take shape as `export default "<css>"`, we parse with JSON
-             * to ensure e.g. `content: "Before";` doesn't return `content: \"Before\";`.
-             */
-            return JSON.parse(code.slice(code.indexOf('"'), code.lastIndexOf('"') + 1));
-          }
-        };
-
-        const stylesheets = parseVue(source).descriptor.styles.map(async (style, i) => {
-          /* prettier-ignore */
-          return !style.lang || style.lang === "css"
-            ? style.content
-            : await loadCss(i, style.lang);
-        });
-
-        const css = (await Promise.all(stylesheets))
-          .filter((stylesheet) => !!stylesheet)
-          .map((stylesheet) => `<style>${stylesheet}</style>`)
-          .join("\n");
-
+      if (request.query === queries.highlightStyleless) {
         return {
-          code: `export default ${JSON.stringify(await highlightAndFormatCode(path, sourceWithoutStyles + css))};`,
+          code: `export default ${JSON.stringify(await highlightAndFormatCode(request.path, sourceWithoutStyles))};`,
           moduleType: "js",
         };
       }
+
+      /**
+       * Getting the code from `load` does not work during development,
+       * so we return the original code during development.
+       *
+       * We also return the original code if the import does not specifically ask
+       * to compile the style tags to CSS.
+       */
+      if (viteDevServer?.config.command === "serve" || request.query !== queries.highlightCSS) {
+        return {
+          code: `export default ${JSON.stringify(await highlightAndFormatCode(request.path, source))};`,
+          moduleType: "js",
+        };
+      }
+
+      const loadCss = async (index: number, lang: string) => {
+        const { code } = await this.load({
+          id: request.path + `?vue&type=style&index=${index}&lang.${lang}?inline`,
+        });
+
+        if (code) {
+          /**
+           * Inline css files take shape as `export default "<css>"`, we parse with JSON
+           * to ensure e.g. `content: "Before";` doesn't return `content: \"Before\";`.
+           */
+          return JSON.parse(code.slice(code.indexOf('"'), code.lastIndexOf('"') + 1));
+        }
+      };
+
+      const stylesheets = parseVue(source).descriptor.styles.map(async (style, i) => {
+        /* prettier-ignore */
+        return !style.lang || style.lang === "css"
+          ? style.content
+          : await loadCss(i, style.lang);
+      });
+
+      const css = (await Promise.all(stylesheets))
+        .filter((stylesheet) => !!stylesheet)
+        .map((stylesheet) => `<style>${stylesheet}</style>`)
+        .join("\n");
+
+      return {
+        code: `export default ${JSON.stringify(await highlightAndFormatCode(request.path, sourceWithoutStyles + css))};`,
+        moduleType: "js",
+      };
     },
 
-    hotUpdate({ file }) {
+    hotUpdate({ file, modules }) {
       if (file.endsWith(".sandbox.vue")) {
-        const module = this.environment.moduleGraph.getModuleById(`${file}?highlight`);
-        const css = this.environment.moduleGraph.getModuleById(`${file}?highlight&lang=css`);
-        const styleless = this.environment.moduleGraph.getModuleById(`${file}?highlight&styleless`);
+        const highlightedModules = highlightQueries
+          .map((query) => this.environment.moduleGraph.getModuleById(`${file}${query}`))
+          .filter((module) => !!module);
 
-        if (module || styleless || css) {
-          return [module, styleless, css].filter((module) => !!module);
+        if (highlightedModules.length) {
+          return [...modules, ...highlightedModules];
         }
       }
     },
