@@ -8,7 +8,7 @@ import type { Options, ResolvedOptions } from "./plugins/options.js";
 const resolveOptions = async (): Promise<ResolvedOptions> => {
   const options: Options = (await import(pathToFileURL(join(do11y, "do11y.ts")).href)).default;
 
-  const themes = options.highlighter?.themes.map(async (theme) => {
+  const themes = options.highlighter?.themes?.map(async (theme) => {
     if (typeof theme === "string") {
       return theme;
     } else {
@@ -32,8 +32,11 @@ const resolveOptions = async (): Promise<ResolvedOptions> => {
 
     highlighter: {
       defaultTheme: options.highlighter?.defaultTheme || resolvedThemes[0],
-      themes: options.highlighter?.themes ?? [],
       themesInput,
+
+      themes: options.highlighter?.themes?.length
+        ? options.highlighter.themes
+        : Object.keys(themesInput),
 
       transformers: options.highlighter?.transformers || [],
       postprocess: options.highlighter?.postprocess,

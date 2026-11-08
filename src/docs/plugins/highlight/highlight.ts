@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { parse as parseVue } from "vue/compiler-sfc";
 import { format } from "oxfmt";
-import { createHighlighter, bundledLanguages, bundledThemes } from "shiki";
+import { createHighlighter } from "shiki";
 
 import { JSDOM } from "jsdom";
 
@@ -17,13 +17,13 @@ import {
 } from "@shikijs/transformers";
 
 const shiki = await createHighlighter({
-  langs: Object.keys(bundledLanguages),
-  themes: [...Object.values(bundledThemes), ...do11yOptions.highlighter.themes],
+  langs: ["vue", "javascript", "typescript", "html", "css", "scss"],
+  themes: do11yOptions.highlighter.themes,
 });
 
 export const highlightCode = (code: string, lang: string) => {
   return shiki.codeToHtml(code, {
-    lang,
+    lang: shiki.getLoadedLanguages().includes(lang) ? lang : "text",
     themes: do11yOptions.highlighter.themesInput,
     defaultColor: do11yOptions.highlighter.defaultTheme,
     includeExplanation: true,

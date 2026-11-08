@@ -32,9 +32,9 @@ export interface Options extends MarkdownPluginOptions {
   highlighter?: {
     /**
      * The available themes.
-     * The default shiki themes are always included.
+     * Defaults to `["vitesse-light", "vitesse-black", "vitesse-dark"]`.
      */
-    themes: (ThemeInput | StringLiteralUnion<BundledTheme>)[];
+    themes?: (ThemeInput | StringLiteralUnion<BundledTheme>)[];
 
     /**
      * What the default theme should be.
