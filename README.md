@@ -2,50 +2,115 @@
 
 A bare-bones tool to document Vue components.
 
-> [!WARNING]
-> This is a small personal project! I make a lot of component libraries for personal projects and I absolutely love, love, love writing documentation for components, and I intend for this to be a mix of some of the features I love from [VitePress](https://vitepress.dev) and [Histoire](https://histoire.dev). Issues and thoughts and contributions are very welcome! But it is, again, a _personal_ project 😊
+## Getting started
 
-## Features
+Requires Node `>=24.18.0`.
 
-### Markdown components with [@mdit-vue](https://github.com/mdit-vue/mdit-vue).
+```sh
+pnpm add -D do11y vite @vitejs/plugin-vue vue vue-router
+```
 
-> Customizable through the options `markdownSetup` and `markdownCodeBlock`.
+Add a markdown file with a `title` and a `slug` anywhere in `docs/`, `src/` or `packages/`.
 
-Markdown files are treated as single file Vue components with the help of [@mdit-vue](https://github.com/mdit-vue/mdit-vue).
+```md
+---
+title: "Button"
+slug: "/button"
+---
 
-### Markdown routes available through `do11y:routes`
+<script lang="ts" setup>
+  const route = useRoute();
+</script>
 
-To include a markdown file as a route it needs to have a `title` and a `slug` (e.g. `/button`) in it's frontmatter, or it needs to be placed inside `docs/do11y/pages`.
+# {{ route?.meta.title }}
+```
 
-### [Shiki](https://shiki.style) code highlighting
+Run `pnpm do11y` and go to `localhost:1998`.
+
+### Commands
+
+| Command         | What it does                                  |
+| --------------- | --------------------------------------------- |
+| `do11y dev`     | Starts the dev server on port `1998`          |
+| `do11y build`   | Builds the site to `docs/dist`                |
+| `do11y preview` | Builds, then serves the result on port `1996` |
+
+### Folder structure
+
+Everything in `docs/do11y` is optional.
+
+```
+docs/
+ |- do11y/
+ |    |- do11y.ts                Options
+ |    |- pages/
+ |    |    |- Home.vue           The home page (/)
+ |    |    |- Sandbox.vue        Wrapper for sandboxes
+ |    |    |- *.(md|vue)         Pages (/p/*)
+ |    |- layout/
+ |        |- Page.vue            Layout for every page
+ |        |- SandboxIframe.vue   Wrapper for when importing a sandbox
+ |- public/
+ |    |- favicon.ico             The favicon for the built page
+ |- dist/
+
+(src|packages|docs)/
+ |- *.md                         A page if it has a `title` and a `slug` (slug)
+ |- *.sandbox.md                 A sandbox (/sandbox?id=*)
+
+```
+
+All automatically created routes are available to import through `do11y:routes`.
+
+## Writing docs
+
+### Markdown
+
+> Customizable through the options `markdownSetup` and `markdownCodeBlock` (which are also applied to component descriptions).
+
+Markdown files are treates as single file Vue components with the help of [@mdit-vue](https://github.com/mdit-vue/mdit-vue) - you can use `<script setup>` and `<style>` tags, and import components.
+
+### Code highlighting
 
 > Customizable through the `highlighter` option.
 
 Code blocks are automatically highlighted with [Shiki](https://shiki.style).
 
-### Highlight imports
+There are also some imports available to get highlighted Vue code directly:
 
-You can import Vue files as highlighted code blocks through `.vue?highlight`, `.vue?highlight&lang=css` (if you want the output to compile the style tags) or `.vue?highlight&styleless` (if you want the code without the style blocks).
-
-These imports return HTML strings meaning you have to render the code block using `v-html`.
+| Import                            | Highlighted HTML returns                  |
+| --------------------------------- | ----------------------------------------- |
+| `/Button.vue?highlight`           | The full file                             |
+| `/Button.vue?highlight&styleless` | The file without `<style>` blocks         |
+| `/Button.vue?highlight&lang=css`  | With the `<style>` blocks compiled to CSS |
 
 > [!WARNING]
 > Imports of type `.vue?highlight&lang=css` only work on _built_ sites. During development it will return the same result as `.vue?highlight`.
+
+### Component API docs
+
+Document components through meta imports (`Button.vue?meta`) which give you a simplified version of the result of scanning the component with [vue-component-meta](https://www.npmjs.com/package/vue-component-meta).
 
 ### Sandboxes
 
 > To customize the Sandbox app add a custom `docs/do11y/pages/Sandbox.vue` wrapper component and/or use the `setupSandbox` option.
 
-Turn a component into a sandbox by adding `.sandbox` to the end of the component name, e.g. `Button.sandbox.vue` will be available under the url `/sandbox?id=button`, and when importing the component it will be wrapped inside an iframe.
+Turn any component into a sandbox by adding a `.sandbox` suffix to the component name, e.g. `Button.sandbox.vue`. This will then be available under the URl `/sandbox?id=button`.
+
+```vue
+<script lang="ts" setup>
+import ButtonSandbox from "./Button.sandbox.vue";
+</script>
+
+<ButtonSandbox title="Button" />
+```
 
 > [!NOTE]
 > The id of a sandbox component is based on the filename - not the path - this means every sandbox component must have a unique name.
 
-#### Sandbox Iframe
+#### Sandbox imports
 
-> To customize how sandboxes are shown, the iframe and anything around it - add a custom `docs/do11y/layout/SandboxIframe.vue` component.
-
-The sandbox iframe component has some props automatically passed to it - you can use the `SandboxIframeProps` type to declare these.
+When you import a sandbox component - it automatically has an iframe around it. This iframe and what else you might want to render with it can be customized by adding your own `docs/do11y/layout/SandboxIframe.vue`.
 
 ```vue
 <template>
@@ -55,13 +120,9 @@ The sandbox iframe component has some props automatically passed to it - you can
 <script lang="ts" setup>
 import type { SandboxIframeProps } from "do11y";
 
-defineProps<SandboxIframeProps & { title?: string }>();
+defineProps<SandboxIframeProps>();
 </script>
 ```
-
-### Document components with [vue-component-meta](https://www.npmjs.com/package/vue-component-meta)
-
-Document components through meta imports (`Button.vue?meta`) which give a simplified version of the result from [vue-component-meta](https://www.npmjs.com/package/vue-component-meta).
 
 ## Options
 
