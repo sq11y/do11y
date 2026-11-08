@@ -219,7 +219,7 @@ export default (): Plugin => {
     },
 
     hotUpdate({ file, modules }) {
-      if (file.endsWith(".sandbox.vue")) {
+      if (file.endsWith(".vue")) {
         const highlightedModules = highlightQueries
           .map((query) => this.environment.moduleGraph.getModuleById(`${file}${query}`))
           .filter((module) => !!module);
