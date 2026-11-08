@@ -100,13 +100,20 @@ export default (): Plugin => {
       };
     },
 
-    hotUpdate({ file }) {
-      if (file.endsWith(".vue")) {
-        const module = this.environment.moduleGraph.getModuleById(`${file}${queries.meta}`);
+    async hotUpdate({ file, modules, type, read }) {
+      if (file.endsWith(".vue") || file.endsWith(".ts")) {
+        if (type === "delete") {
+          checker.deleteFile(file);
+        } else {
+          checker.updateFile(file, await read());
+        }
 
-        if (module) {
-          checker.updateFile(file, readFileSync(file, "utf-8"));
-          return [module];
+        /* prettier-ignore */
+        const metaModules = [...this.environment.moduleGraph.idToModuleMap.values()]
+          .filter((module) => module.id?.endsWith(queries.meta));
+
+        if (metaModules.length) {
+          return [...modules, ...metaModules];
         }
       }
     },
