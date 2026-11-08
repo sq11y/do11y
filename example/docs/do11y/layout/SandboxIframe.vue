@@ -1,5 +1,5 @@
 <template>
-  <iframe ref="iframe" :title="title || id" :src="url" />
+  <iframe :title="title || id" :src="url" />
 
   <fieldset>
     <legend>Styles?</legend>
@@ -33,8 +33,6 @@ import { computed, ref, useId } from "vue";
 import type { SandboxIframeProps } from "do11y";
 
 const props = defineProps<SandboxIframeProps>();
-
-ref<HTMLIFrameElement>();
 
 const name = useId();
 
