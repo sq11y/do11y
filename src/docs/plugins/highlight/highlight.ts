@@ -4,8 +4,6 @@ import { parse as parseVue } from "vue/compiler-sfc";
 import { format } from "oxfmt";
 import { createHighlighter } from "shiki";
 
-import { JSDOM } from "jsdom";
-
 import type { Plugin, ViteDevServer } from "vite";
 
 import { do11yOptions } from "../../options.js";
@@ -20,6 +18,10 @@ const shiki = await createHighlighter({
   langs: ["vue", "javascript", "typescript", "html", "css", "scss"],
   themes: do11yOptions.highlighter.themes,
 });
+
+const postprocessDocument = do11yOptions.highlighter.postprocess
+  ? new (await import("jsdom")).JSDOM().window.document
+  : undefined;
 
 export const highlightCode = (code: string, lang: string) => {
   return shiki.codeToHtml(code, {
@@ -38,15 +40,20 @@ export const highlightCode = (code: string, lang: string) => {
       {
         name: "do11y:postprocess",
         postprocess(html) {
-          if (do11yOptions.highlighter.postprocess) {
-            const jsdom = new JSDOM(html);
-
-            const preTag = jsdom.window.document.querySelector("pre")!;
-
-            do11yOptions.highlighter.postprocess(preTag);
-
-            return preTag.parentElement!.innerHTML;
+          if (!do11yOptions.highlighter.postprocess || !postprocessDocument) {
+            return;
           }
+
+          const template = postprocessDocument.createElement("template");
+          template.innerHTML = html;
+
+          const preTag = template.content.querySelector("pre");
+
+          if (preTag) {
+            do11yOptions.highlighter.postprocess(preTag);
+          }
+
+          return template.innerHTML;
         },
       },
 
