@@ -94,7 +94,7 @@ export interface ResolvedOptions extends Omit<Options, "highlighter"> {
  */
 export default (): Plugin => {
   const setupFiles: Record<string, string> = {
-    "do11y:options": join(do11y, "do11y.js"),
+    "do11y:options": join(do11y, "do11y.ts"),
 
     "do11y:home": join(do11y, "pages", "Home.vue"),
     "do11y:page-layout": join(do11y, "layout", "Page.vue"),
