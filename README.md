@@ -95,7 +95,7 @@ Document components through meta imports (`Button.vue?meta`) which give you a si
 
 > To customize the Sandbox app add a custom `docs/do11y/pages/Sandbox.vue` wrapper component and/or use the `setupSandbox` option.
 
-Turn any component into a sandbox by adding a `.sandbox` suffix to the component name, e.g. `Button.sandbox.vue`. This will then be available under the URl `/sandbox?id=button`.
+Turn any component into a sandbox by adding a `.sandbox` suffix to the component name, e.g. `Button.sandbox.vue`. This will then be available under the URL `/sandbox?id=button`.
 
 ```vue
 <script lang="ts" setup>
