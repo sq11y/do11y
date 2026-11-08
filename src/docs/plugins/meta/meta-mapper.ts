@@ -30,8 +30,12 @@ export const mapMeta = (
     }));
   };
 
-  const mapEvent = (prop: PropertyMeta | EventMeta): Meta["events"][number] => {
-    if (!prop.description) {
+  const mapEvent = (prop: PropertyMeta | EventMeta, event = true): Meta["events"][number] => {
+    if (!prop.description && event) {
+      /**
+       * `vue-component-meta` does not properly return descriptions for events
+       * so we fallback to `vue-docgen-api` in those cases.
+       */
       prop.description = docs.events?.find((event) => event.name === prop.name)?.description || "";
     }
 
@@ -53,7 +57,7 @@ export const mapMeta = (
   });
 
   const mapProperty = (prop: PropertyMeta): Meta["props"][number] => ({
-    ...mapEvent(prop),
+    ...mapEvent(prop, false),
 
     default: prop.default || getTag(prop.tags, "default")?.text,
     required: prop.required,
