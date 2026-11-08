@@ -65,7 +65,7 @@ Document components through meta imports (`Button.vue?meta`) which give a simpli
 
 ## Options
 
-> Options should be the default export of `docs/do11y/do11y.ts`.
+> Options are optional, if used, they should be the default export of `docs/do11y/do11y.ts`.
 
 You can set the home page by adding a `docs/do11y/pages/Home.vue` file, and you can add a layout for each page in `docs/do11y/layout/Page.vue` using `<RouterView />`.
 
