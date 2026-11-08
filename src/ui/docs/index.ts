@@ -20,7 +20,7 @@ import _ from "./Page.vue";
         return;
       }
 
-      const anchor = document.querySelector(to.hash);
+      const anchor = document.getElementById(to.hash.slice(1));
 
       if (!anchor) {
         return;
@@ -29,7 +29,7 @@ import _ from "./Page.vue";
       const marginTop = parseFloat(getComputedStyle(anchor).scrollMarginTop);
 
       return {
-        el: to.hash,
+        el: anchor,
         top: isNaN(marginTop) ? 0 : marginTop,
       };
     },
