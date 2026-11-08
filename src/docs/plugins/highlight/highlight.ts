@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { parse as parseVue } from "vue/compiler-sfc";
 import { format } from "oxfmt";
-import { createHighlighter, ThemedToken } from "shiki";
+import { createHighlighter, type ThemedToken } from "shiki";
 
 import type { Plugin, ViteDevServer } from "vite";
 
