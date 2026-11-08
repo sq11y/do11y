@@ -1,40 +1,17 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+export const render = (favicon: string, script: string, stylesheets: string[] = []) => `
+  <!doctype html>
 
-import { JSDOM } from "jsdom";
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-const template = readFileSync(join(import.meta.dirname, "index.html"), "utf-8");
+      <title>Do11y</title>
+      <link rel="icon" href="${favicon}" />
+      ${stylesheets.map((href) => `<link rel="stylesheet" href="${href}" />`).join("\n")}
+      <script type="module" src="${script}"></script>
+    </head>
 
-export const render = (
-  base: string | undefined = "",
-  script: string,
-  stylesheets: string[] = [],
-) => {
-  const jsdom = new JSDOM(template);
-
-  const faviconElement = jsdom.window.document.createElement("link");
-
-  faviconElement.setAttribute("rel", "icon");
-  faviconElement.setAttribute("href", `${base || "/"}favicon.ico`);
-
-  jsdom.window.document.head.appendChild(faviconElement);
-
-  const scriptElement = jsdom.window.document.createElement("script");
-
-  scriptElement.setAttribute("type", "module");
-  scriptElement.setAttribute("src", `${base}${script}`);
-
-  jsdom.window.document.documentElement.appendChild(scriptElement);
-
-  for (const stylesheet of stylesheets) {
-    const linkElement = jsdom.window.document.createElement("link");
-
-    linkElement.setAttribute("as", "style");
-    linkElement.setAttribute("rel", "preload stylesheet");
-    linkElement.setAttribute("href", `${base}${stylesheet}`);
-
-    jsdom.window.document.head.appendChild(linkElement);
-  }
-
-  return jsdom.serialize();
-};
+    <body id="app"></body>
+  </html>
+`;

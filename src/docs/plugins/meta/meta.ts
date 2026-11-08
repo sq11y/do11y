@@ -27,7 +27,9 @@ const getFirstExistingFile = (...paths: string[]) => {
  * Adds `.vue?meta` imports which returns a simplified result
  * of running the component through `vue-component-meta`.
  */
-export default (base?: string): Plugin => {
+export default (): Plugin => {
+  let base = "/";
+
   const tsconfig = getFirstExistingFile(
     join(root, "tsconfig.app.json"),
     join(root, "tsconfig.json"),
@@ -57,10 +59,14 @@ export default (base?: string): Plugin => {
     noDeclarations: true,
   });
 
-  md.use(markdownReplaceLinkPlugin(base));
+  md.use(markdownReplaceLinkPlugin(() => base));
 
   return {
     name: "do11y:meta",
+
+    configResolved(config) {
+      ({ base } = config);
+    },
 
     async transform(_, id) {
       const request = parseRequest(id);

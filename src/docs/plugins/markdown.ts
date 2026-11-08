@@ -43,7 +43,9 @@ export interface MarkdownItEnv {
  * and turns `.md` files into single file vue components
  * using `markdown-it` and `@mdit-vue`.
  */
-export default (options?: MarkdownPluginOptions, base?: string): Plugin => {
+export default (options?: MarkdownPluginOptions): Plugin => {
+  let base = "/";
+
   const md = markdown({
     html: true,
 
@@ -60,7 +62,7 @@ export default (options?: MarkdownPluginOptions, base?: string): Plugin => {
   md.use(sfcPlugin);
   md.use(componentPlugin);
   md.use(attrsPlugin);
-  md.use(markdownReplaceLinkPlugin(base));
+  md.use(markdownReplaceLinkPlugin(() => base));
 
   if (options?.markdownSetup) {
     md.use(options.markdownSetup);
@@ -69,6 +71,10 @@ export default (options?: MarkdownPluginOptions, base?: string): Plugin => {
   return {
     name: "do11y:markdown",
     enforce: "pre",
+
+    configResolved(config) {
+      ({ base } = config);
+    },
 
     transform(code, id) {
       if (id.endsWith(".md")) {

@@ -72,10 +72,10 @@ const getUserPlugins = async (userViteConfig: UserConfig) => {
   ];
 };
 
-export const viteConfig = (base?: string) =>
+export const viteConfig = () =>
   ({
     root: docs,
-    plugins: plugins(base),
+    plugins: plugins(),
 
     server: {
       port: 1998,

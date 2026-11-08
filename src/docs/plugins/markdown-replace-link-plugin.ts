@@ -18,12 +18,13 @@ const getLinkType = (url: string) => {
   return "invalid";
 };
 
-export const markdownReplaceLinkPlugin = (base = "") => {
+export const markdownReplaceLinkPlugin = (getBase: () => string) => {
   return (md: MarkdownIt) => {
     md.use(replaceLinkPlugin, {
       replaceLink: (link) => {
-        const url = base.startsWith("/") ? link.replace(/^\//, "") : link;
-        return getLinkType(link) === "relative" ? `${base}${url}` : link;
+        const resolvedBase = getBase();
+        const url = resolvedBase.startsWith("/") ? link.replace(/^\//, "") : link;
+        return getLinkType(link) === "relative" ? `${resolvedBase}${url}` : link;
       },
     });
   };
