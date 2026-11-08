@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { parse as parseVue } from "vue/compiler-sfc";
 import { format } from "oxfmt";
-import { createHighlighter } from "shiki";
+import { createHighlighter, ThemedToken } from "shiki";
 
 import type { Plugin, ViteDevServer } from "vite";
 
@@ -66,7 +66,7 @@ export const highlightCode = (code: string, lang: string) => {
             return tokens;
           }
 
-          const result = [];
+          const result: ThemedToken[][] = [];
 
           let previousLineWasRemoved = false;
 
