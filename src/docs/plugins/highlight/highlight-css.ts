@@ -11,12 +11,12 @@ export default (): Plugin => ({
 
   resolveId(id) {
     if (id === "do11y:css") {
-      return "\0do11y:css";
+      return "\0do11y:css.css";
     }
   },
 
   load(id) {
-    if (id === "\0do11y:css") {
+    if (id === "\0do11y:css.css") {
       const generateThemeCss = (theme: string) => `
         [data-theme="${theme}"] .shiki {
           background-color: var(--shiki-${theme}-bg) !important;
@@ -27,12 +27,10 @@ export default (): Plugin => ({
         }
       `;
 
-      const css = Object.keys(do11yOptions.highlighter.themesInput)
+      return Object.keys(do11yOptions.highlighter.themesInput)
         .filter((theme) => do11yOptions.highlighter.defaultTheme !== theme)
         .map((theme) => generateThemeCss(theme))
         .join("\n");
-
-      return `export default \`${css}\``;
     }
   },
 });

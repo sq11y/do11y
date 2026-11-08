@@ -43,10 +43,7 @@ declare module "do11y:sandbox-iframe" {
   export default iframe;
 }
 
-declare module "do11y:css" {
-  const css: string;
-  export default css;
-}
+declare module "do11y:css" {}
 
 declare module "do11y:sandboxes" {
   import type { Component } from "vue";
