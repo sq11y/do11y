@@ -4,7 +4,7 @@ import { globSync } from "tinyglobby";
 
 import type { Plugin } from "vite";
 
-import { root, do11y, toImportPath } from "../files.js";
+import { root, do11y, toImportPath, reservedPages } from "../files.js";
 import { toParamId } from "./sandbox.js";
 
 import gm from "gray-matter";
@@ -33,11 +33,9 @@ export default (): Plugin => {
     .filter((file) => typeof file.frontmatter.title === "string" && typeof file.frontmatter.slug === "string");
 
   /* prettier-ignore */
-  let pages = existsSync(join(do11y, "pages"))
-    ? readdirSync(join(do11y, "pages")).filter((page) => page !== "Home.vue" && (page.endsWith(".md") || page.endsWith(".vue")))
+  const pages = existsSync(join(do11y, "pages"))
+    ? readdirSync(join(do11y, "pages")).filter((page) => !reservedPages.includes(page) && (page.endsWith(".md") || page.endsWith(".vue")))
     : [];
-
-  pages = pages.filter((page) => page !== "Sandbox.vue");
 
   return {
     name: "do11y:routes",

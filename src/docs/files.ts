@@ -17,3 +17,5 @@ export const output = join(docs, "dist");
 export const do11y = join(docs, "do11y");
 
 export const toImportPath = (path: string) => JSON.stringify(normalizePath(path));
+
+export const reservedPages = ["Home.vue", "Sandbox.vue"];
