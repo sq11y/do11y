@@ -124,6 +124,21 @@ export const highlightAndFormatCode = async (path: string, code: string) => {
   return highlightCode((await format(path, code)).code, "vue");
 };
 
+const removeStyles = (source: string) => {
+  const { descriptor } = parseVue(source, { ignoreEmpty: false });
+
+  let code = source;
+
+  for (const style of descriptor.styles.toReversed()) {
+    const start = code.lastIndexOf("<style", style.loc.start.offset);
+    const end = code.indexOf(">", style.loc.end.offset) + 1;
+
+    code = code.slice(0, start) + code.slice(end);
+  }
+
+  return code;
+};
+
 /**
  * Adds `.vue?highlight` imports which returns the
  * highlighted code from Shiki.
@@ -151,11 +166,11 @@ export default (): Plugin => {
 
         const source = readFileSync(path, "utf-8");
 
-        const sourceWithoutStyles = source.replace(/\n<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
+        const sourceWithoutStyles = removeStyles(source);
 
         if (id.endsWith("styleless")) {
           return {
-            code: `export default ${JSON.stringify(await highlightAndFormatCode(path, sourceWithoutStyles))};`,
+            code: `export default ${JSON.stringify(await highlightAndFormatCode(path, removeStyles(source)))};`,
             moduleType: "js",
           };
         }
