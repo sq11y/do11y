@@ -7,7 +7,7 @@ import type {
 } from "vue-component-meta";
 
 import type { ComponentDoc } from "vue-docgen-api";
-import type { Meta } from "./meta-types";
+import type { Meta } from "./meta-types.js";
 
 export const mapMeta = (
   docs: ComponentDoc,

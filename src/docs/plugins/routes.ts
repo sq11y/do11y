@@ -7,7 +7,7 @@ import type { Plugin } from "vite";
 import { root, do11y, toImportPath } from "../files.js";
 import { toParamId } from "./sandbox.js";
 
-import fm from "front-matter";
+import gm from "gray-matter";
 
 /**
  * Adds the ability to import routes through `do11y:routes`.
@@ -29,7 +29,7 @@ export default (): Plugin => {
 
   /* prettier-ignore */
   const routes = markdownFiles
-    .map((path) => ({ path, frontmatter: fm(readFileSync(path, "utf-8")).attributes as Record<string, unknown> }))
+    .map((path) => ({ path, frontmatter: gm(readFileSync(path, "utf-8")).data as Record<string, unknown> }))
     .filter((file) => typeof file.frontmatter.title === "string" && typeof file.frontmatter.slug === "string");
 
   /* prettier-ignore */
