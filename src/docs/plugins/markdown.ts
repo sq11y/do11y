@@ -3,6 +3,7 @@ import { sfcPlugin, type MarkdownSfcBlocks } from "@mdit-vue/plugin-sfc";
 import { frontmatterPlugin } from "@mdit-vue/plugin-frontmatter";
 
 import attrsPlugin from "markdown-it-attrs";
+import replaceLinkPlugin from "markdown-it-replace-link";
 import markdown from "markdown-it";
 
 import type MarkdownIt from "markdown-it";
@@ -11,7 +12,6 @@ import type { PluginSimple } from "markdown-it";
 import type { Plugin } from "vite";
 
 import { highlightCode } from "./highlight/highlight.js";
-import { markdownReplaceLinkPlugin } from "./markdown-replace-link-plugin.js";
 
 export interface MarkdownPluginOptions {
   /**
@@ -46,27 +46,12 @@ export interface MarkdownItEnv {
 export default (options?: MarkdownPluginOptions): Plugin => {
   let base = "/";
 
-  const md = markdown({
-    html: true,
-
-    highlight(code, lang): string {
-      const highlightedCode = highlightCode(code, lang);
-
-      return options?.markdownCodeBlock
-        ? options.markdownCodeBlock(highlightedCode, md)
-        : highlightedCode;
-    },
-  });
-
-  md.use(frontmatterPlugin);
-  md.use(sfcPlugin);
-  md.use(componentPlugin);
-  md.use(attrsPlugin);
-  md.use(markdownReplaceLinkPlugin(() => base));
-
-  if (options?.markdownSetup) {
-    md.use(options.markdownSetup);
-  }
+  const md = createMarkdown(options, () => base, [
+    frontmatterPlugin,
+    sfcPlugin,
+    componentPlugin,
+    attrsPlugin,
+  ]);
 
   return {
     name: "do11y:markdown",
@@ -101,4 +86,39 @@ export default (options?: MarkdownPluginOptions): Plugin => {
       }
     },
   };
+};
+
+export const createMarkdown = (
+  options: MarkdownPluginOptions | undefined,
+  getBase: () => string,
+  plugins: PluginSimple[] = [],
+) => {
+  const md = markdown({
+    html: true,
+
+    highlight(code, lang): string {
+      const highlightedCode = highlightCode(code, lang);
+
+      return options?.markdownCodeBlock
+        ? options.markdownCodeBlock(highlightedCode, md)
+        : highlightedCode;
+    },
+  });
+
+  for (const plugin of plugins) {
+    md.use(plugin);
+  }
+
+  md.use(replaceLinkPlugin, {
+    replaceLink: (link) => {
+      const isRootLink = link.startsWith("/") && !link.startsWith("//");
+      return !isRootLink ? link : `${getBase().replace(/\/$/, "")}${link}`;
+    },
+  });
+
+  if (options?.markdownSetup) {
+    md.use(options.markdownSetup);
+  }
+
+  return md;
 };

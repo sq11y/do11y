@@ -7,13 +7,11 @@ import { parse as parseDocs } from "vue-docgen-api";
 
 import type { Plugin } from "vite";
 
-import markdown from "markdown-it";
-
 import { root } from "../../files.js";
 import { mapMeta } from "./meta-mapper.js";
 import { parseRequest, queries } from "../queries.js";
 
-import { markdownReplaceLinkPlugin } from "../markdown-replace-link-plugin.js";
+import { createMarkdown, type MarkdownPluginOptions } from "../markdown.js";
 
 const getFirstExistingFile = (...paths: string[]) => {
   for (const path of paths) {
@@ -27,7 +25,7 @@ const getFirstExistingFile = (...paths: string[]) => {
  * Adds `.vue?meta` imports which returns a simplified result
  * of running the component through `vue-component-meta`.
  */
-export default (): Plugin => {
+export default (options: MarkdownPluginOptions | undefined): Plugin => {
   let base = "/";
 
   const tsconfig = getFirstExistingFile(
@@ -51,15 +49,11 @@ export default (): Plugin => {
     };
   }
 
-  const md = markdown({
-    html: true,
-  });
+  const md = createMarkdown(options, () => base);
 
   const checker = createChecker(tsconfig, {
     noDeclarations: true,
   });
-
-  md.use(markdownReplaceLinkPlugin(() => base));
 
   return {
     name: "do11y:meta",

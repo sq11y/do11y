@@ -17,7 +17,7 @@ export const plugins = (): Plugin[] => [
   sandbox(),
   highlightCss(),
   highlight(),
-  meta(),
+  meta(do11yOptions),
 
   markdown(do11yOptions),
   block("docs"),
