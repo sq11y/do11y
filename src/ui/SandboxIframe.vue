@@ -7,7 +7,6 @@
     :highlighted-source="highlightedSource"
     :highlighted-css-source="highlightedCssSource"
     :highlighted-styleless-source="highlightedStylelessSource"
-    v-bind="passedProps"
   />
 
   <iframe v-else :title="title" :src="url" />
@@ -20,14 +19,7 @@ import SandboxIframe from "do11y:sandbox-iframe";
 
 import type { SandboxIframeProps } from "do11y";
 
-const props = defineProps<
-  SandboxIframeProps & {
-    /**
-     * The props passed to the iframe
-     */
-    passedProps?: Record<string, unknown>;
-  }
->();
+const props = defineProps<SandboxIframeProps>();
 
 const url = computed(() => `${import.meta.env.BASE_URL}sandbox?id=${props.id}`);
 </script>
