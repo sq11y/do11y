@@ -9,7 +9,7 @@
     :highlighted-styleless-source="highlightedStylelessSource"
   />
 
-  <iframe v-else :title="title" :src="url" />
+  <iframe v-else :title="title || `Sandbox for ${id}`" :src="url" />
 </template>
 
 <script lang="ts" setup>

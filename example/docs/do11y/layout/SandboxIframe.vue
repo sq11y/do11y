@@ -1,19 +1,23 @@
 <template>
-  <iframe ref="iframe" :title="`Sandbox for ${title || id}`" :src="url" />
+  <iframe ref="iframe" :title="title || id" :src="url" />
 
   <fieldset>
     <legend>Styles?</legend>
 
-    <label for="hide-frame">
-      <input id="hide-iframe" v-model="css" type="radio" :value="false" /> Hide
+    <!-- eslint-disable vuejs-accessibility/label-has-for -->
+    <label>
+      <input v-model="css" :name="name" type="radio" :value="false" />
+      Hide
     </label>
 
-    <label for="show-css">
-      <input id="show-css" v-model="css" type="radio" value="css" /> CSS
+    <label>
+      <input v-model="css" :name="name" type="radio" value="css" />
+      CSS
     </label>
 
-    <label for="show-scss">
-      <input id="show-scss" v-model="css" type="radio" value="scss" /> SCSS
+    <label>
+      <input v-model="css" :name="name" type="radio" value="scss" />
+      SCSS
     </label>
   </fieldset>
 
@@ -24,20 +28,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, useId } from "vue";
 
 import type { SandboxIframeProps } from "do11y";
 
-const props = defineProps<
-  SandboxIframeProps & {
-    /**
-     * The title of the component.
-     */
-    title?: string;
-  }
->();
+const props = defineProps<SandboxIframeProps>();
 
 ref<HTMLIFrameElement>();
+
+const name = useId();
 
 const css = ref<false | "css" | "scss">(false);
 
