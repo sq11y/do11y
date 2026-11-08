@@ -194,7 +194,13 @@ export default (): Plugin => {
             id: path + `?vue&type=style&index=${index}&lang.${lang}?inline`,
           });
 
-          return code?.replace(/^(export default ")/, "").replace(/"$/, "");
+          if (code) {
+            /**
+             * Inline css files take shape as `export default "<css>"`, we parse with JSON
+             * to ensure e.g. `content: "Before";` doesn't return `content: \"Before\";`.
+             */
+            return JSON.parse(code.slice(code.indexOf('"'), code.lastIndexOf('"') + 1));
+          }
         };
 
         const stylesheets = parseVue(source).descriptor.styles.map(async (style, i) => {
