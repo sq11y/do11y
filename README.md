@@ -36,7 +36,7 @@ These imports return HTML strings meaning you have to render the code block usin
 
 > To customize the Sandbox app add a custom `docs/do11y/pages/Sandbox.vue` wrapper component and/or use the `setupSandbox` option.
 
-Turn a component into a sandbox by adding a `.sandbox` prefix to the component name, e.g. `Button.sandbox.vue` will be available under the url `/sandbox?id=button`, and when importing the component it will be wrapped inside an iframe.
+Turn a component into a sandbox by adding `.sandbox` to the end of the component name, e.g. `Button.sandbox.vue` will be available under the url `/sandbox?id=button`, and when importing the component it will be wrapped inside an iframe.
 
 > [!NOTE]
 > The id of a sandbox component is based on the filename - not the path - this means every sandbox component must have a unique name.
