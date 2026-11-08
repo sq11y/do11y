@@ -28,13 +28,13 @@
   "scripts": {
     "dev": "pnpm run -r dev",
     "preview": "pnpm run -r preview",
-    "build:node": "tsc --p tsconfig.node.json",
-    "build:client": "vue-tsc --build && vite build",
+    "build:lib": "vue-tsc --build && vite build",
     "build:example": "pnpm run -r --filter do11y-example build",
-    "build": "pnpm build:node && pnpm build:client && pnpm build:example",
+    "build": "pnpm build:lib && pnpm build:example",
     "lint": "oxlint . --fix && eslint",
     "fmt": "oxfmt .",
-    "prepublishOnly": "pnpm build:node && pnpm build:client"
+    "typecheck": "",
+    "prepublishOnly": "pnpm build:lib"
   },
   "dependencies": {
     "@mdit-vue/plugin-component": "^3.0.2",
