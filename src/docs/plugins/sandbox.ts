@@ -13,7 +13,7 @@ export const toParamId = (path: string) =>
   kebabCase(parse(path).name.replace(".sandbox", "").replace(".vue", ""));
 
 /**
- * Creates a seprate sandbox app, and
+ * Creates a separate sandbox app, and
  * adds access to sandbox components through `do11y:sandboxes`.
  */
 export default (): Plugin => {
